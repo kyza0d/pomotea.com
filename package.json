@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "animejs": "^3.2.1",
     "next": "12.2.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "usehooks-ts": "^2.6.0"
   },
   "devDependencies": {
     "@types/node": "18.6.5",
