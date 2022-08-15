@@ -4,6 +4,12 @@ import { useInterval } from "usehooks-ts";
 
 import { TimeDuration } from "../components/timer";
 
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
+import { FaUndoAlt, FaRegSun, FaSlidersH } from "react-icons/fa";
+import { FiSliders } from "react-icons/fi";
+
+import moment from "moment";
+
 import {
   CountdownCircleTimer,
   useCountdown,
@@ -13,6 +19,7 @@ export default function Home() {
   let duration = 30;
   const [count, setCount] = useState<number>(duration);
   const [isPlaying, setPlaying] = useState<boolean>(false);
+  const [key, setKey] = useState(0);
 
   useInterval(
     () => {
@@ -26,45 +33,53 @@ export default function Home() {
     isPlaying ? 1000 : null // Every second
   );
 
-  function parseTime(time: number) {
-    let minutes: any = Math.floor(time / 60);
-    let seconds: any = time - minutes * 60;
-
-    minutes = minutes < 10 ? `0${minutes}` : minutes;
-    seconds = seconds < 10 ? `0${seconds}` : seconds;
-
-    return minutes + ":" + seconds;
-  }
-
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-[#16181A]">
-      <div className="fixed w-[500px] h-[500px] text-white">
+    <div className="w-full h-screen flex items-center justify-center bg-[#141517] text-[#d6d6d6]">
+      <div className="fixed w-[500px] h-[500px]">
         <CountdownCircleTimer
           isPlaying={isPlaying}
           duration={duration}
+          key={key}
           size={500}
           strokeWidth={20}
-          trailStrokeWidth={11}
-          colors={["#FFA500", "#FFA500", "#FFA500", "#A30000"]}
-          trailColor="#2b2f33"
-          colorsTime={[7, 5, 2, 0]}
+          trailStrokeWidth={10}
+          colorsTime={[0, 0, 9, 0]}
+          colors={["#cc8400", "#cc8400", "#cc8400", "#cc8400"]}
+          trailColor="#202326"
         >
           {({ remainingTime }) => (
-            <h1 className="text-4xl font-mono">{parseTime(remainingTime)}</h1>
+            <h1 className="text-4xl font-mono relative bottom-[-10px]">
+              {moment().minute(0).second(remainingTime).format("mm:ss")}
+            </h1>
           )}
         </CountdownCircleTimer>
       </div>
 
-      <div className="text-white text-center">
-        <h1 className="font-mono text-4xl fixed left-1/2 translate-x-[-50%]">
-          {}
-        </h1>
-        <button
-          onClick={() => setPlaying(!isPlaying)}
-          className="relative bottom-[-70px]"
-        >
-          {isPlaying ? "pause" : "play"}
-        </button>
+      <div className="flex items-center gap-4 text-center">
+        <div className="flex items-center relative bottom-[-350px] gap-6">
+          <button
+            onClick={() => {
+              setPlaying(false);
+              setKey((prevKey) => prevKey + 1);
+            }}
+          >
+            <div className="rounded-full p-4 border border-[#666666] text-[#aaaaaa]">
+              <FaUndoAlt size={15} />
+            </div>
+          </button>
+
+          <button onClick={() => setPlaying(!isPlaying)}>
+            <div className="rounded-full p-6 bg-[#cc8400] text-white ">
+              {isPlaying ? <BsPauseFill size={25} /> : <BsPlayFill size={25} />}
+            </div>
+          </button>
+
+          <button>
+            <div className="rounded-full p-4 border border-[#666666] text-[#aaaaaa]">
+              <FiSliders size={15} />
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   );
