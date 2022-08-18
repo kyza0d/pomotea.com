@@ -16,21 +16,27 @@ import {
 } from "react-countdown-circle-timer";
 
 export default function Home() {
-  let duration = 30;
+  let duration = 30; // seconds
+
+  // Keep state for timer
   const [count, setCount] = useState<number>(duration);
+
   const [isPlaying, setPlaying] = useState<boolean>(false);
+
   const [key, setKey] = useState(0);
 
   useInterval(
     () => {
-      if (count === 0) {
+      if (count <= 0) {
         setPlaying(false);
+        alert("Time's up!");
       }
       if (isPlaying) {
-        setCount(count - 1);
+        setCount(count - 0.01);
+        let decimals = Math.round(count * 100) / 100;
       }
     },
-    isPlaying ? 1000 : null // Every second
+    isPlaying ? 10 : null
   );
 
   return (
@@ -47,9 +53,9 @@ export default function Home() {
           colors={["#cc8400", "#cc8400", "#cc8400", "#cc8400"]}
           trailColor="#202326"
         >
-          {({ remainingTime }) => (
+          {() => (
             <h1 className="text-4xl font-mono relative bottom-[-10px]">
-              {moment().minute(0).second(remainingTime).format("mm:ss")}
+              {moment().minute(0).second(count).format("mm:ss")}
             </h1>
           )}
         </CountdownCircleTimer>
@@ -60,6 +66,7 @@ export default function Home() {
           <button
             onClick={() => {
               setPlaying(false);
+              setCount(duration);
               setKey((prevKey) => prevKey + 1);
             }}
           >
@@ -68,7 +75,12 @@ export default function Home() {
             </div>
           </button>
 
-          <button onClick={() => setPlaying(!isPlaying)}>
+          <button
+            onClick={() => {
+              setPlaying(!isPlaying);
+              console.log(count);
+            }}
+          >
             <div className="rounded-full p-6 bg-[#cc8400] text-white ">
               {isPlaying ? <BsPauseFill size={25} /> : <BsPlayFill size={25} />}
             </div>
