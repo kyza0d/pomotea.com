@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 import { useInterval } from "usehooks-ts";
 
@@ -6,7 +6,7 @@ import { TimeDuration } from "../components/timer";
 
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { FaUndoAlt, FaRegSun, FaSlidersH } from "react-icons/fa";
-import { FiSliders } from "react-icons/fi";
+import { FiSettings, FiSliders } from "react-icons/fi";
 
 import moment from "moment";
 
@@ -16,7 +16,23 @@ import {
 } from "react-countdown-circle-timer";
 
 export default function Home() {
-  let duration = 30; // seconds
+  let duration: number = 30; // seconds
+
+  let [windowWidth, setWindowWidth] = useState<number>(0);
+  let [windowHeight, setWindowHeight] = useState<number>(0);
+  let [circleSize, setCircleSize] = useState<number>(0);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    setWindowWidth(window.innerHeight);
+    setCircleSize((windowWidth + windowHeight) * 0.5);
+
+    window.addEventListener("resize", () => {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
+      setCircleSize(windowHeight * 0.5);
+    });
+  });
 
   // Keep state for timer
   const [count, setCount] = useState<number>(duration);
@@ -28,41 +44,39 @@ export default function Home() {
   useInterval(
     () => {
       if (count <= 0) {
-        setPlaying(false);
-        alert("Time's up!");
+        setPlaying(false); // alert("Time's up!");
       }
       if (isPlaying) {
         setCount(count - 0.01);
-        let decimals = Math.round(count * 100) / 100;
       }
     },
     isPlaying ? 10 : null
   );
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-[#141517] text-[#d6d6d6]">
-      <div className="fixed w-[500px] h-[500px]">
-        <CountdownCircleTimer
-          isPlaying={isPlaying}
-          duration={duration}
-          key={key}
-          size={500}
-          strokeWidth={20}
-          trailStrokeWidth={10}
-          colorsTime={[0, 0, 9, 0]}
-          colors={["#cc8400", "#cc8400", "#cc8400", "#cc8400"]}
-          trailColor="#202326"
-        >
-          {() => (
-            <h1 className="text-4xl font-mono relative bottom-[-10px]">
-              {moment().minute(0).second(count).format("mm:ss")}
-            </h1>
-          )}
-        </CountdownCircleTimer>
-      </div>
+    <div className="bg-[#101416] text-[#d6d6d6] grid place-items-center h-screen">
+      <div className="grid flex place-items-center gap-10">
+        <div>
+          <CountdownCircleTimer
+            isPlaying={isPlaying}
+            duration={duration}
+            key={key}
+            size={circleSize}
+            strokeWidth={windowWidth * 0.025}
+            trailStrokeWidth={windowWidth * 0.025}
+            colorsTime={[0, 0, 9, 0]}
+            colors={["#00ACCE", "#00ACCE", "#00ACCE", "#00ACCE"]}
+            trailColor="#202326"
+          >
+            {() => (
+              <h1 className="text-4xl font-mono fixed top-[41vh]">
+                {moment().minute(0).second(count).format("mm:ss")}
+              </h1>
+            )}
+          </CountdownCircleTimer>
+        </div>
 
-      <div className="flex items-center gap-4 text-center">
-        <div className="flex items-center relative bottom-[-350px] gap-6">
+        <div className="flex items-center gap-6">
           <button
             onClick={() => {
               setPlaying(false);
@@ -70,8 +84,8 @@ export default function Home() {
               setKey((prevKey) => prevKey + 1);
             }}
           >
-            <div className="rounded-full p-4 border border-[#666666] text-[#aaaaaa]">
-              <FaUndoAlt size={15} />
+            <div className="rounded-full p-4 text-[#aaaaaa]">
+              <FaUndoAlt className="text-[3vw]" />
             </div>
           </button>
 
@@ -81,14 +95,18 @@ export default function Home() {
               console.log(count);
             }}
           >
-            <div className="rounded-full p-6 bg-[#cc8400] text-white ">
-              {isPlaying ? <BsPauseFill size={25} /> : <BsPlayFill size={25} />}
+            <div className="rounded-full p-6 bg-[#00ACCE] text-white ">
+              {isPlaying ? (
+                <BsPauseFill className="text-[5vw]" />
+              ) : (
+                <BsPlayFill className="text-[5vw]" />
+              )}
             </div>
           </button>
 
           <button>
-            <div className="rounded-full p-4 border border-[#666666] text-[#aaaaaa]">
-              <FiSliders size={15} />
+            <div className="rounded-full p-4 border-1 border-[#666666] text-[#aaaaaa]">
+              <FiSettings className="text-[3vw]" />
             </div>
           </button>
         </div>
