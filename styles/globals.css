@@ -18,22 +18,29 @@ main {
 
 h1 {
   font-size: 3rem;
+  line-height: 0.9;
+  font-family: monospace;
 }
 
-span {
-  margin: 15px 25px 0 10px;
-  font-size: 1.25rem;
+[role='timer'] {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  font-family: monospace;
+}
+
+[role='timer'] span {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #595f66;
+  padding-left: 20px;
+  width: 100px;
 }
 
 button {
   padding: 10px;
   font-size: 1.5em;
-}
-
-.clock {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 button:nth-child(2) {
