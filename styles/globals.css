@@ -2,31 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
 body {
-  padding: 0;
-  margin: 0;
-  font-size: 2.3vw;
-  background-color: #101416;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background: #0f1011;
+  color: #d4d5d6;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 20px;
 }
 
-* {
-  box-sizing: border-box;
+h1 {
+  font-size: 3rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+span {
+  margin: 15px 25px 0 10px;
+  font-size: 1.25rem;
+}
+
+button {
+  padding: 10px;
+  font-size: 1.5em;
+}
+
+.clock {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+button:nth-child(2) {
+  background: linear-gradient(to top, #4ad8e2, #4a8ce2);
+  font-size: 2em;
+  border-radius: 50%;
+  padding: 20px;
+  margin: 0 20px;
 }
