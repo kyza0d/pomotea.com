@@ -1,111 +1,82 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import { BsPlayFill, BsPauseFill } from 'react-icons/bs'
 import { FaUndoAlt } from 'react-icons/fa'
 import { FiSettings } from 'react-icons/fi'
-
 import moment from 'moment'
-
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 
-export default function Home() {
-  let [duration, setDuration] = useState(5)
-  let [count, setCount] = useState<number>(duration)
-  const [isPlaying, setPlaying] = useState<boolean>(false)
-  const [key, setKey] = useState(0)
+const sessions = [
+  { type: 'working', duration: 10 },
+  { type: 'break', duration: 5 },
+  { type: 'working', duration: 10 },
+]
 
-  const work_time = 5
-  const break_time = 2
+const Home = () => {
+  const [isPlaying, setPlaying] = useState(false)
+  const [duration, setDuration] = useState(sessions[0].duration)
+  const [iteration, setIteration] = useState(0)
 
-  let working = true
-  let iteration = 0
+  useEffect(() => {
+    setDuration(sessions[iteration].duration)
+  }, [iteration])
 
-  function active_session_time() {
-    return working ? work_time : break_time
+  const handleTimerUpdate = (count: number) => {
+    const activeTime = document.querySelectorAll('[role="timer"]')[iteration].querySelector('h1')
+    if (activeTime) {
+      activeTime.innerText = moment().minute(0).second(count).format('mm:ss')
+    }
   }
 
-  function Clock() {
-    const tasks = 5
-
-    let working = true
-
-    const sessions: any[] = []
-
-    for (let i = 0; i < tasks; i++) {
-      sessions.push(i)
-
-      sessions[i] = {
-        type: working ? 'working' : 'break', // working or break
-        duration: working ? work_time : break_time, // duration in seconds
+  const handleTimerComplete = () => {
+    setIteration((prevIteration) => {
+      const nextIteration = prevIteration + 1
+      if (nextIteration >= sessions.length) {
+        setPlaying(false)
+        return prevIteration
       }
-
-      working = !working
-    }
-
-    // Prevent break from being last
-    if (sessions.length % 2 === 0) {
-      sessions.pop()
-    }
-
-    return (
-      <>
-        {sessions.map((_, index) => {
-          return (
-            <div role='timer' key={index}>
-              <h1>{moment().minute(0).second(sessions[index].duration).format('mm:ss')}</h1>
-              <span>{sessions[index].type} </span>
-            </div>
-          )
-        })}
-      </>
-    )
+      return nextIteration
+    })
+    return { shouldRepeat: true, delay: 0, newInitialRemainingTime: duration }
   }
 
-  const children = ({ remainingTime }: { remainingTime: any }) => {
-    count = remainingTime // use react-countdown-circle-timer's internal timer
-    return <></>
+  const resetTimer = () => {
+    setIteration(0)
+    setPlaying(false)
+  }
+
+  const toggleTimer = () => {
+    setPlaying(!isPlaying)
   }
 
   return (
     <main>
       <CountdownCircleTimer
-        duration={active_session_time()}
-        onUpdate={() => {
-          let active_time: any = document.querySelectorAll(['[role="timer"]'])[iteration].querySelector('h1')
-          active_time.innerText = moment().minute(0).second(count).format('mm:ss')
-        }}
-        key={key}
-        isPlaying={isPlaying} // Initial state of timer
-        children={children} // Only being used to store `count`
-        onComplete={() => {
-          iteration = iteration + 1 // Next index of `sessions`
-          working = !working // Determine which duration should be used
-          console.log(working)
-          return { shouldRepeat: true, delay: 0, newInitialRemainingTime: active_session_time() } // repeat animation in 1.5 seconds
-        }}
+        duration={duration}
+        onUpdate={handleTimerUpdate}
+        key={iteration}
+        isPlaying={isPlaying}
+        onComplete={handleTimerComplete}
         trailColor='#1b1e21'
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[7, 5, 2, 0]}
       />
 
-      <Clock />
+      {sessions.map((session, index) => (
+        <div role='timer' key={index}>
+          <h1>{moment().minute(0).second(session.duration).format('mm:ss')}</h1>
+          <span>{session.type}</span>
+        </div>
+      ))}
 
       <div>
-        <button
-          onClick={() => {
-            setPlaying(false)
-            setCount(duration)
-            setKey((prevKey) => prevKey + 1)
-          }}>
+        <button onClick={resetTimer}>
           <FaUndoAlt />
         </button>
 
-        <button
-          onClick={() => {
-            setPlaying(!isPlaying)
-          }}>
+        <button onClick={toggleTimer}>
           <div>{isPlaying ? <BsPauseFill /> : <BsPlayFill />}</div>
         </button>
+
         <button>
           <FiSettings />
         </button>
@@ -113,3 +84,5 @@ export default function Home() {
     </main>
   )
 }
+
+export default Home
