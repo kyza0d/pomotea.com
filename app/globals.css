@@ -5,7 +5,6 @@
 body {
   background: #0f1011;
   color: #d4d5d6;
-  font-family: "Input Mono", monospace
 }
 
 main {
@@ -20,7 +19,6 @@ main {
 h1 {
   font-size: 3rem;
   line-height: 0.9;
-  font-family: "Input Mono", monospace
 }
 
 .timers {
@@ -30,30 +28,29 @@ h1 {
 [role='timer'] {
   display: flex;
   position: relative;
+  justify-content: flex-start;
   align-items: flex-end;
   background: #1a1c1e;
   border: 1px solid #26282b;
   border-radius: 9px;
-  width: 100%;
   margin: 1em 0em;
   padding: 1.2em 1.3em;
+}
+
+[role='timer'] h1  {
+  min-width: 2.85em;
 }
 
 [role='timer'] span {
   font-size: 1rem;
   color: #595f66;
-  font-family: "Input Mono", monospace;
-  padding-left: 20px;
+  padding-left: 0.8em;
+  text-align: start;
 }
 
 [role='timer'] .inactive {
   opacity: 0.6;
 }
-
-[role='timer'] h1 {
-  width: 3.2em
-}
-
 
 .actions { 
   height: 100%;
@@ -66,9 +63,4 @@ h1 {
 
 .actions button { 
   font-size: 1.5em;
-}
-
-button:nth-child(3) {
-  font-size: 2em;
-  border-radius: 50%;
 }

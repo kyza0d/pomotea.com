@@ -6,14 +6,10 @@ import moment from "moment";
 
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { FaUndoAlt } from "react-icons/fa";
-import { FiSettings } from "react-icons/fi";
 
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-import { Inter } from "next/font/google";
-
-// If loading a variable font, you don't need to specify the font weight
-const inter = Inter({ subsets: ["latin"] });
+import { Settings } from "@/components/settings";
 
 const sessions = [
   { type: "Working", duration: 10 }, // Array of sessions with their types and durations
@@ -34,10 +30,7 @@ const Home = () => {
       if (timerElement) {
         const timerDisplay = timerElement.querySelector("h1");
         if (timerDisplay) {
-          timerDisplay.innerText = moment()
-            .minute(0)
-            .second(timerDuration)
-            .format("mm:ss");
+          timerDisplay.innerText = moment().minute(0).second(timerDuration).format("mm:ss");
         }
       }
     });
@@ -49,9 +42,7 @@ const Home = () => {
   }, [iteration]);
 
   const handleTimerUpdate = (count: number) => {
-    const activeTime = document
-      .querySelectorAll('[role="timer"]')
-      [iteration].querySelector("h1");
+    const activeTime = document.querySelectorAll('[role="timer"]')[iteration].querySelector("h1");
 
     if (activeTime) {
       // Update the displayed time during the timer countdown
@@ -60,7 +51,7 @@ const Home = () => {
   };
 
   const handleTimerComplete = () => {
-    setIteration((prevIteration) => {
+    setIteration(prevIteration => {
       const nextIteration = prevIteration + 1;
       // Stop playing if all sessions have completed
       if (nextIteration >= sessions.length) {
@@ -75,24 +66,19 @@ const Home = () => {
   };
 
   return (
-    <main className={inter.className}>
+    <main>
       <div className="timers">
         {sessions.map((session, index) => (
           <div role="timer" key={index}>
             {/* Display the session duration */}
-            <h1>
-              {moment().minute(0).second(session.duration).format("mm:ss")}
-            </h1>
-            <span className="font-semibold">{session.type}</span>{" "}
-            {/* Display the session type */}
+            <h1>{moment().minute(0).second(session.duration).format("mm:ss")}</h1>
+            <span className="font-semibold">{session.type}</span> {/* Display the session type */}
           </div>
         ))}
       </div>
 
       <div className="actions">
-        <button>
-          <FiSettings />
-        </button>
+        <Settings />
         <button
           onClick={() => {
             setIteration(0);
@@ -118,11 +104,7 @@ const Home = () => {
             onComplete={handleTimerComplete}
             size={30}
             colors={["#5be59c", "#e5ae5b", "#e55b5b"]}
-            colorsTime={[
-              Math.round(duration * 0.6),
-              Math.round(duration * 0.4),
-              0.0,
-            ]}
+            colorsTime={[Math.round(duration * 0.6), Math.round(duration * 0.4), 0.0]}
             trailColor="#1b1e21"
             duration={duration}
             isPlaying={playing}
