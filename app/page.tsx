@@ -1,116 +1,104 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
-
-import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { FaUndoAlt } from "react-icons/fa";
-
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { Card } from "@/components/ui/card";
+import { BsPlayFill, BsPauseFill } from "react-icons/bs";
+import { Settings } from "@/components/Settings";
+import { TypographyLarge, TypographyH1, TypographyH3 } from "@/components/ui/typeography";
+import { Button } from "@/components/ui/button";
 
-import { Settings } from "@/components/settings";
+import useTimer from "@/hooks/useTimer";
 
-const sessions = [
-  { type: "Working", duration: 10 }, // Array of sessions with their types and durations
-  { type: "Break", duration: 5 },
-  { type: "Working", duration: 10 },
-];
+import { useSettings } from '@/components/Settings/context';
 
 const Home = () => {
-  const [playing, setPlaying] = useState(false);
-  const [duration, setDuration] = useState(sessions[0].duration);
-  const [iteration, setIteration] = useState(0);
+  const sessions = [
+    { type: 'Working', duration: 6 },
+    { type: 'Break', duration: 3 },
+    { type: 'Working', duration: 6 },
+  ];
 
-  const resetTimers = () => {
-    sessions.forEach((session, index) => {
-      const timerElement = document.querySelectorAll('[role="timer"]')[index];
-      const timerDuration = session.duration;
+  const { settings } = useSettings();
+  const { 'duration-mode': durationMode } = settings;
 
-      if (timerElement) {
-        const timerDisplay = timerElement.querySelector("h1");
-        if (timerDisplay) {
-          timerDisplay.innerText = moment().minute(0).second(timerDuration).format("mm:ss");
-        }
-      }
-    });
-  };
+  const {
+    currentSessionIndex,
+    elapsedTime,
+    isPlaying,
+    key,
+    completedSessions,
+    duration,
+    remainingTime,
+    togglePlayPause,
+    resetTimer,
+  } = useTimer(sessions);
 
-  useEffect(() => {
-    // Update the duration when the iteration changes
-    setDuration(sessions[iteration].duration);
-  }, [iteration]);
-
-  const handleTimerUpdate = (count: number) => {
-    const activeTime = document.querySelectorAll('[role="timer"]')[iteration].querySelector("h1");
-
-    if (activeTime) {
-      // Update the displayed time during the timer countdown
-      activeTime.innerText = moment().minute(0).second(count).format("mm:ss");
+  const getTaskDuration = (session: { type: string; duration: number }, index: number) => {
+    if (completedSessions.has(index)) {
+      return '00:00';
     }
-  };
 
-  const handleTimerComplete = () => {
-    setIteration(prevIteration => {
-      const nextIteration = prevIteration + 1;
-      // Stop playing if all sessions have completed
-      if (nextIteration >= sessions.length) {
-        setPlaying(false);
-        return prevIteration;
+    if (durationMode === 'entireLength') {
+      const sessionStart = sessions.slice(0, index).reduce((total, s) => total + s.duration, 0);
+      const sessionEnd = sessionStart + session.duration;
+
+      if (elapsedTime >= sessionStart && elapsedTime < sessionEnd) {
+        return moment.utc((sessionEnd - elapsedTime) * 1000).format('mm:ss');
+      } else if (elapsedTime >= sessionEnd) {
+        return '00:00';
+      } else {
+        return moment.utc(session.duration * 1000).format('mm:ss');
       }
-      return nextIteration;
-    });
-
-    // Restart the timer with the new duration
-    return { shouldRepeat: true, delay: 0, newInitialRemainingTime: duration };
+    } else {
+      return index === currentSessionIndex
+        ? moment.utc(remainingTime * 1000).format('mm:ss')
+        : moment.utc(session.duration * 1000).format('mm:ss');
+    }
   };
 
   return (
     <main>
-      <div className="timers">
-        {sessions.map((session, index) => (
-          <div role="timer" key={index}>
-            {/* Display the session duration */}
-            <h1>{moment().minute(0).second(session.duration).format("mm:ss")}</h1>
-            <span className="font-semibold">{session.type}</span> {/* Display the session type */}
+      <Card className="space-y-8 w-full bg-transparent dark:bg-transparent">
+        <div className="flex items-center space-x-6">
+          <div className="circle">
+            <CountdownCircleTimer
+              key={`${durationMode}-${key}`}
+              strokeWidth={8}
+              size={54}
+              colors={["#5be59c", "#e5ae5b", "#e55b5b"]}
+              colorsTime={[duration * 0.4, duration * 0.2, 0]}
+              trailColor="#1b1e21"
+              duration={duration}
+              initialRemainingTime={remainingTime}
+              isPlaying={isPlaying}
+              renderAriaTime={(remainingTime) => moment.utc(remainingTime * 1000).format('mm:ss')}
+            />
           </div>
+          <TypographyH1>Study</TypographyH1>
+        </div>
+        {sessions.map((session, index) => (
+          <Card key={index} className="px-4 pr-8 py-6 my-8 flex items-center">
+            <TypographyLarge className="timer">
+              {getTaskDuration(session, index)}
+            </TypographyLarge>
+            <TypographyH3 className="ml-auto text-gray-300 dark:text-gray-500">
+              {session.type}
+            </TypographyH3>
+          </Card>
         ))}
-      </div>
+      </Card>
 
       <div className="actions">
         <Settings />
-        <button
-          onClick={() => {
-            setIteration(0);
-            setPlaying(false);
-            resetTimers();
-          }}
-        >
-          <FaUndoAlt />
-        </button>
-        <button
-          onClick={() => {
-            setPlaying(!playing);
-          }}
-        >
-          <div>{playing ? <BsPauseFill /> : <BsPlayFill />}</div>{" "}
-          {/* Display play or pause icon based on the playing state */}
-        </button>
-
-        <div className="circle">
-          <CountdownCircleTimer
-            strokeWidth={5}
-            onUpdate={handleTimerUpdate}
-            onComplete={handleTimerComplete}
-            size={30}
-            colors={["#5be59c", "#e5ae5b", "#e55b5b"]}
-            colorsTime={[Math.round(duration * 0.6), Math.round(duration * 0.4), 0.0]}
-            trailColor="#1b1e21"
-            duration={duration}
-            isPlaying={playing}
-            key={iteration}
-          />
-        </div>
+        <Button variant="ghost" onClick={resetTimer}>
+          <FaUndoAlt className="icon" />
+        </Button>
+        <Button variant="ghost" onClick={togglePlayPause}>
+          {isPlaying ? <BsPauseFill className="icon" /> : <BsPlayFill className="icon" />}
+        </Button>
       </div>
     </main>
   );

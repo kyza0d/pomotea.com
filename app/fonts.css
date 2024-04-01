@@ -1,10 +1,9 @@
 @font-face {
   font-family: 'Inter';
   src: url('../fonts/Inter-Regular.ttf') format('truetype'),
-       url('../fonts/Inter-Bold.ttf') format('truetype')
+    url('../fonts/Inter-Bold.ttf') format('truetype')
 }
 
-/* Usage example: */
 .font-inter {
   font-family: 'Inter', sans-serif;
 }
@@ -12,7 +11,22 @@
 @font-face {
   font-family: 'JetBrainsMono';
   src: url('../fonts/JetBrainsMono-Regular.ttf') format('truetype'),
-       url('../fonts/JetBrainsMono-Bold.ttf') format('truetype');
+    url('../fonts/JetBrainsMono-Bold.ttf') format('truetype');
+}
+
+.font-grey-cliff {
+  font-family: 'Greycliff CF', sans-serif;
+  letter-spacing: 0.06em;
+
+}
+
+.font-grey-cliff h3 {
+  letter-spacing: 0.03em
+}
+
+@font-face {
+  font-family: 'Greycliff CF';
+  src: url('../fonts/Greycliff-CF-Regular.otf') format('opentype')
 }
 
 .font-jetbrains-mono {
@@ -22,17 +36,18 @@
 @font-face {
   font-family: 'Manrope';
   src: url('../fonts/Manrope-Regular.ttf') format('truetype'),
-       url('../fonts/Manrope-Bold.ttf') format('truetype');
+    url('../fonts/Manrope-Bold.ttf') format('truetype');
 }
 
 .font-manrope {
   font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.03em;
 }
 
 @font-face {
   font-family: 'RobotoMono';
-   src: url('../fonts/RobotoMono-Regular.ttf') format('truetype'),
-        url('../fonts/RobotoMono-Bold.ttf') format('truetype')
+  src: url('../fonts/RobotoMono-Regular.ttf') format('truetype'),
+    url('../fonts/RobotoMono-Bold.ttf') format('truetype')
 }
 
 .font-roboto-mono {

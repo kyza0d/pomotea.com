@@ -2,65 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background: #0f1011;
-  color: #d4d5d6;
+
+/*Debug outlines on every element*/
+/* :root * { */
+/*   outline: 1px solid hsla(0, 0%, 50%, 0.4); */
+/*   outline-offset: -1px; */
+/* } */
+
+:root {
+  --background: 217 0% 95%;
+  --foreground: 217 0% 0%;
+  --card: 217 0% 90%;
+  --card-foreground: 217 0% 10%;
+  --popover: 217 0% 95%;
+  --popover-foreground: 217 95% 0%;
+  --primary: 217 10.5% 14.9%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217 10% 70%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 179 10% 85%;
+  --muted-foreground: 217 0% 35%;
+  --accent: 179 10% 80%;
+  --accent-foreground: 217 0% 10%;
+  --destructive: 0 50% 30%;
+  --destructive-foreground: 217 0% 80%;
+  --border: 217 20% 50%;
+  --input: 217 20% 18%;
+  --ring: 217 10.5% 14.9%;
+  --radius: 0.4rem;
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  flex-direction: row;
-  height: 100vh;
-  padding: 1.2em;
-  gap: 20px;
+.dark {
+  --background: 217 10% 5%;
+  --foreground: 217 0% 90%;
+  --card: 217 0% 0%;
+  --card-foreground: 217 0% 90%;
+  --popover: 217 10% 5%;
+  --popover-foreground: 217 0% 90%;
+  --primary: 219 90% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217 10% 10%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 179 10% 15%;
+  --muted-foreground: 217 0% 60%;
+  --accent: 179 10% 15%;
+  --accent-foreground: 217 0% 90%;
+  --destructive: 0 50% 30%;
+  --destructive-foreground: 217 0% 90%;
+  --border: 217 20% 18%;
+  --input: 217 20% 18%;
+  --ring: 217 10.5% 14.9%;
+  --radius: 0.4rem;
 }
 
-h1 {
-  font-size: 3rem;
-  line-height: 0.9;
-}
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
 
-.timers {
-  width: 100%;
-}
-
-[role='timer'] {
-  display: flex;
-  position: relative;
-  justify-content: flex-start;
-  align-items: flex-end;
-  background: #1a1c1e;
-  border: 1px solid #26282b;
-  border-radius: 9px;
-  margin: 1em 0em;
-  padding: 1.2em 1.3em;
-}
-
-[role='timer'] h1  {
-  min-width: 2.85em;
-}
-
-[role='timer'] span {
-  font-size: 1rem;
-  color: #595f66;
-  padding-left: 0.8em;
-  text-align: start;
-}
-
-[role='timer'] .inactive {
-  opacity: 0.6;
-}
-
-.actions { 
-  height: 100%;
-  justify-content: flex-end;
-  align-items: center;
-  display: flex;
-  gap: 2em;
-  flex-direction: column;
-}
-
-.actions button { 
-  font-size: 1.5em;
+  svg.icon {
+    @apply w-9 h-9;
+  }
 }
