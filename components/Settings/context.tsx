@@ -3,13 +3,19 @@
 
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 
+interface Session {
+  type: string;
+  duration: number;
+}
+
 interface Settings {
   'font-name': string;
   'font-size': number;
   'theme': 'light' | 'dark' | 'system';
   'background-url': string;
   'background-opacity': number; // New setting for background opacity
-  'duration-mode': 'entireLength' | 'currentTask'; // New setting for duration mode
+  'duration-mode': 'entireLength' | 'currentTask';
+  sessions: Session[]; // Add sessions to settings
 }
 
 const defaultSettings: Settings = {
@@ -19,6 +25,11 @@ const defaultSettings: Settings = {
   'background-url': "", // New setting for background image
   'duration-mode': 'entireLength', // Default value for duration mode
   "background-opacity": 0.5, // Default value for background opacity
+  sessions: [
+    { type: 'Working', duration: 25 },
+    { type: 'Break', duration: 5 },
+    { type: 'Working', duration: 25 },
+  ],
 };
 
 interface SettingsContextValue {
