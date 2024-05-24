@@ -2,7 +2,9 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/Theme/context"
 import { SettingsProvider } from "@/components/Settings/context"
+
 import Theme from "@/app/theme";
+import Header from "@/components/Header";
 
 export const metadata = {
   title: "Pomodoro",
@@ -15,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <SettingsProvider>
+          {/* <Header /> */}
 
           <Theme />
           <ThemeProvider

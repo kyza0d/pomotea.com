@@ -8,6 +8,7 @@ interface Settings {
   'font-size': number;
   'theme': 'light' | 'dark' | 'system';
   'background-url': string;
+  'background-opacity': number; // New setting for background opacity
   'duration-mode': 'entireLength' | 'currentTask'; // New setting for duration mode
 }
 
@@ -17,6 +18,7 @@ const defaultSettings: Settings = {
   'theme': 'system',
   'background-url': "", // New setting for background image
   'duration-mode': 'entireLength', // Default value for duration mode
+  "background-opacity": 0.5, // Default value for background opacity
 };
 
 interface SettingsContextValue {

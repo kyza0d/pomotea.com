@@ -29,7 +29,7 @@ export const TypographySmall = React.forwardRef<HTMLElement, TypographyProps>(
 export const TypographyBold = React.forwardRef<HTMLElement, TypographyProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <b ref={ref} className={cn("font-bold text-lg text-iceberg-600", className)} {...props}>
+      <b ref={ref} className={cn("font-bold text-base text-iceberg-700", className)} {...props}>
         {children}
       </b>
     );
@@ -39,7 +39,7 @@ export const TypographyBold = React.forwardRef<HTMLElement, TypographyProps>(
 export const TypographyP = React.forwardRef<HTMLParagraphElement, TypographyProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <p ref={ref} className={cn("scroll-m-20 text-lg font-normal", className)} {...props}>
+      <p ref={ref} className={cn("scroll-m-20 font-normal", className)} {...props}>
         {children}
       </p>
     );
@@ -65,7 +65,7 @@ export const TypographyH2 = React.forwardRef<HTMLHeadingElement, TypographyProps
     return (
       <h2
         ref={ref}
-        className={cn("scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0", className)}
+        className={cn("scroll-m-20 pb-2 text-3xl font-bold tracking-tight first:mt-0", className)}
         {...props}
       >
         {children}

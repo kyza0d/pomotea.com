@@ -39,16 +39,15 @@ const config = {
 
         midnight: {
           DEFAULT: '#2c3e50', // Define the default shade of midnight
-          50: '#859bb1',
-          100: '#748fa7',
-          200: '#637f9d',
-          300: '#526f93',
-          400: '#416089',
-          500: '#2c3e50', // Duplicate of DEFAULT for consistency
-          600: '#2b3845',
-          700: '#252e39',
-          800: '#1f242d',
-          900: '#191a21',
+          "100": "#e0ebf4",
+          "200": "#c1e0ee",
+          "300": "#8fb9d1",
+          "400": "#749dc6",
+          "500": "#4d7fb0",
+          "600": "#345784",
+          "700": "#1f354e",
+          "800": "#0d1a26",
+          "900": "#0a1420",
         },
 
         iceberg: {
@@ -61,7 +60,7 @@ const config = {
           500: '#e8f1f2', // Duplicate of DEFAULT for consistency
           600: '#cfe4e7',
           700: '#b6d7da',
-          800: '#9dc9cd',
+          800: '#6c7b8e',
           900: '#84bcbf',
         },
 
