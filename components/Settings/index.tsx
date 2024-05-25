@@ -63,7 +63,7 @@ const Settings = () => {
             <div className="bg-midnight-100 dark:bg-midnight-900 w-[70vw] h-[80vh] rounded-md border border-input overflow-hidden flex flex-col">
               <div className="flex-1 overflow-auto">
                 <Tabs defaultValue="appearance" className="w-full">
-                  <TabsList className="grid w-full grid-cols-4 sticky top-0">
+                  <TabsList className="grid w-full grid-cols-3 sticky top-0">
                     <TabsTrigger value="appearance">
                       <FiEye className="icon-sm mr-4" /> Appearance
                     </TabsTrigger>
@@ -73,12 +73,9 @@ const Settings = () => {
                     <TabsTrigger value="notifications">
                       <FiBell className="icon-sm mr-4" /> Notifications
                     </TabsTrigger>
-                    <TabsTrigger value="settings">
-                      <FiSettings className="icon-sm mr-4" /> Settings
-                    </TabsTrigger>
                   </TabsList>
-                  <TabsContent value="appearance" className="space-y-8">
-                    <div className="flex flex-col space-y-6">
+                  <TabsContent value="appearance">
+                    <div className="flex flex-col">
                       <Card>
                         <CardHeader>
                           <CardTitle>Theme:</CardTitle>
