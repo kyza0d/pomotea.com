@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSettings } from '@/components/Settings/context';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
-
 import {
   Select,
   SelectContent,
@@ -13,29 +12,38 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+type Session = {
+  type: string;
+  duration: number;
+};
+
 const Sessions: React.FC = () => {
   const { settings, setSetting } = useSettings();
-  const [sessions, setSessions] = useState(settings.sessions || []);
+  const [sessions, setSessions] = useState<Session[]>(settings.sessions || []);
 
   const handleAddSession = () => {
-    setSessions([...sessions, { type: 'Working', duration: 25 }]);
+    const newSession = { type: 'Working', duration: 5 };
+    const updatedSessions = [...sessions, newSession];
+    setSessions(updatedSessions);
+    setSetting('sessions', updatedSessions); // Update setting only once
+    console.log('New session added:', newSession);
   };
 
   const handleRemoveSession = (index: number) => {
     const updatedSessions = sessions.filter((_, i) => i !== index);
     setSessions(updatedSessions);
+    setSetting('sessions', updatedSessions); // Update setting only once
+    console.log(`Session at index ${index} removed`);
   };
 
   const handleChangeSession = (index: number, field: string, value: any) => {
+    console.log(`Changing session at index ${index}, field: ${field}, value: ${value}`);
     const updatedSessions = sessions.map((session, i) => (
-      i === index ? { ...session, [field]: value } : session
+      i === index ? { ...session, [field]: field === 'duration' ? Number(value) : value } : session
     ));
     setSessions(updatedSessions);
+    setSetting('sessions', updatedSessions); // Update setting only once
   };
-
-  useEffect(() => {
-    setSetting('sessions', sessions);
-  }, [sessions, setSetting]);
 
   return (
     <div>
@@ -61,7 +69,11 @@ const Sessions: React.FC = () => {
             <Input
               type="number"
               value={session.duration}
-              onChange={(e) => handleChangeSession(index, 'duration', e.target.value)}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                console.log(`Input change event: ${e.target.value}, parsed value: ${value}`);
+                handleChangeSession(index, 'duration', value);
+              }}
               className="border rounded p-2 w-16"
             />
           </div>
@@ -74,4 +86,3 @@ const Sessions: React.FC = () => {
 };
 
 export default Sessions;
-

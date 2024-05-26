@@ -1,5 +1,4 @@
-import React from "react";
-import moment from "moment";
+import React, { useEffect } from "react";
 import { FaUndoAlt } from "react-icons/fa";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Card } from "@/components/ui/card";
@@ -9,47 +8,56 @@ import useTimer from "@/hooks/useTimer";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
 import { Settings } from "../Settings";
+import { useToast } from '@/components/ui/use-toast';
 
 const Timer: React.FC = () => {
   const { settings } = useSettings();
-
-  let sessions = settings.sessions;
-  const { 'duration-mode': durationMode } = settings;
+  const { toast } = useToast();
 
   const {
-    currentSessionIndex,
+    key,
     elapsedTime,
     isPlaying,
-    key,
     completedSessions,
     duration,
     remainingTime,
     togglePlayPause,
     resetTimer,
-  } = useTimer(sessions);
+    updateSessions,
+    sessions,
+    originalSessions,
+  } = useTimer(settings.sessions, toast);
 
-  const getTaskDuration = React.useCallback((session, index) => {
-    if (completedSessions.has(index)) {
-      return '00:00';
+  useEffect(() => {
+    updateSessions(settings.sessions);
+  }, [settings.sessions, updateSessions]);
+
+  const getTaskDuration = (index) => {
+    const sessionDuration = originalSessions.current[index];
+    console.log(`Session ${index} duration: `, sessionDuration);
+
+    if (sessionDuration == null || isNaN(sessionDuration)) {
+      console.error(`Invalid duration for session ${index}: ${sessionDuration}`);
+      return 'Invalid duration';
     }
 
-    if (durationMode === 'entireLength') {
-      const sessionStart = sessions.slice(0, index).reduce((total, s) => total + s.duration, 0);
-      const sessionEnd = sessionStart + session.duration;
+    if (settings['duration-mode'] === 'entireLength') {
+      const sessionStart = settings.sessions.slice(0, index).reduce((total, s, idx) => total + originalSessions.current[idx], 0);
+      const sessionEnd = sessionStart + sessionDuration;
 
       if (elapsedTime >= sessionStart && elapsedTime < sessionEnd) {
-        return moment.utc((sessionEnd - elapsedTime) * 1000).format('mm:ss');
+        return new Date((sessionEnd - elapsedTime) * 1000).toISOString().substr(14, 5);
       } else if (elapsedTime >= sessionEnd) {
         return '00:00';
       } else {
-        return moment.utc(session.duration * 1000).format('mm:ss');
+        return new Date(sessionDuration * 1000).toISOString().substr(14, 5);
       }
     } else {
       return index === currentSessionIndex
-        ? moment.utc(remainingTime * 1000).format('mm:ss')
-        : moment.utc(session.duration * 1000).format('mm:ss');
+        ? new Date(remainingTime * 1000).toISOString().substr(14, 5)
+        : new Date(sessionDuration * 1000).toISOString().substr(14, 5);
     }
-  }, [elapsedTime, durationMode, currentSessionIndex, remainingTime, completedSessions, sessions]);
+  };
 
   return (
     <div className="mx-auto pt-8 max-w-screen-md">
@@ -57,7 +65,7 @@ const Timer: React.FC = () => {
         <div className="flex items-center justify-between space-x-6">
           <div className="flex items-center">
             <CountdownCircleTimer
-              key={`${durationMode}-${key}`}
+              key={`${settings['duration-mode']}-${key}`}
               strokeWidth={16}
               size={115}
               colors={["#5be59c", "#e5ae5b", "#e55b5b"]}
@@ -66,7 +74,7 @@ const Timer: React.FC = () => {
               duration={duration}
               initialRemainingTime={remainingTime}
               isPlaying={isPlaying}
-              renderAriaTime={(remainingTime) => moment.utc(remainingTime * 1000).format('mm:ss')}
+              renderAriaTime={(remainingTime) => new Date(remainingTime * 1000).toISOString().substr(14, 5)}
             />
             <div className="ml-4">
               <Text variant="subtitle" size="md">Current Task:</Text>
@@ -83,7 +91,7 @@ const Timer: React.FC = () => {
         {sessions.map((session, index) => (
           <Card key={index} className="px-4 pr-8 py-6 my-8 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg">
             <Text variant="header" size="lg" className="timer">
-              {getTaskDuration(session, index)}
+              {getTaskDuration(index)}
             </Text>
             <Text variant="subtitle" className="ml-auto">
               {session.type}
