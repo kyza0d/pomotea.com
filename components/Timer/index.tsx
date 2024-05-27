@@ -15,48 +15,24 @@ const Timer: React.FC = () => {
   const { toast } = useToast();
 
   const {
-    key,
     elapsedTime,
     isPlaying,
-    completedSessions,
-    duration,
-    remainingTime,
+    currentSessionIndex,
+    sessions,
     togglePlayPause,
     resetTimer,
     updateSessions,
-    sessions,
-    originalSessions,
   } = useTimer(settings.sessions, toast);
 
   useEffect(() => {
     updateSessions(settings.sessions);
   }, [settings.sessions, updateSessions]);
 
-  const getTaskDuration = (index) => {
-    const sessionDuration = originalSessions.current[index];
-    console.log(`Session ${index} duration: `, sessionDuration);
-
-    if (sessionDuration == null || isNaN(sessionDuration)) {
-      console.error(`Invalid duration for session ${index}: ${sessionDuration}`);
-      return 'Invalid duration';
-    }
-
-    if (settings['duration-mode'] === 'entireLength') {
-      const sessionStart = settings.sessions.slice(0, index).reduce((total, s, idx) => total + originalSessions.current[idx], 0);
-      const sessionEnd = sessionStart + sessionDuration;
-
-      if (elapsedTime >= sessionStart && elapsedTime < sessionEnd) {
-        return new Date((sessionEnd - elapsedTime) * 1000).toISOString().substr(14, 5);
-      } else if (elapsedTime >= sessionEnd) {
-        return '00:00';
-      } else {
-        return new Date(sessionDuration * 1000).toISOString().substr(14, 5);
-      }
-    } else {
-      return index === currentSessionIndex
-        ? new Date(remainingTime * 1000).toISOString().substr(14, 5)
-        : new Date(sessionDuration * 1000).toISOString().substr(14, 5);
-    }
+  const getSessionTime = (index) => {
+    const session = sessions[index];
+    if (!session) return '00:00';
+    const remainingTime = session.duration * 60 - (currentSessionIndex === index ? elapsedTime : 0);
+    return new Date(remainingTime * 1000).toISOString().substr(14, 5);
   };
 
   return (
@@ -65,20 +41,19 @@ const Timer: React.FC = () => {
         <div className="flex items-center justify-between space-x-6">
           <div className="flex items-center">
             <CountdownCircleTimer
-              key={`${settings['duration-mode']}-${key}`}
+              key={`${settings['duration-mode']}-${currentSessionIndex}`}
               strokeWidth={16}
               size={115}
               colors={["#5be59c", "#e5ae5b", "#e55b5b"]}
-              colorsTime={[duration * 0.4, duration * 0.2, 0]}
+              colorsTime={[sessions[currentSessionIndex]?.duration * 24, sessions[currentSessionIndex]?.duration * 12, 0]}
               trailColor="#1b1e21"
-              duration={duration}
-              initialRemainingTime={remainingTime}
+              duration={sessions[currentSessionIndex]?.duration * 60 || 0}
+              initialRemainingTime={sessions[currentSessionIndex]?.duration * 60 - elapsedTime}
               isPlaying={isPlaying}
-              renderAriaTime={(remainingTime) => new Date(remainingTime * 1000).toISOString().substr(14, 5)}
             />
             <div className="ml-4">
               <Text variant="subtitle" size="md">Current Task:</Text>
-              <Text variant="header" size="lg">Work on Pomodoro Timer</Text>
+              <Text variant="header" size="lg">{sessions[currentSessionIndex]?.type || 'No session'}</Text>
             </div>
           </div>
           <div className="ml-auto">
@@ -91,7 +66,7 @@ const Timer: React.FC = () => {
         {sessions.map((session, index) => (
           <Card key={index} className="px-4 pr-8 py-6 my-8 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg">
             <Text variant="header" size="lg" className="timer">
-              {getTaskDuration(index)}
+              {getSessionTime(index)}
             </Text>
             <Text variant="subtitle" className="ml-auto">
               {session.type}

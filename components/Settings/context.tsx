@@ -26,9 +26,9 @@ const defaultSettings: Settings = {
   'duration-mode': 'entireLength', // Default value for duration mode
   "background-opacity": 0.5, // Default value for background opacity
   sessions: [
-    { type: 'Working', duration: 5 },
-    { type: 'Break', duration: 3 },
-    { type: 'Working', duration: 5 },
+    { type: 'Working', duration: 0.1 },
+    { type: 'Break', duration: 0.05 },
+    { type: 'Working', duration: 0.1 },
   ],
 };
 

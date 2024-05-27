@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import useAudio from './useAudio';
 
 interface Session {
@@ -10,33 +10,37 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
   const [sessions, setSessions] = useState(initialSessions);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [completedSessions, setCompletedSessions] = useState(new Set<number>());
-  const [key, setKey] = useState(0);
+  const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
 
-  const originalSessions = useRef(sessions.map(session => session.duration));
-  const entireDuration = originalSessions.current.reduce((total, duration) => total + duration, 0);
-  const remainingTime = entireDuration - elapsedTime;
-
-  const prevRemainingTimeRef = useRef(remainingTime);
   const playSound = useAudio('/system-notification-199277.mp3'); // Replace with your sound file path
-
-  useEffect(() => {
-    originalSessions.current = sessions.map(session => session.duration);
-  }, [sessions]);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
-    if (isPlaying && remainingTime >= 0) {
+    if (isPlaying && currentSessionIndex < sessions.length) {
       intervalId = setInterval(() => {
         setElapsedTime((prevElapsedTime) => {
-          if (prevElapsedTime < entireDuration) {
+          const sessionDuration = sessions[currentSessionIndex].duration * 60;
+          if (prevElapsedTime < sessionDuration) {
             return prevElapsedTime + 1;
           } else {
-            console.log('Timer completed');
-            setIsPlaying(false);
-            setCompletedSessions(new Set(sessions.map((_, index) => index)));
-            return prevElapsedTime;
+            // Session completed, move to the next session
+            showToast({
+              title: 'Session Complete',
+              description: 'You have completed the current session.'
+            });
+            playSound();
+            setElapsedTime(0);
+            setCurrentSessionIndex((prevIndex) => {
+              if (prevIndex + 1 < sessions.length) {
+                return prevIndex + 1;
+              } else {
+                // All sessions completed, stop the timer
+                setIsPlaying(false);
+                return prevIndex;
+              }
+            });
+            return 0;
           }
         });
       }, 1000);
@@ -47,27 +51,12 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
         clearInterval(intervalId);
       }
     };
-  }, [isPlaying, remainingTime, entireDuration, sessions]);
-
-  useEffect(() => {
-    if (remainingTime === 0 && prevRemainingTimeRef.current > 0) {
-      showToast({
-        title: 'Session Complete',
-        description: 'You have completed the current session.'
-      });
-      playSound(); // Play the sound when the session is complete
-      setTimeout(() => {
-        resetTimer(); // Ensure resetTimer is called
-      }, 1000);
-    }
-    prevRemainingTimeRef.current = remainingTime;
-  }, [remainingTime, showToast, playSound]);
+  }, [isPlaying, sessions, currentSessionIndex, showToast, playSound]);
 
   const resetTimer = () => {
     setElapsedTime(0);
     setIsPlaying(false);
-    setCompletedSessions(new Set());
-    setKey((prevKey) => prevKey + 1);
+    setCurrentSessionIndex(0);
   };
 
   const togglePlayPause = () => {
@@ -76,9 +65,18 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
 
   const updateSessions = useCallback((newSessions: Session[]) => {
     setSessions(newSessions);
+    resetTimer();
   }, []);
 
-  return { key, elapsedTime, isPlaying, completedSessions, duration: entireDuration, remainingTime, togglePlayPause, resetTimer, updateSessions, sessions, originalSessions };
+  return {
+    elapsedTime,
+    isPlaying,
+    currentSessionIndex,
+    sessions,
+    togglePlayPause,
+    resetTimer,
+    updateSessions,
+  };
 };
 
 export default useTimer;

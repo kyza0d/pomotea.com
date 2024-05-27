@@ -4,8 +4,7 @@ import { ThemeProvider } from "@/components/Theme/context"
 import { SettingsProvider } from "@/components/Settings/context"
 
 import Theme from "@/app/theme";
-import Header from "@/components/Header";
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Pomodoro",
@@ -15,10 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
+        {/* <Header /> */}
         <SettingsProvider>
-          {/* <Header /> */}
 
           <Theme />
           <ThemeProvider

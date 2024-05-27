@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSettings } from '@/components/Settings/context';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Session = {
   type: string;
@@ -20,29 +14,37 @@ type Session = {
 const Sessions: React.FC = () => {
   const { settings, setSetting } = useSettings();
   const [sessions, setSessions] = useState<Session[]>(settings.sessions || []);
+  const originalSessions = useRef<number[]>(settings.sessions.map(session => session.duration));
+
+  useEffect(() => {
+    originalSessions.current = sessions.map(session => session.duration);
+  }, [sessions]);
 
   const handleAddSession = () => {
-    const newSession = { type: 'Working', duration: 5 };
-    const updatedSessions = [...sessions, newSession];
-    setSessions(updatedSessions);
-    setSetting('sessions', updatedSessions); // Update setting only once
-    console.log('New session added:', newSession);
+    const newSession = { type: 'Working', duration: 0.1 };
+    setSessions(prevSessions => {
+      const updatedSessions = [...prevSessions, newSession];
+      setSetting('sessions', updatedSessions);
+      return updatedSessions;
+    });
   };
 
   const handleRemoveSession = (index: number) => {
-    const updatedSessions = sessions.filter((_, i) => i !== index);
-    setSessions(updatedSessions);
-    setSetting('sessions', updatedSessions); // Update setting only once
-    console.log(`Session at index ${index} removed`);
+    setSessions(prevSessions => {
+      const updatedSessions = prevSessions.filter((_, i) => i !== index);
+      setSetting('sessions', updatedSessions);
+      return updatedSessions;
+    });
   };
 
   const handleChangeSession = (index: number, field: string, value: any) => {
-    console.log(`Changing session at index ${index}, field: ${field}, value: ${value}`);
-    const updatedSessions = sessions.map((session, i) => (
-      i === index ? { ...session, [field]: field === 'duration' ? Number(value) : value } : session
-    ));
-    setSessions(updatedSessions);
-    setSetting('sessions', updatedSessions); // Update setting only once
+    setSessions(prevSessions => {
+      const updatedSessions = prevSessions.map((session, i) => (
+        i === index ? { ...session, [field]: field === 'duration' ? Number(value) : value } : session
+      ));
+      setSetting('sessions', updatedSessions);
+      return updatedSessions;
+    });
   };
 
   return (
@@ -71,7 +73,6 @@ const Sessions: React.FC = () => {
               value={session.duration}
               onChange={(e) => {
                 const value = Number(e.target.value);
-                console.log(`Input change event: ${e.target.value}, parsed value: ${value}`);
                 handleChangeSession(index, 'duration', value);
               }}
               className="border rounded p-2 w-16"
