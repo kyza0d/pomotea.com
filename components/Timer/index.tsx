@@ -15,7 +15,7 @@ const Timer: React.FC = () => {
   const { toast } = useToast();
 
   const {
-    elapsedTime,
+    elapsedTimes,
     isPlaying,
     currentSessionIndex,
     sessions,
@@ -31,7 +31,7 @@ const Timer: React.FC = () => {
   const getSessionTime = (index) => {
     const session = sessions[index];
     if (!session) return '00:00';
-    const remainingTime = session.duration * 60 - (currentSessionIndex === index ? elapsedTime : 0);
+    const remainingTime = session.duration * 60 - elapsedTimes[index];
     return new Date(remainingTime * 1000).toISOString().substr(14, 5);
   };
 
@@ -48,7 +48,7 @@ const Timer: React.FC = () => {
               colorsTime={[sessions[currentSessionIndex]?.duration * 24, sessions[currentSessionIndex]?.duration * 12, 0]}
               trailColor="#1b1e21"
               duration={sessions[currentSessionIndex]?.duration * 60 || 0}
-              initialRemainingTime={sessions[currentSessionIndex]?.duration * 60 - elapsedTime}
+              initialRemainingTime={sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex]}
               isPlaying={isPlaying}
             />
             <div className="ml-4">

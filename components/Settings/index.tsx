@@ -60,7 +60,7 @@ const Settings = () => {
           ></div>
 
           <div className="fixed z-50 inset-0 flex items-center justify-center">
-            <div className="bg-midnight-100 dark:bg-midnight-900 w-[70vw] h-[80vh] rounded-md border border-input overflow-hidden flex flex-col">
+            <div className="bg-midnight-100 dark:bg-midnight-900 w-[70vw] h-[80vh] rounded-md border border-input overflow-hidden flex flex-col relative">
               <div className="flex-1 overflow-auto">
                 <Tabs defaultValue="appearance" className="w-full">
                   <TabsList className="grid w-full grid-cols-3 sticky top-0">
@@ -110,11 +110,7 @@ const Settings = () => {
                   </TabsContent>
                 </Tabs>
               </div>
-              <div className="w-full flex px-4 py-2 z-10 border-t border-t-input sticky bottom-0 bg-midnight-100 dark:bg-midnight-900">
-                <Button variant="default" onClick={toggleSettings}>Save</Button>
-                <Button className="ml-4" variant="secondary" onClick={toggleSettings}>Cancel</Button>
-                <Button className="ml-auto" variant="secondary" onClick={toggleSettings}>Restore Defaults</Button>
-              </div>
+              <Button className="ml-auto absolute bottom-0 right-0 m-4" variant="outline" onClick={toggleSettings}>Close</Button>
             </div>
           </div>
         </>
