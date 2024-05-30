@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import useAudio from './useAudio';
 
 interface Session {
@@ -14,10 +14,16 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
 
   const playSound = useAudio('/system-notification-199277.mp3'); // Replace with your sound file path
 
+  const animationFrameId = useRef<number | null>(null);
+  const lastUpdateTimeRef = useRef<number>(0);
+
   const resetTimer = useCallback(() => {
     setElapsedTimes(Array(sessions.length).fill(0));
     setIsPlaying(false);
     setCurrentSessionIndex(0);
+    if (animationFrameId.current) {
+      cancelAnimationFrame(animationFrameId.current);
+    }
   }, [sessions.length]);
 
   const handleSessionComplete = useCallback(() => {
@@ -33,34 +39,67 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     }
   }, [currentSessionIndex, sessions.length, showToast, playSound, resetTimer]);
 
-  const incrementElapsedTime = useCallback(() => {
+  const updateElapsedTime = useCallback((timestamp: number) => {
+    if (!lastUpdateTimeRef.current) {
+      lastUpdateTimeRef.current = timestamp;
+    }
+
+    const deltaTime = (timestamp - lastUpdateTimeRef.current) / 1000; // Convert to seconds
+    lastUpdateTimeRef.current = timestamp;
+
     setElapsedTimes((prevElapsedTimes) => {
       const newElapsedTimes = [...prevElapsedTimes];
       const sessionDuration = sessions[currentSessionIndex].duration * 60;
+
       if (newElapsedTimes[currentSessionIndex] < sessionDuration) {
-        newElapsedTimes[currentSessionIndex] += 1;
-      } else {
-        handleSessionComplete();
+        newElapsedTimes[currentSessionIndex] += deltaTime;
+        if (newElapsedTimes[currentSessionIndex] >= sessionDuration) {
+          handleSessionComplete();
+        }
       }
+
       return newElapsedTimes;
     });
-  }, [currentSessionIndex, handleSessionComplete, sessions]);
+
+    if (isPlaying) {
+      animationFrameId.current = requestAnimationFrame(updateElapsedTime);
+    }
+  }, [currentSessionIndex, handleSessionComplete, isPlaying, sessions]);
 
   useEffect(() => {
     if (isPlaying && currentSessionIndex < sessions.length) {
-      const intervalId = setInterval(incrementElapsedTime, 1000);
-      return () => clearInterval(intervalId);
+      animationFrameId.current = requestAnimationFrame(updateElapsedTime);
+    } else {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
     }
-  }, [isPlaying, currentSessionIndex, incrementElapsedTime, sessions.length]);
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, [isPlaying, currentSessionIndex, updateElapsedTime, sessions.length]);
 
   const togglePlayPause = useCallback(() => {
     setIsPlaying((prevIsPlaying) => !prevIsPlaying);
-  }, []);
+    if (!isPlaying) {
+      lastUpdateTimeRef.current = performance.now();
+      animationFrameId.current = requestAnimationFrame(updateElapsedTime);
+    } else {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    }
+  }, [isPlaying, updateElapsedTime]);
 
   const updateSessions = useCallback((newSessions: Session[]) => {
     setSessions(newSessions);
     setElapsedTimes(Array(newSessions.length).fill(0));
     setCurrentSessionIndex(0);
+    if (animationFrameId.current) {
+      cancelAnimationFrame(animationFrameId.current);
+    }
   }, []);
 
   return {

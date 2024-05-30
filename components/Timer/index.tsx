@@ -31,7 +31,7 @@ const Timer: React.FC = () => {
   const getSessionTime = (index) => {
     const session = sessions[index];
     if (!session) return '00:00';
-    const remainingTime = session.duration * 60 - elapsedTimes[index];
+    const remainingTime = Math.max(0, session.duration * 60 - elapsedTimes[index]);
     return new Date(remainingTime * 1000).toISOString().substr(14, 5);
   };
 
@@ -41,15 +41,17 @@ const Timer: React.FC = () => {
         <div className="flex items-center justify-between space-x-6">
           <div className="flex items-center">
             <CountdownCircleTimer
+              isPlaying={isPlaying}
               key={`${settings['duration-mode']}-${currentSessionIndex}`}
+              duration={sessions[currentSessionIndex]?.duration * 60}
+              initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
+              colors={sessions[currentSessionIndex]?.type === 'Break' ? ["#5be59c", "#5be59c", "#5be59c"] : ["#5be59c", "#e5ae5b", "#e55b5b"]}
+              isGrowing={sessions[currentSessionIndex]?.type === 'Break' ? true : false}
+              rotation={sessions[currentSessionIndex]?.type === 'Break' ? "counterclockwise" : "clockwise"}
+              colorsTime={[sessions[currentSessionIndex]?.type === 'Break' ? 0 : 1, 0.5, 0.5]}
+              trailColor="#1b1e21"
               strokeWidth={16}
               size={115}
-              colors={["#5be59c", "#e5ae5b", "#e55b5b"]}
-              colorsTime={[sessions[currentSessionIndex]?.duration * 24, sessions[currentSessionIndex]?.duration * 12, 0]}
-              trailColor="#1b1e21"
-              duration={sessions[currentSessionIndex]?.duration * 60 || 0}
-              initialRemainingTime={sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex]}
-              isPlaying={isPlaying}
             />
             <div className="ml-4">
               <Text variant="subtitle" size="md">Current Task:</Text>
