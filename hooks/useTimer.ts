@@ -11,6 +11,7 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
   const [elapsedTimes, setElapsedTimes] = useState(Array(initialSessions.length).fill(0));
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
+  const [completionMessage, setCompletionMessage] = useState<{ title: string; description: string } | null>(null);
 
   const playSound = useAudio('/system-notification-199277.mp3'); // Replace with your sound file path
 
@@ -30,14 +31,21 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     if (currentSessionIndex + 1 < sessions.length) {
       setCurrentSessionIndex(currentSessionIndex + 1);
     } else {
-      showToast({
+      setCompletionMessage({
         title: 'All Sessions Complete',
         description: 'You have completed all sessions.',
       });
       playSound();
       resetTimer();
     }
-  }, [currentSessionIndex, sessions.length, showToast, playSound, resetTimer]);
+  }, [currentSessionIndex, sessions.length, playSound, resetTimer]);
+
+  useEffect(() => {
+    if (completionMessage) {
+      showToast(completionMessage);
+      setCompletionMessage(null); // Clear the message after showing the toast
+    }
+  }, [completionMessage, showToast]);
 
   const updateElapsedTime = useCallback((timestamp: number) => {
     if (!lastUpdateTimeRef.current) {
