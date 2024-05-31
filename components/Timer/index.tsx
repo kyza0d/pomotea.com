@@ -28,7 +28,7 @@ const Timer: React.FC = () => {
     updateSessions(settings.sessions);
   }, [settings.sessions, updateSessions]);
 
-  const getSessionTime = (index) => {
+  const getSessionTime = (index: number) => {
     const session = sessions[index];
     if (!session) return '00:00';
     const remainingTime = Math.max(0, session.duration * 60 - elapsedTimes[index]);
@@ -42,7 +42,7 @@ const Timer: React.FC = () => {
           <div className="flex items-center">
             <CountdownCircleTimer
               isPlaying={isPlaying}
-              key={`${settings['duration-mode']}-${currentSessionIndex}`}
+              key={`timer-${currentSessionIndex}`}
               duration={sessions[currentSessionIndex]?.duration * 60}
               initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
               colors={["#3B82F6", "#3B82F6", "#3B82F6"]}

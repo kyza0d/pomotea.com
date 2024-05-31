@@ -20,7 +20,7 @@ export const Settings = () => {
 
   const toggleSettings = () => setIsOpen((prevIsOpen) => !prevIsOpen);
 
-  const handleBackdropClick = (event) => {
+  const handleBackdropClick = (event: any) => {
     event.target === backdropRef.current && toggleSettings();
   };
 
@@ -38,12 +38,12 @@ export const Settings = () => {
     toggleSettings();
   };
 
-  const handleThemeChange = (value) => {
+  const handleThemeChange = (value: string) => {
     setSetting('theme', value);
     setTheme(value);
   };
 
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -55,7 +55,7 @@ export const Settings = () => {
     }
   };
 
-  const handleOpacityChange = (value) => {
+  const handleOpacityChange = (value: string) => {
     setSetting('background-opacity', value);
   };
 
