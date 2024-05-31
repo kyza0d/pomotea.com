@@ -1,45 +1,114 @@
-
 /* Extra small devices (portrait phones, less than 576px) */
 @media (min-width: 0px) {
-  .custom-text-sm { font-size: 0.9rem; }
-  .custom-text-md { font-size: 0.9rem; }
-  .custom-text-lg { font-size: 1.2rem; }
-  .custom-text-xl { font-size: 1.4rem; }
-  .custom-text-2xl { font-size: 2rem; }
+  .custom-text-sm {
+    font-size: 0.9rem;
+  }
+
+  .custom-text-md {
+    font-size: 0.9rem;
+  }
+
+  .custom-text-lg {
+    font-size: 1.2rem;
+  }
+
+  .custom-text-xl {
+    font-size: 1.4rem;
+  }
+
+  .custom-text-2xl {
+    font-size: 2rem;
+  }
 }
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
-  .custom-text-sm { font-size: 0.9rem; }
-  .custom-text-md { font-size: 1rem; }
-  .custom-text-lg { font-size: 1.4rem; }
-  .custom-text-xl { font-size: 1.6rem; }
-  .custom-text-2xl { font-size: 2.4rem; }
+  .custom-text-sm {
+    font-size: 0.9rem;
+  }
+
+  .custom-text-md {
+    font-size: 1rem;
+  }
+
+  .custom-text-lg {
+    font-size: 1.4rem;
+  }
+
+  .custom-text-xl {
+    font-size: 1.6rem;
+  }
+
+  .custom-text-2xl {
+    font-size: 2.4rem;
+  }
 }
 
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  .custom-text-sm { font-size: 0.9rem; }
-  .custom-text-md { font-size: 1.2rem; }
-  .custom-text-lg { font-size: 1.6rem; }
-  .custom-text-xl { font-size: 2rem; }
-  .custom-text-2xl { font-size: 2.8rem; }
+  .custom-text-sm {
+    font-size: 0.9rem;
+  }
+
+  .custom-text-md {
+    font-size: 1.2rem;
+  }
+
+  .custom-text-lg {
+    font-size: 1.6rem;
+  }
+
+  .custom-text-xl {
+    font-size: 2rem;
+  }
+
+  .custom-text-2xl {
+    font-size: 2.8rem;
+  }
 }
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  .custom-text-sm { font-size: 0.9rem; }
-  .custom-text-md { font-size: 1.3rem; }
-  .custom-text-lg { font-size: 1.8rem; }
-  .custom-text-xl { font-size: 2.2rem; }
-  .custom-text-2xl { font-size: 3.6rem; }
+  .custom-text-sm {
+    font-size: 0.9rem;
+  }
+
+  .custom-text-md {
+    font-size: 1.3rem;
+  }
+
+  .custom-text-lg {
+    font-size: 1.8rem;
+  }
+
+  .custom-text-xl {
+    font-size: 2.2rem;
+  }
+
+  .custom-text-2xl {
+    font-size: 3.6rem;
+  }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
-  .custom-text-sm { font-size: 0.9rem; }
-  .custom-text-md { font-size: 1.4rem; }
-  .custom-text-lg { font-size: 2rem; }
-  .custom-text-xl { font-size: 2.4rem; }
-  .custom-text-2xl { font-size: 3.6rem; }
+  .custom-text-sm {
+    font-size: 0.9rem;
+  }
+
+  .custom-text-md {
+    font-size: 1.4rem;
+  }
+
+  .custom-text-lg {
+    font-size: 2rem;
+  }
+
+  .custom-text-xl {
+    font-size: 2.4rem;
+  }
+
+  .custom-text-2xl {
+    font-size: 3.6rem;
+  }
 }

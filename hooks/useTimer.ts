@@ -82,6 +82,8 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
         }
       }
 
+      updateDocumentTitle(newElapsedTimes[currentSessionIndex]);
+
       return newElapsedTimes;
     });
 
@@ -90,32 +92,69 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     }
   }, [currentSessionIndex, handleSessionComplete, isPlaying, sessions]);
 
+  const updateElapsedTimeFallback = useCallback(() => {
+    if (!isPlaying) return;
+
+    const now = performance.now();
+    const deltaTime = (now - lastUpdateTimeRef.current) / 1000; // Convert to seconds
+    lastUpdateTimeRef.current = now;
+
+    setElapsedTimes((prevElapsedTimes) => {
+      const newElapsedTimes = [...prevElapsedTimes];
+      const sessionDuration = sessions[currentSessionIndex].duration * 60;
+
+      if (newElapsedTimes[currentSessionIndex] < sessionDuration) {
+        newElapsedTimes[currentSessionIndex] += deltaTime;
+        if (newElapsedTimes[currentSessionIndex] >= sessionDuration) {
+          handleSessionComplete();
+        }
+      }
+
+      updateDocumentTitle(newElapsedTimes[currentSessionIndex]);
+
+      return newElapsedTimes;
+    });
+
+    timeoutId.current = setTimeout(updateElapsedTimeFallback, 1000);
+  }, [currentSessionIndex, handleSessionComplete, isPlaying, sessions]);
+
   useEffect(() => {
     if (isPlaying && currentSessionIndex < sessions.length) {
       animationFrameId.current = requestAnimationFrame(updateElapsedTime);
+      timeoutId.current = setTimeout(updateElapsedTimeFallback, 1000);
     } else {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
+      }
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
       }
     }
     return () => {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
     };
-  }, [isPlaying, currentSessionIndex, updateElapsedTime, sessions.length]);
+  }, [isPlaying, currentSessionIndex, updateElapsedTime, updateElapsedTimeFallback, sessions.length]);
 
   const togglePlayPause = useCallback(() => {
     setIsPlaying((prevIsPlaying) => !prevIsPlaying);
     if (!isPlaying) {
       lastUpdateTimeRef.current = performance.now();
       animationFrameId.current = requestAnimationFrame(updateElapsedTime);
+      timeoutId.current = setTimeout(updateElapsedTimeFallback, 1000);
     } else {
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
     }
-  }, [isPlaying, updateElapsedTime]);
+  }, [isPlaying, updateElapsedTime, updateElapsedTimeFallback]);
 
   const updateSessions = useCallback((newSessions: Session[]) => {
     setSessions(newSessions);
@@ -123,6 +162,9 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     setCurrentSessionIndex(0);
     if (animationFrameId.current) {
       cancelAnimationFrame(animationFrameId.current);
+    }
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
     }
   }, []);
 

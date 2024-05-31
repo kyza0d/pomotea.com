@@ -4,41 +4,34 @@
     url('../fonts/Inter-Bold.ttf') format('truetype')
 }
 
-.font-inter {
-  font-family: 'Inter', sans-serif;
-}
-
 @font-face {
   font-family: 'JetBrainsMono';
   src: url('../fonts/JetBrainsMono-Regular.ttf') format('truetype'),
     url('../fonts/JetBrainsMono-Bold.ttf') format('truetype');
 }
 
-.font-grey-cliff {
-  font-family: 'Greycliff CF', sans-serif;
-  letter-spacing: 0.06em;
-
-}
-
-.font-jetbrains-mono {
-  font-family: 'JetBrainsMono', monospace;
-}
-
 @font-face {
   font-family: 'Manrope';
   src: url('../fonts/Manrope-Regular.ttf') format('truetype'),
-    url('../fonts/Manrope-Bold.ttf') format('truetype');
-}
-
-.font-manrope {
-  font-family: 'Manrope', sans-serif;
-  letter-spacing: 0.03em;
+    url('../fonts/Manrope-Bold.ttf') format('truetype')
 }
 
 @font-face {
   font-family: 'RobotoMono';
   src: url('../fonts/RobotoMono-Regular.ttf') format('truetype'),
     url('../fonts/RobotoMono-Bold.ttf') format('truetype')
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-jetbrains-mono {
+  font-family: 'JetBrainsMono', monospace
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
 }
 
 .font-roboto-mono {

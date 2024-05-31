@@ -1,7 +1,7 @@
-
 "use client"
 
-import React, { ReactNode, createContext, useContext, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useState, useEffect } from 'react';
+import { getItem, setItem } from '@/utils/indexeddb';
 
 interface Session {
   type: string;
@@ -15,7 +15,6 @@ interface Settings {
   'background-url': string;
   'background-opacity': number; // New setting for background opacity
   'background-position': 'fill' | 'center' | 'stretch'; // New setting for background position
-  'duration-mode': 'entireLength' | 'currentTask';
   sessions: Session[]; // Add sessions to settings
 }
 
@@ -24,7 +23,6 @@ const defaultSettings: Settings = {
   'font-size': 16,
   'theme': 'system',
   'background-url': "", // New setting for background image
-  'duration-mode': 'entireLength', // Default value for duration mode
   "background-opacity": 0.5, // Default value for background opacity
   "background-position": "fill", // Default background position
   sessions: [
@@ -47,11 +45,26 @@ const SettingsContext = createContext<SettingsContextValue>({
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
-  const setSetting = (name: string, value: any) => {
-    setSettings((prevSettings) => ({
-      ...prevSettings,
-      [name]: value,
-    }));
+  useEffect(() => {
+    const loadSettings = async () => {
+      const savedSettings = await getItem('settings');
+      if (savedSettings) {
+        setSettings(savedSettings);
+      }
+    };
+
+    loadSettings();
+  }, []);
+
+  const setSetting = async (name: string, value: any) => {
+    setSettings((prevSettings) => {
+      const newSettings = {
+        ...prevSettings,
+        [name]: value,
+      };
+      setItem('settings', newSettings);
+      return newSettings;
+    });
   };
 
   return (

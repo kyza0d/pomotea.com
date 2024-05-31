@@ -1,6 +1,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
+
 import "@/app/font-sizes.css";
 
 export interface TextProps {
@@ -10,7 +11,7 @@ export interface TextProps {
   variant?: "header" | "subtitle" | "default";
 }
 
-const Text: React.FC<TextProps> = ({ children, className, size = "md", variant = "default" }) => {
+const Text: React.FC<TextProps> = ({ children, className, size = "sm", variant = "default" }) => {
   const sizeClass = `custom-text-${size}`;
 
   const variantMap = {
@@ -31,7 +32,7 @@ const Text: React.FC<TextProps> = ({ children, className, size = "md", variant =
   return React.createElement(
     tag,
     {
-      className: cn(sizeClass, "text-midnight-600 dark:text-midnight-400", variantClass, className)
+      className: cn(sizeClass, "text-midnight-600 dark:text-midnight-400 max-w-[30ch]", variantClass, className)
     },
     children
   );

@@ -6,7 +6,6 @@ import { SettingsProvider } from "@/components/Settings/context"
 import Theme from "@/app/theme";
 import { Toaster } from "@/components/ui/toaster";
 
-import "./fonts.css"
 
 export const metadata = {
   title: "Pomodoro",
@@ -21,17 +20,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SettingsProvider>
           <Toaster />
 
-          <Theme />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <Theme>
+              {children}
+            </Theme>
           </ThemeProvider>
         </SettingsProvider>
       </body>
-    </html>
+    </html >
   );
 }
