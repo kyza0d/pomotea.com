@@ -16,7 +16,19 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
   const playSound = useAudio('/system-notification-199277.mp3'); // Replace with your sound file path
 
   const animationFrameId = useRef<number | null>(null);
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const lastUpdateTimeRef = useRef<number>(0);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  };
+
+  const updateDocumentTitle = (elapsed: number) => {
+    const session = sessions[currentSessionIndex];
+    document.title = `${session.type} - ${formatTime(elapsed)} / ${formatTime(session.duration * 60)}`;
+  };
 
   const resetTimer = useCallback(() => {
     setElapsedTimes(Array(sessions.length).fill(0));
@@ -25,6 +37,10 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     if (animationFrameId.current) {
       cancelAnimationFrame(animationFrameId.current);
     }
+    if (timeoutId.current) {
+      clearTimeout(timeoutId.current);
+    }
+    document.title = 'Timer Reset';
   }, [sessions.length]);
 
   const handleSessionComplete = useCallback(() => {
