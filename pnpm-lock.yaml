@@ -119,6 +119,9 @@ dependencies:
   embla-carousel-react:
     specifier: ^8.0.2
     version: 8.0.2(react@18.2.0)
+  idb:
+    specifier: ^8.0.0
+    version: 8.0.0
   input-otp:
     specifier: ^1.2.4
     version: 1.2.4(react-dom@18.2.0)(react@18.2.0)
@@ -152,6 +155,9 @@ dependencies:
   react-dropzone:
     specifier: ^14.2.3
     version: 14.2.3(react@18.2.0)
+  react-feather:
+    specifier: ^2.0.10
+    version: 2.0.10(react@18.2.0)
   react-hook-form:
     specifier: ^7.51.3
     version: 7.51.3(react@18.2.0)
@@ -1996,6 +2002,10 @@ packages:
       function-bind: 1.1.2
     dev: false
 
+  /idb@8.0.0:
+    resolution: {integrity: sha512-l//qvlAKGmQO31Qn7xdzagVPPaHTxXx199MhrAFuVBTPqydcPYBWjkrbv4Y0ktB+GmWOiwHl237UUOrLmQxLvw==}
+    dev: false
+
   /input-otp@1.2.4(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-md6rhmD+zmMnUh5crQNSQxq3keBRYvE3odbr4Qb9g2NWzQv9azi+t1a3X4TBTbh98fsGHgEEJlzbe1q860uGCA==}
     peerDependencies:
@@ -2388,6 +2398,15 @@ packages:
     dependencies:
       attr-accept: 2.2.2
       file-selector: 0.6.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /react-feather@2.0.10(react@18.2.0):
+    resolution: {integrity: sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==}
+    peerDependencies:
+      react: '>=16.8.6'
+    dependencies:
       prop-types: 15.8.1
       react: 18.2.0
     dev: false

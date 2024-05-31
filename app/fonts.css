@@ -20,15 +20,6 @@
 
 }
 
-.font-grey-cliff h3 {
-  letter-spacing: 0.03em
-}
-
-@font-face {
-  font-family: 'Greycliff CF';
-  src: url('../fonts/Greycliff-CF-Regular.otf') format('opentype')
-}
-
 .font-jetbrains-mono {
   font-family: 'JetBrainsMono', monospace;
 }

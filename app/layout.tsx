@@ -6,6 +6,8 @@ import { SettingsProvider } from "@/components/Settings/context"
 import Theme from "@/app/theme";
 import { Toaster } from "@/components/ui/toaster";
 
+import "./fonts.css"
+
 export const metadata = {
   title: "Pomodoro",
   description: "Pomodoro app",
@@ -14,10 +16,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body>
-        {/* <Header /> */}
         <SettingsProvider>
+          <Toaster />
 
           <Theme />
           <ThemeProvider
@@ -26,7 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem
             disableTransitionOnChange
           >
-            <Toaster />
             {children}
           </ThemeProvider>
         </SettingsProvider>

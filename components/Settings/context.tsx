@@ -14,6 +14,7 @@ interface Settings {
   'theme': 'light' | 'dark' | 'system';
   'background-url': string;
   'background-opacity': number; // New setting for background opacity
+  'background-position': 'fill' | 'center' | 'stretch'; // New setting for background position
   'duration-mode': 'entireLength' | 'currentTask';
   sessions: Session[]; // Add sessions to settings
 }
@@ -25,9 +26,10 @@ const defaultSettings: Settings = {
   'background-url': "", // New setting for background image
   'duration-mode': 'entireLength', // Default value for duration mode
   "background-opacity": 0.5, // Default value for background opacity
+  "background-position": "fill", // Default background position
   sessions: [
     { type: 'Working', duration: 0.1 },
-    { type: 'Break', duration: 0.05 },
+    { type: 'Break', duration: 0.1 },
     { type: 'Working', duration: 0.1 },
   ],
 };

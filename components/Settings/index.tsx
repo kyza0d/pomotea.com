@@ -1,29 +1,26 @@
 "use client";
 
-import React, { useState, useEffect, useRef, createContext, useContext } from "react";
-import { FiSettings, FiClock, FiEye, FiBell } from "react-icons/fi";
-
+import React, { useState, useEffect, useRef } from "react";
+import { FiClock, FiEye, FiSettings } from "react-icons/fi";
 import { FontFamily } from "./Appearance/fonts";
-import { Theme } from "./Appearance/theme";
-import { Background } from "./Appearance/background";
-
-import { Text } from "@/components/ui/text";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Input } from "@/components/ui/input";
 import TimerSettings from "./Timer";
+import { setItem } from '@/utils/indexeddb';
+import { useSettings } from "@/components/Settings/context";
 
-const SettingsContext = createContext({ isOpen: false, toggleSettings: () => { } });
-
-const Settings = () => {
+export const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const { settings, setSetting } = useSettings();
   const backdropRef = useRef(null);
+  const { setTheme } = useTheme();
 
   const toggleSettings = () => setIsOpen((prevIsOpen) => !prevIsOpen);
 
-  const handleBackdropClick = (event: any) => {
+  const handleBackdropClick = (event) => {
     event.target === backdropRef.current && toggleSettings();
   };
 
@@ -34,19 +31,38 @@ const Settings = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const savedValue = localStorage.getItem("isChecked");
-    if (savedValue !== null) {
-      setIsChecked(JSON.parse(savedValue));
-    }
-  }, []);
+  const handleSaveChanges = async () => {
+    await setItem("settings", settings);
+    console.log('Settings saved:', settings);
+    setTheme(settings.theme);
+    toggleSettings();
+  };
 
-  useEffect(() => {
-    localStorage.setItem("isChecked", JSON.stringify(isChecked));
-  }, [isChecked]);
+  const handleThemeChange = (value) => {
+    setSetting('theme', value);
+    setTheme(value);
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        setSetting('background-url', base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleOpacityChange = (value) => {
+    setSetting('background-opacity', value);
+  };
+
+  const opacityOptions = [0.1, 0.25, 0.5, 0.75, 1.0];
 
   return (
-    <SettingsContext.Provider value={{ isOpen, toggleSettings }}>
+    <>
       <Button variant="ghost" size="icon" onClick={toggleSettings}>
         <FiSettings className="icon" />
       </Button>
@@ -62,63 +78,84 @@ const Settings = () => {
           <div className="fixed z-50 inset-0 flex items-center justify-center">
             <div className="bg-midnight-100 dark:bg-midnight-900 w-[70vw] h-[80vh] rounded-md border border-input overflow-hidden flex flex-col relative">
               <div className="flex-1 overflow-auto">
-                <Tabs defaultValue="appearance" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3 sticky top-0">
-                    <TabsTrigger value="appearance">
-                      <FiEye className="icon-sm mr-4" /> Appearance
-                    </TabsTrigger>
-                    <TabsTrigger value="timers">
-                      <FiClock className="icon-sm mr-4" /> Timers
-                    </TabsTrigger>
-                    <TabsTrigger value="notifications">
-                      <FiBell className="icon-sm mr-4" /> Notifications
-                    </TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="appearance">
-                    <div className="flex flex-col">
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Theme:</CardTitle>
-                          <CardDescription>This is the current theme being used in the interface.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Theme />
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Background:</CardTitle>
-                          <CardDescription>This is the background image currently being used in the interface.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <Background />
-                        </CardContent>
-                      </Card>
-                      <Card>
-                        <CardHeader>
-                          <CardTitle>Font Family:</CardTitle>
-                          <CardDescription>This is the font currently being used in the interface.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
+                <Accordion type="single" collapsible className="w-full px-4">
+                  <AccordionItem value="appearance">
+                    <AccordionTrigger>
+                      <div className="flex"><FiEye className="icon mr-4" /> Appearance</div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="flex flex-col">
+                        <div>
+                          <h2>Theme:</h2>
+                          <p>Select the theme for the interface.</p>
+                          e
+                          <ToggleGroup type="single" onValueChange={handleThemeChange} value={settings.theme}>
+                            <ToggleGroupItem value="light" aria-label="Light Theme">
+                              Light
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="dark" aria-label="Dark Theme">
+                              Dark
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="system" aria-label="System Theme">
+                              System
+                            </ToggleGroupItem>
+                          </ToggleGroup>
+                        </div>
+                        <div>
+                          <h2>Background:</h2>
+                          <p>This is the background image currently being used in the interface.</p>
+                          {settings['background-url'] && (
+                            <div
+                              style={{ backgroundImage: `url(${settings['background-url']})`, maxWidth: 120, maxHeight: 60 }}
+                              className="mr-4 h-screen w-full bg-no-repeat bg-cover"
+                            />
+                          )}
+                          <Input type="file" accept="image/*" onChange={handleImageChange} />
+                          <h2>Opacity:</h2>
+                          <ToggleGroup type="single" onValueChange={handleOpacityChange} value={settings['background-opacity'].toString()}>
+                            {opacityOptions.map((value) => (
+                              <ToggleGroupItem key={value} value={value.toString()} aria-label={`Opacity ${value * 100}%`}>
+                                {Math.round(value * 100)}%
+                              </ToggleGroupItem>
+                            ))}
+                          </ToggleGroup>
+                          e
+                          <h2>Position:</h2>
+                          <ToggleGroup type="single" onValueChange={(value) => setSetting('background-position', value)} value={settings['background-position']}>
+                            <ToggleGroupItem value="fill" aria-label="Fill">
+                              Fill
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="center" aria-label="Center">
+                              Center
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="stretch" aria-label="Stretch">
+                              Stretch
+                            </ToggleGroupItem>
+                          </ToggleGroup>
+                        </div>
+                        <div>
+                          <h2>Font Family:</h2>
+                          <p>This is the font currently being used in the interface.</p>
                           <FontFamily />
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="timers" className="space-y-8">
-                    <TimerSettings />
-                  </TabsContent>
-                </Tabs>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="timers">
+                    <AccordionTrigger>
+                      <div className="flex"> <FiClock className="icon mr-4" /> Timers</div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <TimerSettings />
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
-              <Button className="ml-auto absolute bottom-0 right-0 m-4" variant="outline" onClick={toggleSettings}>Close</Button>
+              <Button className="ml-auto absolute bottom-0 right-0 m-4" variant="outline" onClick={handleSaveChanges}>Save Changes</Button>
             </div>
           </div>
         </>
       )}
-    </SettingsContext.Provider>
+    </>
   );
 };
-
-const useSettings = () => useContext(SettingsContext);
-
-export { Settings, useSettings };

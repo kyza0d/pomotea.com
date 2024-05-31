@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useSettings } from '@/components/Settings/context';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Text } from '@/components/ui/text';
 import { Input } from '@/components/ui/input';
+import { X, Plus } from 'react-feather';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 const Sessions: React.FC = () => {
   const { settings, setSetting } = useSettings();
@@ -41,54 +42,73 @@ const Sessions: React.FC = () => {
     setSetting('sessions', updatedSessions);
   };
 
+  const handleDurationChange = (index: number, value: string) => {
+    handleChangeSession(index, 'duration', Number(value));
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 py-8">
+      <div className="grid grid-cols-[10%,60%,30%] items-center">
+        <div></div> {/* Empty div to maintain grid structure */}
+        <div className="font-bold">Session Type</div>
+        <div className="font-bold">Session Length</div>
+      </div>
       {sessions.map((session, index) => (
-        <Card key={index} className="p-4 space-y-4">
-          <div className="space-y-2">
-            <Text variant="subtitle">Session Type:</Text>
-            <Input
-              value={session.type}
-              onChange={(e) => handleChangeSession(index, 'type', e.target.value)}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-          <div className="space-y-2">
-            <Text variant="subtitle">Duration (minutes):</Text>
-            <Input
-              type="number"
-              value={session.duration}
-              onChange={(e) => handleChangeSession(index, 'duration', e.target.value)}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-          <Button variant="secondary" onClick={() => handleRemoveSession(index)} className="w-full">
-            Remove
+        <Card key={index} className="grid grid-cols-[10%,60%,30%] items-center">
+          <Button variant="secondary" onClick={() => handleRemoveSession(index)} className="bg-slate-800 text-white flex justify-center">
+            <X size={16} />
           </Button>
+          <Input
+            value={session.type}
+            onChange={(e) => handleChangeSession(index, 'type', e.target.value)}
+            placeholder="Session Type"
+            className="border rounded"
+          />
+          <ToggleGroup
+            type="single"
+            value={session.duration?.toString()}
+            onValueChange={(value) => handleDurationChange(index, value)}
+            className="flex justify-around"
+          >
+            <ToggleGroupItem value="5" aria-label="5 minutes">
+              5
+            </ToggleGroupItem>
+            <ToggleGroupItem value="15" aria-label="15 minutes">
+              15
+            </ToggleGroupItem>
+            <ToggleGroupItem value="30" aria-label="30 minutes">
+              30
+            </ToggleGroupItem>
+          </ToggleGroup>
         </Card>
       ))}
-      <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg space-y-4">
-        <div className="space-y-2">
-          <Input
-            placeholder="Custom Type"
-            value={customType}
-            onChange={(e) => setCustomType(e.target.value)}
-            className="border rounded p-2 w-full"
-          />
-        </div>
-        <div className="space-y-2">
-          <Input
-            type="number"
-            placeholder="Duration (minutes)"
-            value={customDuration}
-            onChange={(e) => setCustomDuration(e.target.value ? Number(e.target.value) : '')}
-            className="border rounded p-2 w-full"
-          />
-        </div>
-        <Button variant="default" onClick={handleAddSession} className="w-full">
-          Add Custom Session
+      <Card className="grid grid-cols-[10%,60%,30%] items-center">
+        <Button variant="default" onClick={handleAddSession} className="bg-blue-500 hover:bg-blue-400 text-white flex justify-center">
+          <Plus size={16} />
         </Button>
-      </div>
+        <Input
+          placeholder="Custom Type"
+          value={customType}
+          onChange={(e) => setCustomType(e.target.value)}
+          className="border rounded p-1"
+        />
+        <ToggleGroup
+          type="single"
+          value={customDuration?.toString()}
+          onValueChange={(value) => setCustomDuration(Number(value))}
+          className="flex justify-around"
+        >
+          <ToggleGroupItem value="5" aria-label="5 minutes">
+            5
+          </ToggleGroupItem>
+          <ToggleGroupItem value="15" aria-label="15 minutes">
+            15
+          </ToggleGroupItem>
+          <ToggleGroupItem value="30" aria-label="30 minutes">
+            30
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </Card>
     </div>
   );
 };

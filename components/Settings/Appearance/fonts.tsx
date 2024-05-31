@@ -1,17 +1,7 @@
-"use client"
+"use client";
 
 import * as React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectSeparator,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useSettings } from "@/components/Settings/context";
 
 export function FontSize() {
@@ -27,23 +17,13 @@ export function FontSize() {
   };
 
   return (
-    <Select onValueChange={handleFontSizeChange} value={selectedFontSize.toString()}>
-      <SelectTrigger className="w-[280px]">
-        <SelectValue placeholder="Select a font size">
-          {selectedFontSize ? `${selectedFontSize}px` : 'Select a font size'}
-        </SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Font Size</SelectLabel>
-          {fontSizeOptions.map((size) => (
-            <SelectItem key={size} value={size.toString()}>
-              {size}px
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <ToggleGroup type="single" value={selectedFontSize.toString()} onValueChange={handleFontSizeChange}>
+      {fontSizeOptions.map((size) => (
+        <ToggleGroupItem key={size} value={size.toString()} aria-label={`Font size ${size}px`}>
+          {size}px
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   );
 }
 
@@ -52,37 +32,29 @@ export function FontFamily() {
 
   const selectedFont = settings['font-name'];
 
-  const fontNameMap: Record<string, string> = {
-    "sans-serif": 'System Sans-serif',
-    "inter": 'Inter',
-    "monospace": 'System Monospace',
-    'jetbrains-mono': 'JetBrains Mono',
-  };
+  const fontOptions = [
+    { value: "sans-serif", label: 'System Sans-serif' },
+    { value: "inter", label: 'Inter' },
+    { value: "mono", label: 'System Monospace' },
+    { value: "jetbrains-mono", label: 'JetBrains Mono' },
+    { value: "roboto-mono", label: 'Roboto' },
+    { value: "open-sans", label: 'Open Sans' },
+    { value: "lato", label: 'Lato' }
+  ];
 
   const handleFontChange = (value: string) => {
+    console.log(value);
     setSetting('font-name', value);
     document.body.className = `font-${value}`;
   };
 
   return (
-    <Select onValueChange={handleFontChange} value={selectedFont}>
-      <SelectTrigger className="w-[280px]">
-        <SelectValue placeholder="Select a font">
-          {selectedFont ? fontNameMap[selectedFont] : 'Select a font'}
-        </SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Sans-serif</SelectLabel>
-          <SelectItem value="sans">System</SelectItem>
-          <SelectItem value="[Inter]">Inter</SelectItem>
-        </SelectGroup>
-        <SelectGroup>
-          <SelectSeparator />
-          <SelectLabel>Monospace</SelectLabel>
-          <SelectItem value="mono">System</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <ToggleGroup type="single" value={selectedFont} onValueChange={handleFontChange}>
+      {fontOptions.map((font) => (
+        <ToggleGroupItem key={font.value} value={font.value} aria-label={font.label} className={`font-${font.value}`}>
+          {font.label}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
   );
 }

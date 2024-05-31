@@ -45,12 +45,12 @@ const Timer: React.FC = () => {
               key={`${settings['duration-mode']}-${currentSessionIndex}`}
               duration={sessions[currentSessionIndex]?.duration * 60}
               initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
-              colors={sessions[currentSessionIndex]?.type === 'Break' ? ["#5be59c", "#5be59c", "#5be59c"] : ["#5be59c", "#e5ae5b", "#e55b5b"]}
+              colors={["#3B82F6", "#3B82F6", "#3B82F6"]}
               isGrowing={sessions[currentSessionIndex]?.type === 'Break' ? true : false}
               rotation={sessions[currentSessionIndex]?.type === 'Break' ? "counterclockwise" : "clockwise"}
               colorsTime={[sessions[currentSessionIndex]?.type === 'Break' ? 0 : 1, 0.5, 0.5]}
-              trailColor="#1b1e21"
-              strokeWidth={16}
+              trailColor="#0D1A26"
+              strokeWidth={14}
               size={115}
             />
             <div className="ml-4">
@@ -66,7 +66,10 @@ const Timer: React.FC = () => {
           </div>
         </div>
         {sessions.map((session, index) => (
-          <Card key={index} className="px-4 pr-8 py-6 my-8 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg">
+          <Card
+            key={index}
+            className={`px-4 pr-8 py-6 my-8 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg ${index === currentSessionIndex ? 'outline outline-2 outline-blue-500' : ''}`}
+          >
             <Text variant="header" size="lg" className="timer">
               {getSessionTime(index)}
             </Text>
