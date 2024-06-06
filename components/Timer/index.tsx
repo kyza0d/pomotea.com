@@ -54,8 +54,8 @@ const Timer: React.FC = () => {
               size={115}
             />
             <div className="ml-4">
-              <Text variant="subtitle" size="md">Current Task:</Text>
-              <Text variant="header" size="lg">{sessions[currentSessionIndex]?.type || 'No session'}</Text>
+              <Text variant="subtitle" size="lg">Current Task:</Text>
+              <Text variant="header" size="2xl">{sessions[currentSessionIndex]?.title || 'No session'}</Text>
             </div>
           </div>
           <div className="ml-auto">
@@ -70,11 +70,11 @@ const Timer: React.FC = () => {
             key={index}
             className={`px-4 pr-8 py-6 my-8 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg ${index === currentSessionIndex ? 'outline outline-2 outline-blue-500' : ''}`}
           >
-            <Text variant="header" size="lg" className="timer">
+            <Text variant="header" size="2xl" className="timer">
               {getSessionTime(index)}
             </Text>
             <Text variant="subtitle" className="ml-auto">
-              {session.type}
+              {session.title}
             </Text>
           </Card>
         ))}

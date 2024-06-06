@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import useAudio from './useAudio';
+import { useSettings } from '@/components/Settings/context';
 
 interface Session {
   type: string;
+  title: string;
   duration: number;
 }
 
@@ -12,6 +14,7 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
   const [completionMessage, setCompletionMessage] = useState<{ title: string; description: string } | null>(null);
+  const { settings } = useSettings();
 
   const playSound = useAudio('/system-notification-199277.mp3'); // Replace with your sound file path
 
@@ -45,7 +48,7 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
 
   const handleSessionComplete = useCallback(() => {
     if (currentSessionIndex + 1 < sessions.length) {
-      setCurrentSessionIndex(currentSessionIndex + 1);
+      startNextSession();
     } else {
       setCompletionMessage({
         title: 'All Sessions Complete',
@@ -55,6 +58,21 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
       resetTimer();
     }
   }, [currentSessionIndex, sessions.length, playSound, resetTimer]);
+
+  const startNextSession = useCallback(() => {
+    const nextSessionIndex = currentSessionIndex + 1;
+    const nextSession = sessions[nextSessionIndex];
+
+    if (nextSession?.type === 'Break' && settings['notify-breaks']) {
+      setCompletionMessage({
+        title: 'Break Time',
+        description: 'Time to take a break!',
+      });
+      playSound();
+    }
+
+    setCurrentSessionIndex(nextSessionIndex);
+  }, [currentSessionIndex, sessions, settings, playSound]);
 
   useEffect(() => {
     if (completionMessage) {

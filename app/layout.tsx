@@ -4,6 +4,10 @@ import { ThemeProvider } from "@/components/Theme/context"
 import { SettingsProvider } from "@/components/Settings/context"
 
 import Theme from "@/app/theme";
+
+import "@/app/fonts.css";
+import "@/app/font-sizes.css";
+
 import { Toaster } from "@/components/ui/toaster";
 
 

@@ -5,6 +5,7 @@ import { getItem, setItem } from '@/utils/indexeddb';
 
 interface Session {
   type: string;
+  title: string;
   duration: number;
 }
 
@@ -13,62 +14,87 @@ interface Settings {
   'font-size': number;
   'theme': 'light' | 'dark' | 'system';
   'background-url': string;
-  'background-opacity': number; // New setting for background opacity
-  'background-position': 'fill' | 'center' | 'stretch'; // New setting for background position
-  sessions: Session[]; // Add sessions to settings
+  'background-opacity': string;
+  'background-position': 'fill' | 'center' | 'stretch';
+  'notify-breaks': boolean;
+  'notify-work': boolean;
+  sessions: Session[];
 }
 
 const defaultSettings: Settings = {
   'font-name': 'sans-serif',
   'font-size': 16,
   'theme': 'system',
-  'background-url': "", // New setting for background image
-  "background-opacity": 0.5, // Default value for background opacity
-  "background-position": "fill", // Default background position
+  'background-url': "",
+  'background-opacity': '1.0',
+  "background-position": "fill",
+  'notify-breaks': true,
+  'notify-work': true,
   sessions: [
-    { type: 'Working', duration: 0.1 },
-    { type: 'Break', duration: 0.1 },
-    { type: 'Working', duration: 0.1 },
+    { type: 'Working', title: "Working", duration: 0.1 },
+    { type: 'Break', title: "Break", duration: 0.1 },
+    { type: 'Working', title: "Working", duration: 0.1 },
   ],
 };
 
 interface SettingsContextValue {
   settings: Settings;
-  setSetting: (name: string, value: any) => void;
+  pendingSettings: Settings;
+  setPendingSetting: (name: string, value: any) => void;
+  saveSettings: () => void;
+  updateSetting: (name: string, value: any) => void;
 }
 
 const SettingsContext = createContext<SettingsContextValue>({
   settings: defaultSettings,
-  setSetting: () => { },
+  pendingSettings: defaultSettings,
+  setPendingSetting: () => { },
+  saveSettings: () => { },
+  updateSetting: () => { },
 });
 
 export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [pendingSettings, setPendingSettings] = useState<Settings>(defaultSettings);
 
   useEffect(() => {
     const loadSettings = async () => {
       const savedSettings = await getItem('settings');
       if (savedSettings) {
         setSettings(savedSettings);
+        setPendingSettings(savedSettings);
       }
     };
 
     loadSettings();
   }, []);
 
-  const setSetting = async (name: string, value: any) => {
+  const setPendingSetting = (name: string, value: any) => {
+    setPendingSettings((prevSettings) => ({
+      ...prevSettings,
+      [name]: value,
+    }));
+  };
+
+  const saveSettings = async () => {
+    setSettings(pendingSettings);
+    await setItem('settings', pendingSettings);
+  };
+
+  const updateSetting = (name: string, value: any) => {
     setSettings((prevSettings) => {
       const newSettings = {
         ...prevSettings,
         [name]: value,
       };
+      setPendingSettings(newSettings);  // Ensure pendingSettings is also updated
       setItem('settings', newSettings);
       return newSettings;
     });
   };
 
   return (
-    <SettingsContext.Provider value={{ settings, setSetting }}>
+    <SettingsContext.Provider value={{ settings, pendingSettings, setPendingSetting, saveSettings, updateSetting }}>
       {children}
     </SettingsContext.Provider>
   );
