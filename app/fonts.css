@@ -22,16 +22,24 @@
     url('../fonts/RobotoMono-Bold.ttf') format('truetype')
 }
 
+.font-monospace {
+  font-family: monospace;
+}
+
+.font-sans-serif {
+  font-family: sans-serif;
+}
+
 .font-inter {
   font-family: 'Inter', sans-serif;
 }
 
-.font-jetbrains-mono {
-  font-family: 'JetBrainsMono', monospace
-}
-
 .font-manrope {
   font-family: 'Manrope', sans-serif;
+}
+
+.font-jetbrains-mono {
+  font-family: 'JetBrainsMono', monospace
 }
 
 .font-roboto-mono {

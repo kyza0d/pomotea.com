@@ -14,7 +14,7 @@ const Notifications = () => {
   return (
     <AccordionItem value="notifications">
       <AccordionTrigger>
-        <div className="flex"><FiBell className="icon mr-4" /> <Text variant="header">Notifications</Text></div>
+        <div className="flex"><FiBell className="icon-sm mr-4" /> <Text variant="header">Notifications</Text></div>
       </AccordionTrigger>
       <AccordionContent className="space-y-4">
         <div className="flex items-center space-x-4">

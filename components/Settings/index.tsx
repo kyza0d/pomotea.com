@@ -10,9 +10,6 @@ import { useSettings } from "@/components/Settings/context";
 import Sessions from "./sessions";
 import Appearance from "./appearance";
 import Notifications from "./notifications";
-import Sounds from "./sounds";
-import { Text } from "@/components/ui/text";
-import Layout from "./layout";
 
 export const Settings = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,23 +54,21 @@ export const Settings = () => {
             onClick={handleBackdropClick}
           ></div>
 
-          {/* Settings modal */}
-          <div className="fixed z-50 inset-0 flex items-center justify-center">
-            <div className="bg-midnight-100 dark:bg-midnight-900 w-[85vw] h-[80vh] rounded-md border border-input overflow-hidden flex flex-col relative">
-              <div className="flex-1 overflow-auto">
-                <Accordion type="single" collapsible className="w-full px-4">
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="bg-midnight-100 dark:bg-midnight-900 w-[85vw] h-[80vh] md:w-[95vw] md:h-[95vh] rounded-md border border-input overflow-hidden flex flex-col relative">
+          <div className="flex-1 overflow-auto">
+            <Accordion type="multiple" className="w-full px-4" defaultValue={["sessions", "appearance", "notifications"]}>
                   <Appearance />
                   <Sessions />
-                  <Notifications />
-                  <Sounds />
-                  <Layout />
+              <Notifications />
                 </Accordion>
               </div>
-              <Button className="ml-auto absolute bottom-0 right-0 m-4" variant="outline" onClick={handleSaveChanges}>Save Changes</Button>
-            </div>
+          <div className="bg-midnight-200 dark:bg-midnight-800 p-4 space-x-6">
+            <Button variant="outline" onClick={handleSaveChanges}>Save Changes</Button>
+            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </>
   );
 };

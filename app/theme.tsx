@@ -25,7 +25,7 @@ export default function Theme({ children }: { children: React.ReactNode }) {
 
   return (
     <div className={`font-${settings["font-name"]}`}>
-      <div className="w-full h-full fixed top-0 -z-10">
+      <div className="w-full h-full fixed top-0 left-0 -z-10 ">
         {settings["background-url"] && (
           <img
             style={{

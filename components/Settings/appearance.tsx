@@ -7,29 +7,29 @@ import { useSettings } from "@/components/Settings/context";
 import { Text } from "@/components/ui/text";
 
 const Appearance = () => {
-  const { pendingSettings, setPendingSetting } = useSettings();
+  const { pendingSettings, setPendingSetting, updateSetting } = useSettings();
 
   // Update theme setting
-  const handleThemeChange = (value: string) => setPendingSetting('theme', value);
+  const handleThemeChange = (value: string) => updateSetting('theme', value);
 
   // Handle background image change
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => setPendingSetting('background-url', reader.result);
+      reader.onloadend = () => updateSetting('background-url', reader.result);
       reader.readAsDataURL(file);
     }
   };
 
   // Update background opacity
-  const handleOpacityChange = (value: string) => setPendingSetting('background-opacity', value);
+  const handleOpacityChange = (value: string) => updateSetting('background-opacity', value);
 
   // Update font size
-  const handleFontSizeChange = (value: string) => setPendingSetting('font-size', parseInt(value, 10));
+  const handleFontSizeChange = (value: string) => updateSetting('font-size', parseInt(value, 10));
 
   // Update font family
-  const handleFontChange = (value: string) => setPendingSetting('font-name', value);
+  const handleFontChange = (value: string) => updateSetting('font-name', value);
 
   const opacityOptions = [0.1, 0.25, 0.5, 0.75, 1.0];
   const fontSizeOptions = [12, 14, 16, 18, 20, 24];
@@ -44,10 +44,10 @@ const Appearance = () => {
 
   return (
     <AccordionItem value="appearance">
-      <AccordionTrigger>
-        <div className="flex"><FiEye className="icon mr-4" /> <Text variant="header">Appearance</Text></div>
+      <AccordionTrigger >
+        <div className="flex"><FiEye className="icon-sm mr-4" /> <Text variant="header">Appearance</Text></div>
       </AccordionTrigger>
-      <AccordionContent>
+      <AccordionContent >
         <div className="space-y-10">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -73,7 +73,7 @@ const Appearance = () => {
               <Text variant="header">Background:</Text>
               <Text>This is the background image currently being used in the interface.</Text>
             </div>
-            <div className="flex">
+            <div className="flex items-center">
               {pendingSettings['background-url'] && (
                 <div
                   style={{ backgroundImage: `url(${pendingSettings['background-url']})`, maxWidth: 120, maxHeight: 60 }}
