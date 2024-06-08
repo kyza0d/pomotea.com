@@ -46,45 +46,37 @@ const Sessions: React.FC = () => {
     setPendingSetting('sessions', updatedSessions);
   };
 
-  const handleDurationChange = (index: number, value: string) => {
-    if (!isNaN(Number(value))) {
-      handleChangeSession(index, 'duration', Number(value));
-    }
-  };
-
   return (
     <AccordionItem value="sessions">
       <AccordionTrigger>
-        <div className="flex"><FiClock className="icon mr-4" /> <Text variant="header">Sessions</Text></div>
+        <div className="flex"><FiClock className="icon-sm mr-4" /> <Text variant="header">Sessions</Text></div>
       </AccordionTrigger>
       <AccordionContent>
         <div className="space-y-6 py-8">
-          <div className="grid grid-cols-[10%,20%,40%,30%] items-center mb-4">
-            <div></div> {/* Empty div to maintain grid structure */}
+          <div className="grid grid-cols-[20%,40%,33%,7%] items-center mb-4">
             <div className="font-bold text-gray-300">Type</div>
             <div className="font-bold text-gray-300">Title</div>
             <div className="font-bold text-gray-300">Length</div>
+            <div></div> {/* Empty div to maintain grid structure */}
           </div>
           {sessions.map((session, index) => (
-            <Card key={index} className="grid grid-cols-[7%,20%,40%,33%] items-center rounded-lg p-4 mb-4">
-              <Button variant="secondary" onClick={() => handleRemoveSession(index)} className="text-white flex justify-center items-center p-2 w-10 h-10">
-                <X size={16} />
-              </Button>
+            <Card key={index} className="grid grid-cols-[20%,40%,33%,7%] items-center rounded-lg mb-4">
               <div className="flex space-x-2">
                 <Button variant={session.type === 'Break' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Break')}>
                   Break
                 </Button>
-                <Button variant={session.type === 'Work' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Work')} >
-                  Work
+                <Button variant={session.type === 'Focus' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Focus')} >
+                  Focus
                 </Button>
               </div>
               <Input
                 value={session.title}
                 onChange={(e) => handleChangeSession(index, 'title', e.target.value)}
                 placeholder="Enter Title"
-                className="border rounded-lg p-2 bg-gray-700 text-white"
+                className="border rounded-lg p-2 text-white"
               />
               <div className="flex items-center space-x-2 mx-6">
+                <span className="text-gray-300">{session.duration}</span>
                 <Slider
                   value={[session.duration]}
                   onValueChange={(value) => handleChangeSession(index, 'duration', value[0])}
@@ -93,31 +85,31 @@ const Sessions: React.FC = () => {
                   step={5}
                   className="flex-grow"
                 />
-                <span className="text-gray-300">{session.duration} mins</span>
               </div>
+              <Button variant="secondary" onClick={() => handleRemoveSession(index)} className="text-white flex justify-center items-center p-2 w-10 h-10">
+                <X size={16} />
+              </Button>
             </Card>
           ))}
           <div className="font-bold text-gray-300">Create Session</div>
           <hr className="border-gray-700 mb-4" />
-          <Card className="grid grid-cols-[7%,20%,40%,33%] items-center rounded-lg p-4 mb-4">
-            <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-blue-500 text-white flex justify-center items-center p-2">
-              <Plus size={16} />
-            </Button>
+          <Card className="grid grid-cols-[20%,40%,33%,7%]  items-center rounded-lg p-4 mb-4">
             <div className="flex space-x-2">
               <Button variant={customType === 'Break' ? 'primary' : 'secondary'} onClick={() => setCustomType('Break')}>
                 Break
               </Button>
-              <Button variant={customType === 'Work' ? 'primary' : 'secondary'} onClick={() => setCustomType('Work')} >
-                Work
+              <Button variant={customType === 'Focus' ? 'primary' : 'secondary'} onClick={() => setCustomType('Focus')} >
+                Focus
               </Button>
             </div>
             <Input
               placeholder="Enter Title"
               value={customTitle}
               onChange={(e) => setCustomTitle(e.target.value)}
-              className="border rounded-lg p-2 bg-gray-700 text-white"
+              className="border rounded-lg p-2 text-white"
             />
             <div className="flex items-center space-x-2 mx-6">
+              <span className="text-gray-300">{customDuration}</span>
               <Slider
                 value={[Number(customDuration)]}
                 onValueChange={(value) => setCustomDuration(value[0])}
@@ -126,8 +118,10 @@ const Sessions: React.FC = () => {
                 step={5}
                 className="flex-grow"
               />
-              <span className="text-gray-300">{customDuration} mins</span>
             </div>
+            <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-blue-500 text-white flex justify-center items-center p-2">
+              <Plus size={16} />
+            </Button>
           </Card>
         </div>
       </AccordionContent>

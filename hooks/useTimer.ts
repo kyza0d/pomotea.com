@@ -71,6 +71,14 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
       playSound();
     }
 
+    if (nextSession?.type === 'Focus' && settings['notify-focus']) {
+      setCompletionMessage({
+        title: 'Focus Time',
+        description: 'Time to focus!',
+      });
+      playSound();
+    }
+
     setCurrentSessionIndex(nextSessionIndex);
   }, [currentSessionIndex, sessions, settings, playSound]);
 

@@ -17,7 +17,7 @@ interface Settings {
   'background-opacity': string;
   'background-position': 'fill' | 'center' | 'stretch';
   'notify-breaks': boolean;
-  'notify-work': boolean;
+  'notify-focus': boolean;
   sessions: Session[];
 }
 
@@ -29,11 +29,11 @@ const defaultSettings: Settings = {
   'background-opacity': '1.0',
   "background-position": "fill",
   'notify-breaks': true,
-  'notify-work': true,
+  'notify-focus': false,
   sessions: [
-    { type: 'Working', title: "Working", duration: 0.1 },
-    { type: 'Break', title: "Break", duration: 0.1 },
-    { type: 'Working', title: "Working", duration: 0.1 },
+    { type: 'Focus', title: "Focus", duration: 30 },
+    { type: 'Break', title: "Break", duration: 15 },
+    { type: 'Focus', title: "Focus", duration: 45 },
   ],
 };
 

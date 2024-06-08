@@ -29,12 +29,12 @@ const Notifications = () => {
         </div>
         <div className="flex items-center space-x-4">
           <Checkbox
-            id="notify-work"
-            checked={settings["notify-work"]}
-            onCheckedChange={(checked) => handleCheckboxChange("notify-work", Boolean(checked))}
+            id="notify-focus"
+            checked={settings["notify-focus"]}
+            onCheckedChange={(checked) => handleCheckboxChange("notify-focus", Boolean(checked))}
           />
-          <label htmlFor="notify-work">
-            <Text> Notify work </ Text>
+          <label htmlFor="notify-focus">
+            <Text> Notify focus </ Text>
           </label>
         </div>
       </AccordionContent>
