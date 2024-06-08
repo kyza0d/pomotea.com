@@ -31,8 +31,19 @@ const Timer: React.FC = () => {
   const getSessionTime = (index: number) => {
     const session = sessions[index];
     if (!session) return '00:00';
+
     const remainingTime = Math.max(0, session.duration * 60 - elapsedTimes[index]);
-    return new Date(remainingTime * 1000).toISOString().substr(14, 5);
+    const roundedTime = Math.round(remainingTime);
+    const hours = Math.floor(roundedTime / 3600);
+    const minutes = Math.floor((roundedTime % 3600) / 60);
+    const seconds = roundedTime % 60;
+
+    const formatTimeUnit = (unit: number) => String(unit).padStart(2, '0');
+
+    if (hours > 0) {
+      return `${hours}:${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
+    }
+    return `${formatTimeUnit(minutes)}:${formatTimeUnit(seconds)}`;
   };
 
   return (
