@@ -40,8 +40,8 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
         <div className="bg-midnight-100 dark:bg-midnight-900 w-[85vw] h-[80vh] md:w-[95vw] md:h-[95vh] rounded-md border border-input overflow-hidden flex flex-col relative">
           <div className="flex-1 overflow-auto">
             <Accordion type="multiple" className="w-full px-4" defaultValue={["sessions", "appearance", "notifications"]}>
-              <Appearance />
               <Sessions />
+              <Appearance />
               <Notifications />
             </Accordion>
           </div>

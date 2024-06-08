@@ -48,11 +48,10 @@ const Appearance = () => {
         <div className="flex"><FiEye className="icon-sm mr-4" /> <Text variant="header">Appearance</Text></div>
       </AccordionTrigger>
       <AccordionContent >
-        <div className="space-y-10">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-10 max-w-lg">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Text variant="header">Theme:</Text>
-              <Text>Select the theme for the interface.</Text>
             </div>
             <div className="flex flex-wrap gap-2">
               {['light', 'dark', 'system'].map(theme => (
@@ -68,10 +67,9 @@ const Appearance = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Text variant="header">Background:</Text>
-              <Text>This is the background image currently being used in the interface.</Text>
             </div>
             <div className="flex items-center">
               {pendingSettings['background-url'] && (
@@ -83,7 +81,7 @@ const Appearance = () => {
               <Input type="file" accept="image/*" onChange={handleImageChange} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Text variant="header">Opacity:</Text>
             </div>
@@ -101,10 +99,9 @@ const Appearance = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Text variant="header">Font Size:</Text>
-              <Text>Select the font size for the interface.</Text>
             </div>
             <div className="flex flex-wrap gap-2">
               {fontSizeOptions.map(size => (
@@ -119,10 +116,9 @@ const Appearance = () => {
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Text variant="header">Font Family:</Text>
-              <Text>Select the font family for the interface.</Text>
             </div>
             <div className="flex flex-wrap gap-2">
               {fontOptions.map(font => (
