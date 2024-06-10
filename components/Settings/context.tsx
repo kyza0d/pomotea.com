@@ -26,7 +26,7 @@ const defaultSettings: Settings = {
   'font-size': 16,
   'theme': 'system',
   'background-url': "",
-  'background-opacity': '1.0',
+  'background-opacity': '0.25',
   "background-position": "fill",
   'notify-breaks': true,
   'notify-focus': false,

@@ -13,7 +13,7 @@ import { useMediaQuery } from 'react-responsive';
 const Sessions: React.FC = () => {
   const { pendingSettings, setPendingSetting } = useSettings();
   const [sessions, setSessions] = useState(pendingSettings.sessions || []);
-  const [customType, setCustomType] = useState('');
+  const [customType, setCustomType] = useState('Focus');
   const [customDuration, setCustomDuration] = useState<number | ''>(25);
   const [customTitle, setCustomTitle] = useState('');
 
@@ -68,11 +68,11 @@ const Sessions: React.FC = () => {
               {sessions.map((session, index) => (
                 <Card key={index} className="grid grid-cols-[20%,40%,33%,7%] rounded-lg p-4 mb-4">
                   <div className="flex space-x-4">
-                    <Button className='flex-1' variant={session.type === 'Break' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Break')}>
-                      Break
-                    </Button>
                     <Button className="flex-1" variant={session.type === 'Focus' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Focus')}>
                       Focus
+                    </Button>
+                    <Button className='flex-1' variant={session.type === 'Break' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Break')}>
+                      Break
                     </Button>
                   </div>
                   <Input
@@ -100,11 +100,11 @@ const Sessions: React.FC = () => {
               <hr className="border-gray-700 mb-4" />
               <Card className="grid grid-cols-[20%,40%,33%,7%] items-center rounded-lg p-4 mb-4 md:space-y-0">
                 <div className="flex space-x-4">
-                  <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'secondary'} onClick={() => setCustomType('Break')}>
-                    Break
-                  </Button>
                   <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'secondary'} onClick={() => setCustomType('Focus')}>
                     Focus
+                  </Button>
+                  <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'secondary'} onClick={() => setCustomType('Break')}>
+                    Break
                   </Button>
                 </div>
                 <Input
@@ -134,11 +134,11 @@ const Sessions: React.FC = () => {
               {sessions.map((session, index) => (
                 <Card key={index} className="flex flex-col space-y-4 rounded-lg p-4 mb-4">
                   <div className="flex space-x-2">
-                    <Button className='flex-1' variant={session.type === 'Break' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Break')}>
-                      Break
-                    </Button>
                     <Button className='flex-1' variant={session.type === 'Focus' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Focus')}>
                       Focus
+                    </Button>
+                    <Button className='flex-1' variant={session.type === 'Break' ? 'primary' : 'secondary'} onClick={() => handleChangeSession(index, 'type', 'Break')}>
+                      Break
                     </Button>
                   </div>
                   <div className='flex space-x-2'>
@@ -169,11 +169,11 @@ const Sessions: React.FC = () => {
               <hr className="border-gray-700 mb-4" />
               <Card className="flex flex-col space-y-4 rounded-lg p-4 mb-4">
                 <div className="flex space-x-2">
+                  <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'secondary'} onClick={() => setCustomType('Focus')}>
+                    Focus
+                  </Button>
                   <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'secondary'} onClick={() => setCustomType('Break')}>
                     Break
-                  </Button>
-                  <Button variant={customType === 'Focus' ? 'primary' : 'secondary'} onClick={() => setCustomType('Focus')}>
-                    Focus
                   </Button>
                 </div>
                 <div className='flex space-x-2'>

@@ -24,7 +24,7 @@ const Notifications = () => {
             onCheckedChange={(checked) => handleCheckboxChange("notify-breaks", Boolean(checked))}
           />
           <label htmlFor="notify-break">
-            <Text> Notify breaks </Text>
+            <Text size="sm"> Notify breaks </Text>
           </label>
         </div>
         <div className="flex items-center space-x-4">
@@ -34,7 +34,7 @@ const Notifications = () => {
             onCheckedChange={(checked) => handleCheckboxChange("notify-focus", Boolean(checked))}
           />
           <label htmlFor="notify-focus">
-            <Text> Notify focus </ Text>
+            <Text size="sm"> Notify focus </ Text>
           </label>
         </div>
       </AccordionContent>

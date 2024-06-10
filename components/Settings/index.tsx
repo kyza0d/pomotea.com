@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { useTheme } from "next-themes";
 
@@ -12,6 +12,8 @@ import { useSettings } from "@/components/Settings/context";
 import Sessions from "./sessions";
 import Appearance from "./appearance";
 import Notifications from "./notifications";
+
+import { useMediaQuery } from 'react-responsive';
 
 export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => {
   const { pendingSettings, saveSettings } = useSettings();
@@ -28,6 +30,22 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
     toggleSettings();
   };
 
+  const [screenHeight, setScreenHeight] = React.useState(window.innerHeight - 24);
+
+  const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // below md breakpoint
+
+  // create a listener for window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (isSmallScreen) {
+        setScreenHeight(window.innerHeight - 24);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [window.innerHeight]);
+
+
   return (
     <>
       <div
@@ -36,8 +54,10 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
         onClick={toggleSettings}
       ></div>
 
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="bg-midnight-100 dark:bg-midnight-900 w-[85vw] h-[80vh] md:w-[95vw] md:h-[95vh] rounded-md border border-input overflow-hidden flex flex-col relative">
+      <div className={`fixed inset-0 z-50 flex items-center justify-center`}>
+        <div
+          style={{ height: screenHeight }}
+          className="w-[85vw] md:w-[95vw] bg-midnight-100 dark:bg-midnight-900 rounded-md border border-input overflow-hidden flex flex-col relative">
           <div className="flex-1 overflow-auto">
             <Accordion type="multiple" className="w-full px-4" defaultValue={["sessions", "appearance", "notifications"]}>
               <Sessions />

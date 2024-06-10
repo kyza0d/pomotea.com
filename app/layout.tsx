@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-x-hidden">
         <SettingsProvider>
           <Toaster />
 
