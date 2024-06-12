@@ -52,54 +52,57 @@ const Timer = () => {
 
   return (
     <>
-      <div className="mx-auto pt-8 max-w-screen-md sm:px-4 md:px-8 px-10">
-        <Card className="space-y-8 w-full bg-transparent dark:bg-transparent mb-6">
+      <div className="mx-auto pt-14 max-w-screen-md sm:px-4 md:px-8 px-10">
+        <Card className="space-y-8  w-full bg-transparent dark:bg-transparent mb-6">
           <div className="flex items-center justify-between space-x-6">
             <div className="flex items-center">
-              <CountdownCircleTimer
-                isPlaying={isPlaying}
-                key={`timer-${currentSessionIndex}`}
-                duration={sessions[currentSessionIndex]?.duration * 60}
-                initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
-                colors={["#3B82F6", "#3B82F6", "#3B82F6"]}
-                isGrowing={sessions[currentSessionIndex]?.type === 'Break' ? true : false}
-                rotation={sessions[currentSessionIndex]?.type === 'Break' ? "counterclockwise" : "clockwise"}
-                colorsTime={[sessions[currentSessionIndex]?.type === 'Break' ? 0 : 1, 0.5, 0.5]}
-                trailColor="#0D1A26"
-                strokeWidth={8}
-                size={115}
-              />
+              <div onClick={togglePlayPause} className="relative cursor-pointer ">
+                <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+                  {isPlaying ? <BsPauseFill className="icon-lg text-white" /> : <BsPlayFill className="icon-lg text-white" />}
+                </div>
+                <CountdownCircleTimer
+                  isPlaying={isPlaying}
+                  key={`timer-${currentSessionIndex}`}
+                  duration={sessions[currentSessionIndex]?.duration * 60}
+                  initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
+                  colors={["#3B82F6", "#3B82F6", "#3B82F6"]}
+                  isGrowing={sessions[currentSessionIndex]?.type === 'Break' ? true : false}
+                  rotation={sessions[currentSessionIndex]?.type === 'Break' ? "counterclockwise" : "clockwise"}
+                  colorsTime={[sessions[currentSessionIndex]?.type === 'Break' ? 0 : 1, 0.5, 0.5]}
+                  trailColor="#0D1A26"
+                  strokeWidth={10}
+                  size={125}
+                />
+              </div>
               <div className="ml-4">
-                <Text variant="subtitle" size="lg">Current Task:</Text>
+                <Text variant="subtitle" size="lg">In progress:</Text>
                 <Text variant="header" size="2xl">{sessions[currentSessionIndex]?.title || 'No session'}</Text>
               </div>
             </div>
+            <Button variant="ghost" onClick={toggleSettings} className="h-16 w-16 rounded-[50%]">
+              <FiSettings className="icon" />
+            </Button>
           </div>
           {sessions.map((session, index) => (
-            <Card
-              key={index}
-              className={`px-4 pr-8 py-6 my-8 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg ${index === currentSessionIndex ? 'outline outline-2 outline-blue-500' : ''}`}
-            >
-              <Text variant="header" size="2xl" className="timer">
-                {getSessionTime(index)}
-              </Text>
-              <Text variant="subtitle" className="ml-auto">
-                {session.title}
-              </Text>
-            </Card>
+            <div className="pt-4">
+              <Text className="ml-2 mb-0" variant="header" size="lg">{session.type}</Text>
+              <Card
+                key={index}
+                className={`px-4 pr-8 py-6 my-8 mt-4 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg ${index === currentSessionIndex ? 'outline outline-2 outline-blue-500' : ''}`}
+              >
+                <Text variant="header" size="2xl" className="timer">
+                  {getSessionTime(index)}
+                </Text>
+                <Text variant="subtitle" className="ml-auto">
+                  {session.title}
+                </Text>
+              </Card>
+            </div>
           ))}
         </Card>
-        <div className="flex justify-center items-center space-x-8">
-          <Button variant="ghost" onClick={toggleSettings} className="h-16 w-16 rounded-[50%]">
-            <FiSettings className="icon" />
-          </Button>
-          <Button className="bg-blue-500 hover:bg-blue-400 w-20 h-20 rounded-[50%]" variant="default" onClick={togglePlayPause}>
-            {isPlaying ? <BsPauseFill className="icon text-white" /> : <BsPlayFill className="icon text-white" />}
-          </Button>
-          <Button variant="ghost" onClick={resetTimer} className="h-16 w-16 rounded-[50%]">
-            <FaUndoAlt className="icon" />
-          </Button>
-        </div>
+        <Button variant="ghost" onClick={resetTimer} className="float-right h-16 w-16 rounded-[50%]">
+          <FaUndoAlt className="icon" />
+        </Button>
       </div >
       {isSettingsOpen && <Settings toggleSettings={toggleSettings} />
       }

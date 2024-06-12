@@ -194,6 +194,7 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     }
   }, []);
 
+
   return {
     elapsedTimes,
     isPlaying,

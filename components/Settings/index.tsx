@@ -54,12 +54,12 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
         onClick={toggleSettings}
       ></div>
 
-      <div className={`fixed inset-0 z-50 flex items-center justify-center`}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           style={{ height: screenHeight }}
           className="w-[85vw] md:w-[95vw] bg-midnight-100 dark:bg-midnight-900 rounded-md border border-input overflow-hidden flex flex-col relative">
           <div className="flex-1 overflow-auto">
-            <Accordion type="multiple" className="w-full px-4" defaultValue={["sessions", "appearance", "notifications"]}>
+            <Accordion type="multiple" className="w-full px-8" defaultValue={["sessions", "appearance", "notifications"]}>
               <Sessions />
               <Appearance />
               <Notifications />
