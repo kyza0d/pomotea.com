@@ -9,7 +9,7 @@ const LayoutSettings = () => (
     <AccordionTrigger>
       <div className="flex"><FiLayout className="icon mr-4" /> <Text variant="header">Layout</Text></div>
     </AccordionTrigger>
-    <AccordionContent>
+    <AccordionContent className="pt-8">
       <div>Coming Soon</div>
     </AccordionContent>
   </AccordionItem>

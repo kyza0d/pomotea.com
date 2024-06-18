@@ -1,6 +1,6 @@
 /* font-sizes.css */
 :root {
-  --font-size-sm: 0.9rem;
+  --font-size-sm: 1rem;
   --font-size-md: 1rem;
   --font-size-lg: 1.2rem;
   --font-size-xl: 1.4rem;
@@ -30,7 +30,7 @@
 /* Add media queries as needed for responsive sizes */
 @media (min-width: 576px) {
   :root {
-    --font-size-sm: 0.9rem;
+    --font-size-sm: 1rem;
     --font-size-md: 1rem;
     --font-size-lg: 1.4rem;
     --font-size-xl: 1.6rem;
@@ -40,7 +40,7 @@
 
 @media (min-width: 768px) {
   :root {
-    --font-size-sm: 0.9rem;
+    --font-size-sm: 1rem;
     --font-size-md: 1.2rem;
     --font-size-lg: 1.6rem;
     --font-size-xl: 2rem;
@@ -50,7 +50,7 @@
 
 @media (min-width: 992px) {
   :root {
-    --font-size-sm: 0.9rem;
+    --font-size-sm: 1rem;
     --font-size-md: 1.3rem;
     --font-size-lg: 1.8rem;
     --font-size-xl: 2.2rem;
@@ -60,7 +60,7 @@
 
 @media (min-width: 1200px) {
   :root {
-    --font-size-sm: 0.9rem;
+    --font-size-sm: 1rem;
     --font-size-md: 1.4rem;
     --font-size-lg: 2rem;
     --font-size-xl: 2.4rem;

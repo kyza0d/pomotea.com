@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useSettings } from '@/components/Settings/context';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { X, Plus } from 'react-feather';
 import { Text } from "@/components/ui/text";
 import { Slider } from '@/components/ui/slider';
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { FiClock } from 'react-icons/fi';
 import { useMediaQuery } from 'react-responsive';
 import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { Sortable, SortableItem, SortableDragHandle } from '@/components/ui/sortable'; // Adjust the import path as necessary
@@ -15,6 +13,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DragHandleDots2Icon } from '@radix-ui/react-icons';
+import { FaHourglass } from 'react-icons/fa';
 
 const schema = z.object({
   sessions: z.array(
@@ -85,26 +84,29 @@ const Sessions: React.FC = () => {
   return (
     <AccordionItem value="sessions">
       <AccordionTrigger>
-        <div className="flex items-center"><FiClock className="icon-sm mr-4" /> <Text variant="header">Sessions</Text></div>
+        <div className="flex items-center space-x-2">
+          <FaHourglass className="icon-sm mr-4" />
+          <Text variant="header">Sessions</Text>
+        </div>
       </AccordionTrigger>
-      <AccordionContent>
-        <div className="space-y-8 py-8">
+      <AccordionContent className='pt-8'>
+        <div className="space-y-8">
           {isLargeScreen && (
             <>
               <div className="grid grid-cols-[0.5fr,1fr,1fr,auto,auto] mb-4">
-                <div className="font-bold text-gray-300">Type</div>
-                <div className="font-bold text-gray-300">Title</div>
-                <div className="font-bold text-gray-300">Length</div>
+                <Text variant="subtitle">Type</Text>
+                <Text variant="subtitle">Title</Text>
+                <Text variant="subtitle">Length</Text>
                 <div></div> {/* Empty div to maintain grid structure */}
               </div>
               <Sortable value={fields} onMove={handleMoveSession}>
                 {fields.map((field, index) => (
                   <SortableItem key={field.id} value={field.id}>
-                    <Card className="border-midnight-700 grid grid-cols-[0.5fr,1fr,1fr,auto,auto] items-center gap-2">
+                    <div className="grid grid-cols-[0.5fr,1fr,1fr,auto,auto] items-center gap-2">
                       <div className='flex gap-2'>
                         <Button
                           className="flex-1"
-                          variant={form.getValues(`sessions.${index}.type`) === 'Focus' ? 'primary' : 'secondary'}
+                          variant={form.getValues(`sessions.${index}.type`) === 'Focus' ? 'primary' : 'outline'}
                           onClick={() => {
                             form.setValue(`sessions.${index}.type`, 'Focus');
                             handleFieldChange(index, 'type', 'Focus');
@@ -114,7 +116,7 @@ const Sessions: React.FC = () => {
                         </Button>
                         <Button
                           className="flex-1"
-                          variant={form.getValues(`sessions.${index}.type`) === 'Break' ? 'primary' : 'secondary'}
+                          variant={form.getValues(`sessions.${index}.type`) === 'Break' ? 'primary' : 'outline'}
                           onClick={() => {
                             form.setValue(`sessions.${index}.type`, 'Break');
                             handleFieldChange(index, 'type', 'Break');
@@ -130,7 +132,6 @@ const Sessions: React.FC = () => {
                           <Input
                             {...field}
                             placeholder="Enter Title"
-                            className="border text-white w-full ml-4"
                             onChange={(e) => handleFieldChange(index, 'title', e.target.value)}
                           />
                         )}
@@ -141,7 +142,7 @@ const Sessions: React.FC = () => {
                           name={`sessions.${index}.duration`}
                           render={({ field }) => (
                             <>
-                              <span className="text-gray-300">{field.value}</span>
+                              <Text>{field.value}</Text>
                               <Slider
                                 value={[field.value]}
                                 onValueChange={(value) => handleFieldChange(index, 'duration', value[0])}
@@ -155,9 +156,9 @@ const Sessions: React.FC = () => {
                       </div>
 
                       <SortableDragHandle
-                        variant="secondary"
+                        variant="ghost"
                         size="icon"
-                        className="text-white flex justify-center items-center"
+                        className="flex justify-center items-center"
                       >
                         <DragHandleDots2Icon
                           aria-hidden="true"
@@ -165,32 +166,36 @@ const Sessions: React.FC = () => {
                         />
                       </SortableDragHandle>
 
-                      <Button className='px-2 group-hover:visible' variant="secondary" onClick={() => handleRemoveSession(index)}>
+                      <Button className='px-2 group-hover:visible' variant="ghost" onClick={() => handleRemoveSession(index)}>
                         <X className='text-red-400 w-5 h-5' />
                       </Button>
-                    </Card>
+                    </div>
                   </SortableItem>
                 ))}
               </Sortable>
-              <div className="font-bold text-gray-300">Create Session</div>
-              <hr className="border-gray-700 mb-4" />
-              <Card className="grid grid-cols-[20%,40%,33%,7%] items-center rounded-lg p-4 mb-4 md:space-y-0">
-                <div className="flex space-x-4">
-                  <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'secondary'} onClick={() => setCustomType('Focus')}>
+
+              <Text variant="subtitle">Create Session</Text>
+              <hr className="border-theme-border mb-4" />
+
+              <div className="grid grid-cols-[0.5fr,1fr,1fr,auto,auto] items-center gap-2">
+                <div className='flex gap-2'>
+                  <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'outline'} onClick={() => setCustomType('Focus')}>
                     Focus
                   </Button>
-                  <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'secondary'} onClick={() => setCustomType('Break')}>
+                  <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'outline'} onClick={() => setCustomType('Break')}>
                     Break
                   </Button>
                 </div>
+
                 <Input
+                  className="placeholder:text-theme-border"
                   placeholder="Enter Title"
                   value={customTitle}
                   onChange={(e) => setCustomTitle(e.target.value)}
-                  className="border text-white w-full ml-4"
                 />
+
                 <div className="flex items-center space-x-2 mx-6">
-                  <span className="text-gray-300">{customDuration}</span>
+                  <Text>{customDuration}</Text>
                   <Slider
                     value={[Number(customDuration)]}
                     onValueChange={(value) => setCustomDuration(value[0])}
@@ -200,9 +205,9 @@ const Sessions: React.FC = () => {
                   />
                 </div>
                 <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-blue-500 text-white flex justify-center items-center p-2">
-                  <Plus size={16} />
+                  <Plus className="w-5 h-5" />
                 </Button>
-              </Card>
+              </div>
             </>
           )}
           {isSmallScreen && (
@@ -210,18 +215,18 @@ const Sessions: React.FC = () => {
               <Sortable value={fields} onMove={handleMoveSession}>
                 {fields.map((field, index) => (
                   <SortableItem key={field.id} value={field.id}>
-                    <Card className="flex flex-col space-y-4 p-4 mb-4">
+                    <div className="flex flex-col space-y-4 p-4 mb-4">
                       <div className="flex space-x-2">
                         <Button
                           className="flex-1"
-                          variant={field.type === 'Focus' ? 'primary' : 'secondary'}
+                          variant={field.type === 'Focus' ? 'primary' : 'outline'}
                           onClick={() => handleFieldChange(index, 'type', 'Focus')}
                         >
                           Focus
                         </Button>
                         <Button
                           className="flex-1"
-                          variant={field.type === 'Break' ? 'primary' : 'secondary'}
+                          variant={field.type === 'Break' ? 'primary' : 'outline'}
                           onClick={() => handleFieldChange(index, 'type', 'Break')}
                         >
                           Break
@@ -234,13 +239,13 @@ const Sessions: React.FC = () => {
                           render={({ field }) => (
                             <Input
                               {...field}
+                              className='w-full'
                               placeholder="Enter Title"
-                              className="border p-2 text-white w-full"
                               onChange={(e) => handleFieldChange(index, 'title', e.target.value)}
                             />
                           )}
                         />
-                        <Button className="hidden group-hover:block" variant="secondary" onClick={() => handleRemoveSession(index)}>
+                        <Button className="hidden group-hover:block" variant="ghost" onClick={() => handleRemoveSession(index)}>
                           <X size={16} />
                         </Button>
                       </div>
@@ -263,17 +268,17 @@ const Sessions: React.FC = () => {
                           )}
                         />
                       </div>
-                    </Card>
+                    </div>
                   </SortableItem>
                 ))}
               </Sortable>
               <div className="font-bold text-gray-300">Create Session</div>
-              <Card className="flex flex-col space-y-4 p-4 mb-4">
+              <div className="flex flex-col space-y-4 p-4 mb-4">
                 <div className="flex space-x-2">
-                  <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'secondary'} onClick={() => setCustomType('Focus')}>
+                  <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'outline'} onClick={() => setCustomType('Focus')}>
                     Focus
                   </Button>
-                  <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'secondary'} onClick={() => setCustomType('Break')}>
+                  <Button className="flex-1" variant={customType === 'Break' ? 'primary' : 'outline'} onClick={() => setCustomType('Break')}>
                     Break
                   </Button>
                 </div>
@@ -282,7 +287,6 @@ const Sessions: React.FC = () => {
                     placeholder="Enter Title"
                     value={customTitle}
                     onChange={(e) => setCustomTitle(e.target.value)}
-                    className="border p-2 text-white w-full"
                   />
                   <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-blue-500 text-white flex justify-center items-center p-2">
                     <Plus size={16} />
@@ -299,12 +303,12 @@ const Sessions: React.FC = () => {
                     className="flex-grow"
                   />
                 </div>
-              </Card>
+              </div>
             </>
           )}
         </div>
       </AccordionContent>
-    </AccordionItem>
+    </AccordionItem >
   );
 }
 

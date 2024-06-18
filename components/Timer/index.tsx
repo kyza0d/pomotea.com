@@ -52,8 +52,8 @@ const Timer = () => {
 
   return (
     <>
-      <div className="mx-auto pt-14 max-w-screen-md sm:px-4 md:px-8 px-10">
-        <Card className="space-y-8  w-full bg-transparent dark:bg-transparent mb-6">
+      <div className="mx-auto pt-14 max-w-3xl sm:px-4 md:px-8 px-10">
+        <div className="space-y-8  w-full bg-transparent dark:bg-transparent mb-6">
           <div className="flex items-center justify-between space-x-6">
             <div className="flex items-center">
               <div onClick={togglePlayPause} className="relative cursor-pointer ">
@@ -65,7 +65,8 @@ const Timer = () => {
                   key={`timer-${currentSessionIndex}`}
                   duration={sessions[currentSessionIndex]?.duration * 60}
                   initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
-                  colors={["#3B82F6", "#3B82F6", "#3B82F6"]}
+
+                  colors={settings.colors.accent}
                   isGrowing={sessions[currentSessionIndex]?.type === 'Break' ? true : false}
                   rotation={sessions[currentSessionIndex]?.type === 'Break' ? "counterclockwise" : "clockwise"}
                   colorsTime={[sessions[currentSessionIndex]?.type === 'Break' ? 0 : 1, 0.5, 0.5]}
@@ -84,11 +85,10 @@ const Timer = () => {
             </Button>
           </div>
           {sessions.map((session, index) => (
-            <div className="pt-4">
-              <Text className="ml-2 mb-0" variant="header" size="lg">{session.type}</Text>
+            <div className="pt-4" key={index}>
+              <Text className="ml-2 mb-0 " variant="header" size="lg">{session.type}</Text>
               <Card
-                key={index}
-                className={`px-4 pr-8 py-6 my-8 mt-4 flex items-center bg-midnight-200 dark:bg-midnight-800 border border-midnight-300 dark:border-midnight-700 rounded-lg ${index === currentSessionIndex ? 'outline outline-2 outline-blue-500' : ''}`}
+                className={`px-4 pr-8 py-6 my-8 mt-4 flex items-center rounded-lg ${index === currentSessionIndex ? 'border border-theme-accent' : ''}`}
               >
                 <Text variant="header" size="2xl" className="timer">
                   {getSessionTime(index)}
@@ -99,7 +99,7 @@ const Timer = () => {
               </Card>
             </div>
           ))}
-        </Card>
+        </div>
         <Button variant="ghost" onClick={resetTimer} className="float-right h-16 w-16 rounded-[50%]">
           <FaUndoAlt className="icon" />
         </Button>

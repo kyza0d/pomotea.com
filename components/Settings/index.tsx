@@ -12,6 +12,7 @@ import { useSettings } from "@/components/Settings/context";
 import Sessions from "./sessions";
 import Appearance from "./appearance";
 import Notifications from "./notifications";
+import Colors from "./colors";
 
 import { useMediaQuery } from 'react-responsive';
 
@@ -28,6 +29,13 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
 
   const handleCancel = () => {
     toggleSettings();
+  };
+
+  const handleReset = () => {
+    console.log("handleReset");
+
+    // saveSettings();
+    // toggleSettings();
   };
 
   const [screenHeight, setScreenHeight] = React.useState(window.innerHeight - 24);
@@ -57,17 +65,19 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           style={{ height: screenHeight }}
-          className="w-[85vw] md:w-[95vw] bg-midnight-100 dark:bg-midnight-900 rounded-md border border-input overflow-hidden flex flex-col relative">
+          className="w-[85vw] md:w-[95vw] bg-theme-base-darker rounded-md border border-theme-border overflow-hidden flex flex-col relative">
           <div className="flex-1 overflow-auto">
-            <Accordion type="multiple" className="w-full px-8" defaultValue={["sessions", "appearance", "notifications"]}>
+            <Accordion type="multiple" className="w-full">
               <Sessions />
               <Appearance />
+              <Colors />
               <Notifications />
             </Accordion>
           </div>
-          <div className="bg-midnight-200 dark:bg-midnight-800 p-4 space-x-6">
-            <Button variant="outline" onClick={handleSaveChanges}>Save Changes</Button>
+          <div className="border-t -mt-[1px] border-t-theme-border flex bg-theme-base dark:bg-midnight-800 p-4">
+            <Button className="mr-2" variant="primary" onClick={handleSaveChanges}>Save Changes</Button>
             <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+            <Button className="ml-auto" variant="outline" onClick={handleReset}>Reset to Defaults</Button>
           </div>
         </div>
       </div>

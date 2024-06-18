@@ -3,6 +3,7 @@ import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/
 import { Text } from "@/components/ui/text";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSettings } from "./context";
+import { FaConciergeBell, FaStopwatch } from "react-icons/fa";
 
 const Notifications = () => {
   const { settings, updateSetting } = useSettings();
@@ -14,9 +15,9 @@ const Notifications = () => {
   return (
     <AccordionItem value="notifications">
       <AccordionTrigger>
-        <div className="flex"><FiBell className="icon-sm mr-4" /> <Text variant="header">Notifications</Text></div>
+        <div className="flex"><FaStopwatch className="icon-sm mr-4" /> <Text variant="header">Notifications</Text></div>
       </AccordionTrigger>
-      <AccordionContent className="space-y-4">
+      <AccordionContent className="pt-8 space-y-4">
         <div className="flex items-center space-x-4">
           <Checkbox
             id="notify-break"

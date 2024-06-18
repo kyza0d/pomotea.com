@@ -5,7 +5,7 @@ export interface TextProps {
   children: React.ReactNode;
   className?: string;
   size?: "sm" | "md" | "lg" | "xl" | "2xl";
-  variant?: "header" | "subtitle" | "default";
+  variant?: "header" | "subtitle" | "label" | "default";
 }
 
 const Text: React.FC<TextProps> = ({ children, className, size = "md", variant = "default" }) => {
@@ -15,12 +15,15 @@ const Text: React.FC<TextProps> = ({ children, className, size = "md", variant =
   const variantMap = {
     header: "h1",
     subtitle: "h2",
+    label: "label",
     default: "p",
   };
 
   const variantStyles: { [key: string]: string } = {
-    header: "font-bold text-midnight-800 dark:text-midnight-200",
-    subtitle: "font-semibold text-midnight-600 dark:text-midnight-400",
+    header: "font-bold text-theme-header",
+    subtitle: "font-bold text-theme-subtitle",
+    label: "label-text font-semibold",
+    default: "default-text",
   };
 
   const variantClass = variantStyles[variant] || "default";
@@ -30,7 +33,7 @@ const Text: React.FC<TextProps> = ({ children, className, size = "md", variant =
   return React.createElement(
     tag,
     {
-      className: cn(sizeClass, "text-midnight-600 dark:text-midnight-200 max-w-[30ch]", variantClass, className),
+      className: cn(sizeClass, className, "max-w-[30ch]", variantClass),
     },
     children
   );

@@ -8,10 +8,11 @@ const Card = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-card-foreground", className)}
+    className={cn("border border-theme-border bg-theme-base text-card-foreground", className)}
     {...props}
   />
 ))
+
 Card.displayName = "Card"
 
 const CardHeader = React.forwardRef<
@@ -24,6 +25,7 @@ const CardHeader = React.forwardRef<
     {...props}
   />
 ))
+
 CardHeader.displayName = "CardHeader"
 
 const CardTitle = React.forwardRef<
@@ -39,6 +41,7 @@ const CardTitle = React.forwardRef<
     {...props}
   />
 ))
+
 CardTitle.displayName = "CardTitle"
 
 const CardDescription = React.forwardRef<
