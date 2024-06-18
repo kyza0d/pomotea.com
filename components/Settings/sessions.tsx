@@ -85,7 +85,7 @@ const Sessions: React.FC = () => {
     <AccordionItem value="sessions">
       <AccordionTrigger>
         <div className="flex items-center space-x-2">
-          <FaHourglass className="icon-sm mr-4" />
+          <FaHourglass className="icon-sm mr-2" />
           <Text variant="header">Sessions</Text>
         </div>
       </AccordionTrigger>
@@ -204,7 +204,7 @@ const Sessions: React.FC = () => {
                     step={5}
                   />
                 </div>
-                <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-blue-500 text-white flex justify-center items-center p-2">
+                <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-theme-accent text-black flex justify-center items-center p-2">
                   <Plus className="w-5 h-5" />
                 </Button>
               </div>

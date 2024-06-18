@@ -7,7 +7,7 @@ import { useSettings } from '@/components/Settings/context';
 import useTimer from "@/hooks/useTimer";
 import { Button } from "../ui/button";
 import { Text } from "../ui/text";
-import { FiSettings } from "react-icons/fi";
+import { FiBell, FiCoffee, FiSettings } from "react-icons/fi";
 import { useToast } from '@/components/ui/use-toast';
 import { Settings } from "@/components/Settings";
 
@@ -57,21 +57,21 @@ const Timer = () => {
           <div className="flex items-center justify-between space-x-6">
             <div className="flex items-center">
               <div onClick={togglePlayPause} className="relative cursor-pointer ">
-                <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
-                  {isPlaying ? <BsPauseFill className="icon-lg text-white" /> : <BsPlayFill className="icon-lg text-white" />}
+                <div className="text-theme-header absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+                  {isPlaying ? <BsPauseFill className="icon-lg" /> : <BsPlayFill className="icon-lg" />}
                 </div>
                 <CountdownCircleTimer
                   isPlaying={isPlaying}
                   key={`timer-${currentSessionIndex}`}
                   duration={sessions[currentSessionIndex]?.duration * 60}
                   initialRemainingTime={Math.max(0, sessions[currentSessionIndex]?.duration * 60 - elapsedTimes[currentSessionIndex])}
+                  colors={settings.colors.accent as any}
+                  trailColor={settings.colors.base as any}
 
-                  colors={settings.colors.accent}
                   isGrowing={sessions[currentSessionIndex]?.type === 'Break' ? true : false}
                   rotation={sessions[currentSessionIndex]?.type === 'Break' ? "counterclockwise" : "clockwise"}
                   colorsTime={[sessions[currentSessionIndex]?.type === 'Break' ? 0 : 1, 0.5, 0.5]}
-                  trailColor="#0D1A26"
-                  strokeWidth={10}
+                  strokeWidth={8}
                   size={125}
                 />
               </div>
@@ -88,8 +88,13 @@ const Timer = () => {
             <div className="pt-4" key={index}>
               <Text className="ml-2 mb-0 " variant="header" size="lg">{session.type}</Text>
               <Card
-                className={`px-4 pr-8 py-6 my-8 mt-4 flex items-center rounded-lg ${index === currentSessionIndex ? 'border border-theme-accent' : ''}`}
+                className="px-4 pr-8 py-6 my-8 mt-4 flex items-center rounded-lg"
               >
+                {/* Either a PaperClip or Coffee icon based on session type */}
+                <div className={`mr-4 p-2 ${currentSessionIndex === index ? 'text-theme-accent' : 'text-theme-subtitle'}`}>
+                  {session.type === 'Break' ? <FiCoffee size={28} /> : <FiBell size={28}
+                  />}
+                </div>
                 <Text variant="header" size="2xl" className="timer">
                   {getSessionTime(index)}
                 </Text>

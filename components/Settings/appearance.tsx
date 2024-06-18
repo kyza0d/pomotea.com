@@ -9,7 +9,6 @@ import {
   FaAdjust,
   FaFont,
   FaImage,
-  FaMoon,
   FaPaintBrush,
   FaSearch,
 } from "react-icons/fa";
