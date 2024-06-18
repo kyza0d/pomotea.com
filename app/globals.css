@@ -18,12 +18,16 @@
 }
 
 @layer base {
+  body {
+    @apply bg-theme-base-darker text-theme-foreground;
+  }
+
   svg.icon-lg {
     @apply w-12 h-12;
   }
 
   svg.icon {
-    @apply w-8 h-8;
+    @apply w-8 h-8 text-theme-header;
   }
 
   svg.icon-sm {

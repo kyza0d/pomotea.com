@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-gray-800 text-gray-200",
-        primary: "bg-theme-accent text-black border border-transparent",
+        primary: "bg-theme-accent text-theme-base-darker border border-transparent",
         ghost: "bg-transparent",
         outline: "bg-transparent border border-theme-border",
       },

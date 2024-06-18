@@ -3,19 +3,29 @@ import { Input } from "../ui/input";
 import { useSettings } from "./context";
 import { Text } from "@/components/ui/text";
 
-const isValidHex = (color) => {
+interface Colors {
+  accent: string;
+  base: string;
+  'base-darker': string;
+  border: string;
+  foreground: string;
+  header: string;
+  subtitle: string;
+}
+
+const isValidHex = (color: string) => {
   const hex = color.startsWith('#') ? color.slice(1) : color;
   return /^[0-9A-Fa-f]{6}$/.test(hex);
 };
 
-const formatColor = (color) => {
+const formatColor = (color: string) => {
   if (!color.startsWith("#")) {
     color = `#${color}`;
   }
   return color.toUpperCase();
 };
 
-const ColorPicker = ({ variableName, label }) => {
+const ColorPicker = ({ variableName, label }: { variableName: keyof Colors, label: string }) => {
   const { settings, updateSetting } = useSettings();
   const [color, setColor] = useState('');
 
@@ -30,13 +40,13 @@ const ColorPicker = ({ variableName, label }) => {
     }
   }, [settings.colors, variableName]);
 
-  const handleColorChange = (e) => {
-    const newColor = e.target.value;
+  const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event.target.value;
     setColor(newColor);
   };
 
-  const handleColorPickerChange = (e) => {
-    const newColor = e.target.value;
+  const handleColorPickerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newColor = event.target.value;
     setColor(newColor);
     updateSetting(`colors.${variableName}`, newColor);
     document.documentElement.style.setProperty(`--${variableName}`, newColor);
@@ -62,8 +72,8 @@ const ColorPicker = ({ variableName, label }) => {
     applyColorChange();
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
       applyColorChange();
       if (inputRef.current) {
         inputRef.current.blur();
@@ -80,7 +90,7 @@ const ColorPicker = ({ variableName, label }) => {
   return (
     <div className="flex flex-col space-y-2">
       <Text size="sm" variant="label">{label}</Text>
-      <div className="grid grid-cols[auto,1fr] gap-6">
+      <div className="grid grid-cols-[auto,1fr] gap-6">
         <div className="flex-grow items-center flex">
           <Input
             type="text"

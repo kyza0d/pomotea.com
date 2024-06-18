@@ -58,16 +58,16 @@ const defaultSettings: Settings = {
 };
 
 type SettingsAction =
-  | { type: 'SET_PENDING_SETTING'; name: string; value: any }
+  | { type: 'SET_PENDING_SETTING'; name: keyof Settings | `colors.${keyof Colors}`; value: any }
   | { type: 'SAVE_SETTINGS'; settings: Settings }
   | { type: 'LOAD_SETTINGS'; settings: Settings };
 
 interface SettingsContextValue {
   settings: Settings;
   pendingSettings: Settings;
-  setPendingSetting: (name: string, value: any) => void;
+  setPendingSetting: (name: keyof Settings | `colors.${keyof Colors}`, value: any) => void;
   saveSettings: () => void;
-  updateSetting: (name: string, value: any) => void;
+  updateSetting: (name: keyof Settings | `colors.${keyof Colors}`, value: any) => void;
   updateThemeSetting: (theme: string, themeSettings: Colors) => void;
 }
 
@@ -75,18 +75,24 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(undefine
 
 const settingsReducer = (state: { settings: Settings; pendingSettings: Settings }, action: SettingsAction) => {
   switch (action.type) {
-    case 'SET_PENDING_SETTING':
-      const newSettings = {
-        ...state,
-        pendingSettings: {
-          ...state.pendingSettings,
-          [action.name]: action.value,
-        },
-      };
-      if (action.name in state.pendingSettings.colors) {
-        newSettings.pendingSettings.colors[action.name] = action.value;
+    case 'SET_PENDING_SETTING': {
+      const newSettings = { ...state.pendingSettings };
+      const [mainKey, subKey] = action.name.split('.') as [keyof Settings, keyof Colors | undefined];
+
+      if (mainKey === 'colors' && subKey) {
+        newSettings.colors = {
+          ...newSettings.colors,
+          [subKey]: action.value,
+        };
+      } else {
+        (newSettings as any)[mainKey] = action.value;
       }
-      return newSettings;
+
+      return {
+        ...state,
+        pendingSettings: newSettings,
+      };
+    }
     case 'SAVE_SETTINGS':
       return {
         ...state,
@@ -121,7 +127,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     loadSettings();
   }, []);
 
-  const setPendingSetting = useCallback((name: string, value: any) => {
+  const setPendingSetting = useCallback((name: keyof Settings | `colors.${keyof Colors}`, value: any) => {
     dispatch({ type: 'SET_PENDING_SETTING', name, value });
   }, []);
 
@@ -144,21 +150,45 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     await setItem('settings', newSettings);
   }, 300), []);
 
-  const updateSetting = useCallback((name: string, value: any) => {
-    setPendingSetting(name, value);
+  const updateNestedSetting = useCallback((name: keyof Settings | `colors.${keyof Colors}`, value: any) => {
+    const [mainKey, subKey] = name.split('.') as [keyof Settings, keyof Colors | undefined];
+
+    if (!subKey) {
+      throw new Error('Invalid nested setting name');
+    }
 
     const newPendingSettings = {
       ...state.pendingSettings,
-      [name]: value,
+      colors: {
+        ...state.pendingSettings.colors,
+        [subKey]: value,
+      },
     };
 
-    debouncedSaveSettings(newPendingSettings);
-  }, [setPendingSetting, state.pendingSettings, debouncedSaveSettings]);
+    setPendingSetting('colors', newPendingSettings.colors);
+    dispatch({ type: 'SAVE_SETTINGS', settings: newPendingSettings });
+    setItem('settings', newPendingSettings);
+  }, [setPendingSetting, state.pendingSettings]);
+
+  const updateSetting = useCallback((name: keyof Settings | `colors.${keyof Colors}`, value: any) => {
+    if (name.startsWith('colors.')) {
+      updateNestedSetting(name, value);
+    } else {
+      setPendingSetting(name, value);
+
+      const newPendingSettings = {
+        ...state.pendingSettings,
+        [name]: value,
+      };
+
+      debouncedSaveSettings(newPendingSettings);
+    }
+  }, [setPendingSetting, state.pendingSettings, debouncedSaveSettings, updateNestedSetting]);
 
   const updateThemeSetting = useCallback((theme: string, themeSettings: Colors) => {
     Object.keys(themeSettings).forEach(key => {
       const cssVar = `--${key}`;
-      document.documentElement.style.setProperty(cssVar, themeSettings[key]);
+      document.documentElement.style.setProperty(cssVar, themeSettings[key as keyof Colors]);
     });
 
     const newSettings = {

@@ -93,6 +93,15 @@ const themes: ThemeSettings = {
     foreground: '#14433f',
     border: '#ccd2d1',
   },
+  "Fall": {
+    base: '#262322',
+    'base-darker': '#1C1A19',
+    accent: '#FFA500',
+    header: '#EDEBE8',
+    subtitle: '#CDC8C5',
+    foreground: '#A39F9C',
+    border: '#4A4745',
+  },
 };
 
 const Colors = () => {
@@ -107,7 +116,7 @@ const Colors = () => {
     <AccordionItem value="colors">
       <AccordionTrigger>
         <div className="flex items-center space-x-2">
-          <FaPalette className="icon-sm mr-4" />
+          <FaPalette className="icon-sm mr-2" />
           <Text variant="header">Colors</Text>
         </div>
       </AccordionTrigger>
@@ -121,6 +130,10 @@ const Colors = () => {
                 key={theme}
                 variant="outline"
                 onClick={() => handleThemeChange(theme)}
+                style={{
+                  color: themes[theme].foreground,
+                  backgroundColor: themes[theme].base,
+                }}
               >
                 {theme}
               </Button>

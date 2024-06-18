@@ -8,7 +8,7 @@ import { FaConciergeBell, FaStopwatch } from "react-icons/fa";
 const Notifications = () => {
   const { settings, updateSetting } = useSettings();
 
-  const handleCheckboxChange = (name: string, value: boolean) => {
+  const handleCheckboxChange = (name: any, value: boolean) => {
     updateSetting(name, value);
   };
 
