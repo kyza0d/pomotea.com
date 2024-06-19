@@ -27,13 +27,17 @@ const formatColor = (color: string) => {
 
 const ColorPicker = ({ variableName, label }: { variableName: keyof Colors, label: string }) => {
   const { settings, updateSetting } = useSettings();
-  const [color, setColor] = useState('');
+  const [color, setColor] = useState(() => {
+    const initialColor = document.documentElement.style.getPropertyValue(`--${variableName}`) || settings.colors?.[variableName] || '';
+    return initialColor;
+  });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const colorInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const colorValue = document.documentElement.style.getPropertyValue(`--${variableName}`).trim() || settings.colors[variableName];
+    if (!settings.colors) return;
+    const colorValue = document.documentElement.style.getPropertyValue(`--${variableName}`) || settings.colors[variableName];
     setColor(colorValue);
     if (inputRef.current) {
       inputRef.current.value = colorValue;
