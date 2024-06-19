@@ -23,17 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="overflow-x-hidden">
         <SettingsProvider>
           <Toaster />
-
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Theme>
-              {children}
-            </Theme>
-          </ThemeProvider>
+          <Theme>
+            {children}
+          </Theme>
         </SettingsProvider>
       </body>
     </html >
