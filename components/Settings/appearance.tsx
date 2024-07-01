@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSettings } from "@/components/Settings/context";
 import { Text } from "@/components/ui/text";
+import { FiX } from "react-icons/fi";
 
 import {
   FaAdjust,
@@ -21,6 +22,8 @@ const Appearance = () => {
   // Handle background image change
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    updateSetting('background-filename', file?.name);
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => updateSetting('background-url', reader.result);
@@ -32,14 +35,17 @@ const Appearance = () => {
   const handleFontSizeChange = (value: number) => updateSetting('font-size', value);
   const handleFontChange = (value: string) => updateSetting('font-name', value);
 
-  const fontOptions = [
-    { value: "sans-serif", label: 'Sans-serif' },
-    { value: "monospace", label: 'Monospace' },
-    { value: "inter", label: 'Inter' },
-    { value: "jetbrains-mono", label: 'JetBrains Mono' },
-    { value: "manrope", label: 'Manrope' },
-    { value: "roboto-mono", label: 'Roboto Mono' },
-  ];
+  const serifFontOptions = [
+    { value: "sans-serif", label: 'System' },
+    { value: "greycliff", label: 'Greycliff' },
+  ]
+
+
+  const monospaceFontOptions = [
+    { value: "monospace", label: 'System' },
+    { value: "iosevka-comfy", label: 'Iosevka Comfy' },
+    { value: "lotion", label: 'Lotion' },
+  ]
 
   return (
     <AccordionItem value="appearance">
@@ -52,12 +58,22 @@ const Appearance = () => {
             <div className="flex items-center">
               <FaImage size={16} className="mr-4" />  <Text variant="header">Background:</Text>
             </div>
-            <div className="w-fit flex flex-col rounded-lg space-y-4">
+            <div className="w-fit flex rounded-lg space-y-4">
               {pendingSettings['background-url'] && (
-                <div
-                  style={{ backgroundImage: `url(${pendingSettings['background-url']})` }}
-                  className="h-36 w-56 bg-no-repeat bg-cover rounded-lg"
-                />
+                <div className="p-5 relative">
+                  <div
+                    style={{ backgroundImage: `url(${pendingSettings['background-url']})` }}
+                    className="h-28 w-36 bg-no-repeat bg-cover rounded-lg"
+                  />
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="absolute top-2 left-2 rounded-lg bg-theme-base text-theme-text"
+                    onClick={() => updateSetting('background-url', '')}
+                  >
+                    <FiX />
+                  </Button>
+                </div>
               )}
               <div className="flex flex-col space-y-2">
                 {!pendingSettings['background-url'] &&
@@ -67,15 +83,6 @@ const Appearance = () => {
                     onChange={handleImageChange}
                   />
                 }
-                {pendingSettings['background-url'] && (
-                  <Button
-                    variant="outline"
-                    className="w-full rounded-lg"
-                    onClick={() => updateSetting('background-url', '')}
-                  >
-                    Remove
-                  </Button>
-                )}
               </div>
             </div>
           </div>
@@ -84,17 +91,35 @@ const Appearance = () => {
               <FaFont size={16} className="mr-4" />
               <Text variant="header">Font Family:</Text>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {fontOptions.map(font => (
-                <Button
-                  key={font.value}
-                  aria-label={font.label}
-                  variant={pendingSettings['font-name'] === font.value ? 'primary' : 'outline'}
-                  onClick={() => handleFontChange(font.value)}
-                >
-                  {font.label}
-                </Button>
-              ))}
+            <div className="flex flex-col flex-wrap gap-2">
+              <Text variant="subtitle" size="sm">Serif</Text>
+              <div className="flex space-x-2">
+                {serifFontOptions.map(font => (
+                  <Button
+                    key={font.value}
+                    aria-label={font.label}
+                    className={`font-${font.value}`}
+                    variant={pendingSettings['font-name'] === font.value ? 'primary' : 'outline'}
+                    onClick={() => handleFontChange(font.value)}
+                  >
+                    {font.label}
+                  </Button>
+                ))}
+              </div>
+              <Text variant="subtitle" className="mt-4" size="sm">Monospace</Text>
+              <div className="flex space-x-2">
+                {monospaceFontOptions.map(font => (
+                  <Button
+                    key={font.value}
+                    aria-label={font.label}
+                    className={`font-${font.value} tracking-tight`}
+                    variant={pendingSettings['font-name'] === font.value ? 'primary' : 'outline'}
+                    onClick={() => handleFontChange(font.value)}
+                  >
+                    {font.label}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4">
@@ -128,7 +153,7 @@ const Appearance = () => {
                 className="w-full"
                 value={[pendingSettings['background-opacity']]}
                 onValueChange={([value]) => handleOpacityChange(value)}
-                min={0.1}
+                min={0.02}
                 max={1.0}
                 step={0.1}
               />
@@ -149,7 +174,7 @@ const Appearance = () => {
           </div>
         </div>
       </AccordionContent>
-    </AccordionItem>
+    </AccordionItem >
   );
 };
 

@@ -39,7 +39,7 @@ export default function Theme({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className={`font-${settings["font-name"]}`}>
+      <main className={`font-${settings["font-name"]} mt-12`}>
         <div className="w-full h-full fixed top-0 left-0 -z-10"
           style={{
             background: settings.colors["base-darker"]
@@ -59,7 +59,7 @@ export default function Theme({ children }: { children: React.ReactNode }) {
           }
         </div>
         {children}
-      </div >
+      </main>
     </>
   );
 }

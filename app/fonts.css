@@ -1,27 +1,3 @@
-@font-face {
-  font-family: 'Inter';
-  src: url('../fonts/Inter-Regular.ttf') format('truetype'),
-    url('../fonts/Inter-Bold.ttf') format('truetype')
-}
-
-@font-face {
-  font-family: 'JetBrainsMono';
-  src: url('../fonts/JetBrainsMono-Regular.ttf') format('truetype'),
-    url('../fonts/JetBrainsMono-Bold.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Manrope';
-  src: url('../fonts/Manrope-Regular.ttf') format('truetype'),
-    url('../fonts/Manrope-Bold.ttf') format('truetype')
-}
-
-@font-face {
-  font-family: 'RobotoMono';
-  src: url('../fonts/RobotoMono-Regular.ttf') format('truetype'),
-    url('../fonts/RobotoMono-Bold.ttf') format('truetype')
-}
-
 .font-monospace {
   font-family: monospace;
 }
@@ -30,18 +6,33 @@
   font-family: sans-serif;
 }
 
-.font-inter {
-  font-family: 'Inter', sans-serif;
+@font-face {
+  font-family: 'GreycliffCF';
+  src: url('../fonts/GreycliffCF/Greycliff-CF-Medium.otf') format('opentype'), url('../fonts/GreycliffCF/Greycliff-CF-Bold.otf') format('opentype');
+
 }
 
-.font-manrope {
-  font-family: 'Manrope', sans-serif;
+.font-greycliff {
+  font-family: "GreycliffCF", sans-serif;
 }
 
-.font-jetbrains-mono {
-  font-family: 'JetBrainsMono', monospace
+@font-face {
+  font-family: 'Lotion';
+  src: url('../fonts/Lotion/Lotion-Bold.ttf') format('truetype'),
+    url('../fonts/Lotion/Lotion-Black.ttf') format('truetype');
 }
 
-.font-roboto-mono {
-  font-family: 'RobotoMono', monospace;
+.font-lotion {
+  font-family: "Lotion", monospace;
+}
+
+@font-face {
+  font-family: 'Iosevka Comfy';
+  src: url('../fonts/IosevkaComfy/iosevka-comfy-wide-medium.ttf') format('truetype'),
+    url('../fonts/IosevkaComfy/iosevka-comfy-wide-semibold.ttf') format('truetype');
+
+}
+
+.font-iosevka-comfy {
+  font-family: "Iosevka Comfy", monospace;
 }

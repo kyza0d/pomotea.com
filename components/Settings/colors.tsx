@@ -102,6 +102,60 @@ const themes: ThemeSettings = {
     foreground: '#A39F9C',
     border: '#4A4745',
   },
+  "Aurora": {
+    base: '#1A1B26',
+    'base-darker': '#16161E',
+    accent: '#7AA2F7',
+    header: '#E0E0E0',
+    subtitle: '#9ABDF5',
+    foreground: '#C0CAF5',
+    border: '#323851',
+  },
+  "Desert": {
+    base: '#2D2A24',
+    'base-darker': '#201E1A',
+    accent: '#E6B450',
+    header: '#E6E1D6',
+    subtitle: '#B3AEA2',
+    foreground: '#D3CEC4',
+    border: '#4D4940',
+  },
+  "Forest": {
+    base: '#1E2A23',
+    'base-darker': '#152019',
+    accent: '#7CB342',
+    header: '#E1E8E3',
+    subtitle: '#A4B5AA',
+    foreground: '#C5D1C9',
+    border: '#3A4D40',
+  },
+  "Cotton": {
+    base: '#F0F4F8',
+    'base-darker': '#E1E8F0',
+    accent: '#4A90E2',
+    header: '#2C3E50',
+    subtitle: '#34495E',
+    foreground: '#2C3E50',
+    border: '#B8C2CC',
+  },
+  "Sakura": {
+    base: '#FFF0F5',
+    'base-darker': '#FFE4E1',
+    accent: '#FF69B4',
+    header: '#4A0E1C',
+    subtitle: '#7E2231',
+    foreground: '#5A1621',
+    border: '#E6B3C0',
+  },
+  "Meadow": {
+    base: '#F1F8E9',
+    'base-darker': '#E8F5E9',
+    accent: '#7CB342',
+    header: '#1B5E20',
+    subtitle: '#2E7D32',
+    foreground: '#33691E',
+    border: '#AED581',
+  },
 };
 
 const Colors = () => {
@@ -123,7 +177,7 @@ const Colors = () => {
 
       <AccordionContent className="pt-8">
         <Text size="lg" variant="subtitle">Themes</Text>
-        <div className='flex flex-wrap w-[60%] gap-4 my-6 mb-8'>
+        <div className='grid grid-cols-[auto,auto,auto] gap-4 my-6 mb-8'>
           {
             Object.keys(themes).map(theme => (
               <Button
@@ -133,6 +187,7 @@ const Colors = () => {
                 style={{
                   color: themes[theme].foreground,
                   backgroundColor: themes[theme].base,
+                  borderColor: themes[theme].border
                 }}
               >
                 {theme}
@@ -142,14 +197,15 @@ const Colors = () => {
         </div>
 
         <Text size="lg" variant="subtitle">Background Colors</Text>
-        <div className="grid grid-cols-2 gap-4 my-6">
+        <div className="grid grid-cols-[auto,auto] gap-4 my-6">
           <ColorPicker variableName="base" label="Background" />
           <ColorPicker variableName="base-darker" label="Background - Darker" />
           <ColorPicker variableName="border" label="Borders" />
           <ColorPicker variableName="accent" label="Accent" />
         </div>
+
         <Text className='mb-4' size="lg" variant="subtitle">Text Colors</Text>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-[auto,auto] gap-4 my-6">
           <ColorPicker variableName="header" label="Headers" />
           <ColorPicker variableName="subtitle" label="Subtitles" />
           <ColorPicker variableName="foreground" label="Foreground" />

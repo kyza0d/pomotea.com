@@ -17,6 +17,31 @@
   }
 }
 
+.fade-box {
+  mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 1) 90px,
+      rgba(0, 0, 0, 1) calc(100% - 136px),
+      rgba(0, 0, 0, 0) calc(100% - 10px),
+      rgba(0, 0, 0, 0) 100%);
+}
+
+.session-exit-up {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.session-exit-up-active {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+@layer utilities {
+  .backdrop {
+    @apply w-fit relative items-center justify-between cursor-pointer hover:before:z-[-1] hover:before:absolute hover:before:h-16 hover:before:w-16 hover:before:bg-theme-border hover:before:opacity-40 hover:before:rounded-full hover:before:left-1/2 hover:before:top-1/2 hover:before:-translate-x-1/2 hover:before:-translate-y-1/2
+  }
+}
+
 @layer base {
   body {
     @apply bg-theme-base-darker text-theme-foreground;

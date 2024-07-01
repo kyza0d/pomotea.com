@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { useEffect, useRef } from "react";
-
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
@@ -14,11 +12,8 @@ import Appearance from "./appearance";
 import Notifications from "./notifications";
 import Colors from "./colors";
 
-import { useMediaQuery } from 'react-responsive';
-
 export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => {
   const { pendingSettings, saveSettings } = useSettings();
-  const backdropRef = useRef(null);
   const { setTheme } = useTheme();
 
   const handleSaveChanges = async () => {
@@ -33,41 +28,21 @@ export const Settings = ({ toggleSettings }: { toggleSettings: () => void }) => 
 
   const handleReset = () => {
     console.log("handleReset");
-
-    // saveSettings();
-    // toggleSettings();
   };
-
-  const [screenHeight, setScreenHeight] = React.useState(window.innerHeight - 24);
-
-  const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // below md breakpoint
-
-  // create a listener for window resize
-  useEffect(() => {
-    const handleResize = () => {
-      if (isSmallScreen) {
-        setScreenHeight(window.innerHeight - 24);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [window.innerHeight]);
-
 
   return (
     <>
       <div
-        ref={backdropRef}
         className="fixed inset-0 opacity-60 z-40 bg-black cursor-pointer"
         onClick={toggleSettings}
       ></div>
 
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="py-12 fixed inset-0 z-50 flex items-center justify-center">
         <div
-          style={{ height: screenHeight }}
-          className="w-[85vw] md:w-[95vw] bg-theme-base-darker rounded-md border border-theme-border overflow-hidden flex flex-col relative">
+          className="w-[70vw] md:w-[40vw] h-full  bg-theme-base-darker rounded-md border border-theme-border overflow-hidden flex flex-col relative">
           <div className="flex-1 overflow-auto">
             <Accordion type="multiple" className="w-full">
+              {/* <Account /> */}
               <Sessions />
               <Appearance />
               <Colors />
