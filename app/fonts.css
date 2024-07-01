@@ -7,16 +7,6 @@
 }
 
 @font-face {
-  font-family: 'GreycliffCF';
-  src: url('../fonts/GreycliffCF/Greycliff-CF-Medium.otf') format('opentype'), url('../fonts/GreycliffCF/Greycliff-CF-Bold.otf') format('opentype');
-
-}
-
-.font-greycliff {
-  font-family: "GreycliffCF", sans-serif;
-}
-
-@font-face {
   font-family: 'Lotion';
   src: url('../fonts/Lotion/Lotion-Bold.ttf') format('truetype'),
     url('../fonts/Lotion/Lotion-Black.ttf') format('truetype');

@@ -22,8 +22,6 @@ const Appearance = () => {
   // Handle background image change
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    updateSetting('background-filename', file?.name);
-
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => updateSetting('background-url', reader.result);
@@ -37,7 +35,7 @@ const Appearance = () => {
 
   const serifFontOptions = [
     { value: "sans-serif", label: 'System' },
-    { value: "greycliff", label: 'Greycliff' },
+    // { value: "greycliff", label: 'Greycliff' },
   ]
 
 

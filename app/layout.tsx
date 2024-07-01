@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/Theme/context"
 import { SettingsProvider } from "@/components/Settings/context"
 
 import Theme from "@/app/theme";
@@ -22,8 +21,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="overflow-x-hidden">
         <SettingsProvider>
-          <Toaster />
           <Theme>
+            <Toaster />
             {children}
           </Theme>
         </SettingsProvider>
