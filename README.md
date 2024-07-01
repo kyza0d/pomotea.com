@@ -1,5 +1,3 @@
 
 ![Pomotea](assets/banner.png)
 
-
-
