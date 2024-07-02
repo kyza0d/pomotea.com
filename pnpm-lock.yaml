@@ -17,6 +17,45 @@ dependencies:
   '@dnd-kit/utilities':
     specifier: ^3.2.2
     version: 3.2.2(react@18.3.1)
+  '@fontsource/archivo':
+    specifier: ^5.0.18
+    version: 5.0.18
+  '@fontsource/dm-mono':
+    specifier: ^5.0.20
+    version: 5.0.20
+  '@fontsource/ibm-plex-mono':
+    specifier: ^5.0.13
+    version: 5.0.13
+  '@fontsource/inter':
+    specifier: ^5.0.18
+    version: 5.0.18
+  '@fontsource/jetbrains-mono':
+    specifier: ^5.0.20
+    version: 5.0.20
+  '@fontsource/karla':
+    specifier: ^5.0.20
+    version: 5.0.20
+  '@fontsource/lora':
+    specifier: ^5.0.17
+    version: 5.0.17
+  '@fontsource/manrope':
+    specifier: ^5.0.20
+    version: 5.0.20
+  '@fontsource/poppins':
+    specifier: ^5.0.14
+    version: 5.0.14
+  '@fontsource/roboto-mono':
+    specifier: ^5.0.18
+    version: 5.0.18
+  '@fontsource/sono':
+    specifier: ^5.0.20
+    version: 5.0.20
+  '@fontsource/space-mono':
+    specifier: ^5.0.20
+    version: 5.0.20
+  '@fontsource/zilla-slab':
+    specifier: ^5.0.13
+    version: 5.0.13
   '@hookform/resolvers':
     specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.51.3)
@@ -302,6 +341,58 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+    dev: false
+
+  /@fontsource/archivo@5.0.18:
+    resolution: {integrity: sha512-BS8GI/RV7j54TCDtu7YVla4wrB1b9Ntv16YKWXIECOMPSgv0fkXMbW6W2M7xcpxDj7P4pdafQvNU45zVdaak7Q==}
+    dev: false
+
+  /@fontsource/dm-mono@5.0.20:
+    resolution: {integrity: sha512-Oh4dJc4dv23WhquFrbo7HsDXDpsEHLtUNPXYlof8IpW1Wgi4DK4+ti6xtZsVm/vkat2yvxfLMAGBpzJ7el2ajQ==}
+    dev: false
+
+  /@fontsource/ibm-plex-mono@5.0.13:
+    resolution: {integrity: sha512-gtlMmvk//2AgDEZDFsoL5z9mgW3ZZg/9SC7pIfDwNKp5DtZpApgqd1Fua3HhPwYRIHrT76IQ1tMTzQKLEGtJGQ==}
+    dev: false
+
+  /@fontsource/inter@5.0.18:
+    resolution: {integrity: sha512-YCsoYPTcs713sI7tLtxaPrIhXAXvEetGg5Ry02ivA8qUOb3fQHojbK/X9HLD5OOKvFUNR2Ynkwb1kR1hVKQHpw==}
+    dev: false
+
+  /@fontsource/jetbrains-mono@5.0.20:
+    resolution: {integrity: sha512-QkrihYWqftzs+04TinulIhnFqNwO6990HR07iCUae/6daOZAMy7urUPzytrRT9M8KLTTHBeHOY0CKqOs1+o2OQ==}
+    dev: false
+
+  /@fontsource/karla@5.0.20:
+    resolution: {integrity: sha512-erV4r7dRmWSi0T9ONf+RfYIj2mZoYLQnGhu6Qd3ihfwEbEnnqEcc1IJzUY4Jb3UOSVIeT2HIwroizao9yoTWcw==}
+    dev: false
+
+  /@fontsource/lora@5.0.17:
+    resolution: {integrity: sha512-+mySGaReOJ9MqnchYKs2eAd2cVg+fbaZ+rIGUm29V0AjPfi0gfT+e5NaXaAAorRN1HdJOfWPwX1XUws7t/iokQ==}
+    dev: false
+
+  /@fontsource/manrope@5.0.20:
+    resolution: {integrity: sha512-FW1t+WAvJroALa7zgd5S2dn3zy/sxxHhry/OwDGKmO7Be/zlLBIVaWW+cjyfyA6a6zWEx5YQ4OFfYlA6An5osQ==}
+    dev: false
+
+  /@fontsource/poppins@5.0.14:
+    resolution: {integrity: sha512-nmM1zpPo3Uh4JcGAVSQuWaZNYh2FbbwWhZ5t6hRaynmJaNTBW85d3nEh9zMmzI0HX7X5xqQVdRHeDatKpOGsnA==}
+    dev: false
+
+  /@fontsource/roboto-mono@5.0.18:
+    resolution: {integrity: sha512-hKuwk/cy3i6fWPzazT5xjgWq4YNqZWDHVbJh2Wwj3KYvWGi2v3ToBw/4LKQ+ggEkPLcIG6VU8GpCT3Xtf+mbbA==}
+    dev: false
+
+  /@fontsource/sono@5.0.20:
+    resolution: {integrity: sha512-y5poGMl7IRne3G/Js+ws9DfUDZP3S7dJ7C1iDjOBZCzrV9jfh2keH4l8uIUrv+Ma79AfK2/2OBRFggYLS4a8gA==}
+    dev: false
+
+  /@fontsource/space-mono@5.0.20:
+    resolution: {integrity: sha512-F+9Y/PA06mB6kXI6l8ub0vSR72x3wpzJtxAUoPpvJDu9nWADFIwunkfzSS9PyzFQOgAPPzuCfywTTG+GfQxqeg==}
+    dev: false
+
+  /@fontsource/zilla-slab@5.0.13:
+    resolution: {integrity: sha512-TLEjRB/Ub/odkv13GrggKPRWL3OS2wj0WvQXNMU4nsDNQEAERe26IQ8vGzxt+fi35keJ9UhZsaF5m/TgdHx4Mg==}
     dev: false
 
   /@hookform/resolvers@3.3.4(react-hook-form@7.51.3):

@@ -132,11 +132,12 @@ const Sessions: React.FC = () => {
                           <Input
                             {...field}
                             placeholder="Enter Title"
+                            className='w-full'
                             onChange={(e) => handleFieldChange(index, 'title', e.target.value)}
                           />
                         )}
                       />
-                      <div className="flex items-center space-x-2 mx-6">
+                      <div className="flex items-center space-x-2 mx-3 lg:mx-0">
                         <Controller
                           control={form.control}
                           name={`sessions.${index}.duration`}
@@ -178,6 +179,7 @@ const Sessions: React.FC = () => {
               <hr className="border-theme-border mb-4" />
 
               <div className="grid grid-cols-[0.5fr,1fr,1fr,auto,auto] items-center gap-2">
+
                 <div className='flex gap-2'>
                   <Button className="flex-1" variant={customType === 'Focus' ? 'primary' : 'outline'} onClick={() => setCustomType('Focus')}>
                     Focus
@@ -188,13 +190,13 @@ const Sessions: React.FC = () => {
                 </div>
 
                 <Input
-                  className="placeholder:text-theme-border"
+                  className="placeholder:text-theme-border w-full"
                   placeholder="Enter Title"
                   value={customTitle}
                   onChange={(e) => setCustomTitle(e.target.value)}
                 />
 
-                <div className="flex items-center space-x-2 mx-6">
+                <div className="flex items-center space-x-2 mx-3 lg:mx-0">
                   <Text>{customDuration}</Text>
                   <Slider
                     value={[Number(customDuration)]}
@@ -204,6 +206,8 @@ const Sessions: React.FC = () => {
                     step={5}
                   />
                 </div>
+                <Button className="w-5 invisible">
+                </Button>
                 <Button variant="default" onClick={handleAddSession} className="w-10 h-10 bg-theme-accent text-black flex justify-center items-center p-2">
                   <Plus className="w-5 h-5" />
                 </Button>
@@ -285,6 +289,7 @@ const Sessions: React.FC = () => {
                 <div className='flex space-x-2'>
                   <Input
                     placeholder="Enter Title"
+                    className='w-full'
                     value={customTitle}
                     onChange={(e) => setCustomTitle(e.target.value)}
                   />
@@ -308,7 +313,7 @@ const Sessions: React.FC = () => {
           )}
         </div>
       </AccordionContent>
-    </AccordionItem >
+    </AccordionItem>
   );
 }
 

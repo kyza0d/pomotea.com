@@ -14,15 +14,42 @@
     --header: #e0ebf4;
     --subtitle: #8ea3cc;
     --foreground: #abc3f4;
+    --font-family: var(--font-inter);
+    --font-size-sm: 1rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.2rem;
+    --font-size-xl: 1.4rem;
+    --font-size-2xl: 2rem;
   }
+}
+
+
+.custom-text-sm {
+  font-size: var(--font-size-sm);
+}
+
+.custom-text-md {
+  font-size: var(--font-size-md);
+}
+
+.custom-text-lg {
+  font-size: var(--font-size-lg);
+}
+
+.custom-text-xl {
+  font-size: var(--font-size-xl);
+}
+
+.custom-text-2xl {
+  font-size: var(--font-size-2xl);
 }
 
 .fade-box {
   mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, 0) 0px,
       rgba(0, 0, 0, 1) 90px,
-      rgba(0, 0, 0, 1) calc(100% - 136px),
-      rgba(0, 0, 0, 0) calc(100% - 10px),
+      rgba(0, 0, 0, 1) calc(100% - 120px),
+      rgba(0, 0, 0, 0) calc(100% - 38px),
       rgba(0, 0, 0, 0) 100%);
 }
 
@@ -45,6 +72,7 @@
 @layer base {
   body {
     @apply bg-theme-base-darker text-theme-foreground;
+    font-family: var(--font-family);
   }
 
   svg.icon-lg {

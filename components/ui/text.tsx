@@ -20,8 +20,8 @@ const Text: React.FC<TextProps> = ({ children, className, size = "md", variant =
   };
 
   const variantStyles: { [key: string]: string } = {
-    header: "font-bold text-theme-header",
-    subtitle: "font-bold text-theme-subtitle",
+    header: "font-semibold text-theme-header",
+    subtitle: "font-semibold text-theme-subtitle",
     label: "label-text font-semibold",
     default: "default-text",
   };

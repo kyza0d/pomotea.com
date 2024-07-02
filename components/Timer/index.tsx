@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState, useRef } from "react";
-import { CountdownCircleTimer, ColorFormat } from "react-countdown-circle-timer";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Card } from "@/components/ui/card";
 import { BsPlayFill, BsPauseFill } from "react-icons/bs";
 import { useSettings } from '@/components/Settings/context';
@@ -23,8 +23,10 @@ interface SessionControlsProps {
 
 const SessionControls: React.FC<SessionControlsProps> = ({ toggleSettings }) => {
   return (
-    <div className="backdrop" onClick={toggleSettings}>
-      <FiSettings className="icon" />
+    <div className="flex space-x-6">
+      <div className="backdrop" onClick={toggleSettings}>
+        <FiSettings className="icon" />
+      </div>
     </div>
   );
 };
@@ -111,8 +113,8 @@ interface SessionListProps {
 
 const SessionList: React.FC<SessionListProps> = ({ sessions, currentSessionIndex, getSessionTime, sessionRefs }) => {
   return (
-    <div className="fade-box pt-10 pb-12">
-      <div className="h-[29rem] overflow-y-visible">
+    <div className="fade-box pb-8">
+      <div className="h-[32rem]  pt-8 overflow-y-visible">
         <div className="sessions">
           {sessions.map((session: Session, index: number) => (
             <SessionItem
@@ -200,38 +202,39 @@ const Timer: React.FC = () => {
   };
 
   return (
-    <div className="h-4/5 pb-16">
-      <div className="flex items-center">
-        <PlayPauseCircleTimer
-          togglePlayPause={togglePlayPause}
-          isPlaying={isPlaying}
+    <>
+      <div className="flex flex-col">
+        <div className="flex items-center">
+          <PlayPauseCircleTimer
+            togglePlayPause={togglePlayPause}
+            isPlaying={isPlaying}
+            currentSessionIndex={currentSessionIndex}
+            sessions={sessions as any[]} // Add type assertion here
+            settings={settings}
+            elapsedTimes={elapsedTimes}
+          />
+          <div className="ml-4">
+            <Text variant="subtitle" size="lg">In progress:</Text>
+            <Text variant="header" size="2xl">{sessions[currentSessionIndex]?.title || 'No session'}</Text>
+          </div>
+          <div className="ml-auto">
+            <SessionControls toggleSettings={toggleSettings} />
+          </div>
+        </div >
+        <SessionList
+          sessions={sessions}
           currentSessionIndex={currentSessionIndex}
-          sessions={sessions as any[]} // Add type assertion here
-          settings={settings}
-          elapsedTimes={elapsedTimes}
+          getSessionTime={getSessionTime}
+          sessionRefs={sessionRefs}
         />
-        <div className="ml-4">
-          <Text variant="subtitle" size="lg">In progress:</Text>
-          <Text variant="header" size="2xl">{sessions[currentSessionIndex]?.title || 'No session'}</Text>
-        </div>
-        <div className="ml-auto">
-          <SessionControls toggleSettings={toggleSettings} />
-        </div>
-      </div>
 
-      <SessionList
-        sessions={sessions}
-        currentSessionIndex={currentSessionIndex}
-        getSessionTime={getSessionTime}
-        sessionRefs={sessionRefs}
-      />
-
-      <div className="backdrop" onClick={resetTimer}>
-        <FiRotateCw className="icon" />
-      </div>
+        <div className="backdrop" onClick={resetTimer}>
+          <FiRotateCw className="icon" />
+        </div>
+      </div >
 
       {isSettingsOpen && <Settings toggleSettings={toggleSettings} />}
-    </div>
+    </>
   );
 };
 

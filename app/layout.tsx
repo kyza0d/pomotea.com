@@ -1,14 +1,8 @@
 import "./globals.css";
-
 import { SettingsProvider } from "@/components/Settings/context"
-
 import Theme from "@/app/theme";
-
-import "@/app/fonts.css";
-import "@/app/font-sizes.css";
-
 import { Toaster } from "@/components/ui/toaster";
-
+// No need to import fonts here anymore
 
 export const metadata = {
   title: "Pomodoro",
@@ -16,10 +10,9 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
   return (
     <html lang="en">
-      <body className="overflow-x-hidden">
+      <body>
         <SettingsProvider>
           <Theme>
             <Toaster />
@@ -27,6 +20,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </Theme>
         </SettingsProvider>
       </body>
-    </html >
+    </html>
   );
 }

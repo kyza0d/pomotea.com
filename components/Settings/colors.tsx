@@ -177,27 +177,35 @@ const Colors = () => {
 
       <AccordionContent className="pt-8">
         <Text size="lg" variant="subtitle">Themes</Text>
-        <div className='grid grid-cols-[auto,auto,auto] gap-4 my-6 mb-8'>
+        <div className='grid grid-cols-[1fr,1fr,1fr] md:grid-cols-[1fr,1fr] gap-4 my-6 mb-8'>
           {
             Object.keys(themes).map(theme => (
-              <Button
-                key={theme}
-                variant="outline"
-                onClick={() => handleThemeChange(theme)}
-                style={{
-                  color: themes[theme].foreground,
-                  backgroundColor: themes[theme].base,
-                  borderColor: themes[theme].border
-                }}
-              >
-                {theme}
-              </Button>
+              <div className='relative group'>
+                <div className='absolute flex opacity-0 transition-opacity space-x-1 top-1/2 translate-y-[-50%] right-2 group-hover:opacity-100'>
+                  <div className="rounded-md w-2 h-4 group-hover:bg-slate-300" style={{ backgroundColor: themes[theme].accent }} />
+                  <div className="rounded-md w-2 h-4 group-hover:bg-slate-300" style={{ backgroundColor: themes[theme].header }} />
+                  <div className="rounded-md w-2 h-4 group-hover:bg-slate-300" style={{ backgroundColor: themes[theme].subtitle }} />
+                </div>
+                <Button
+                  key={theme}
+                  variant="outline"
+                  onClick={() => handleThemeChange(theme)}
+                  className="w-full"
+                  style={{
+                    color: themes[theme].foreground,
+                    backgroundColor: themes[theme].base,
+                    borderColor: themes[theme].border
+                  }}
+                >
+                  {theme}
+                </Button>
+              </div>
             ))
           }
         </div>
 
         <Text size="lg" variant="subtitle">Background Colors</Text>
-        <div className="grid grid-cols-[auto,auto] gap-4 my-6">
+        <div className="grid grid-cols-[1fr,1fr] sm:grid-cols-[1fr] gap-4 my-6">
           <ColorPicker variableName="base" label="Background" />
           <ColorPicker variableName="base-darker" label="Background - Darker" />
           <ColorPicker variableName="border" label="Borders" />
@@ -205,13 +213,13 @@ const Colors = () => {
         </div>
 
         <Text className='mb-4' size="lg" variant="subtitle">Text Colors</Text>
-        <div className="grid grid-cols-[auto,auto] gap-4 my-6">
+        <div className="grid grid-cols-[1fr,1fr] sm:grid-cols-[1fr] gap-4 my-6">
           <ColorPicker variableName="header" label="Headers" />
           <ColorPicker variableName="subtitle" label="Subtitles" />
           <ColorPicker variableName="foreground" label="Foreground" />
         </div>
       </AccordionContent>
-    </AccordionItem>
+    </AccordionItem >
   );
 };
 

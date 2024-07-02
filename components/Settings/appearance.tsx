@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useSettings } from "@/components/Settings/context";
 import { Text } from "@/components/ui/text";
 import { FiX } from "react-icons/fi";
+import { fontOptions, FontOptionKey } from "@/app/fonts";
 
 import {
   FaAdjust,
@@ -17,7 +18,7 @@ import {
 import { Slider } from "../ui/slider";
 
 const Appearance = () => {
-  const { pendingSettings, updateSetting } = useSettings();
+  const { settings, pendingSettings, updateSetting } = useSettings();
 
   // Handle background image change
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,25 +34,13 @@ const Appearance = () => {
   const handleFontSizeChange = (value: number) => updateSetting('font-size', value);
   const handleFontChange = (value: string) => updateSetting('font-name', value);
 
-  const serifFontOptions = [
-    { value: "sans-serif", label: 'System' },
-    // { value: "greycliff", label: 'Greycliff' },
-  ]
-
-
-  const monospaceFontOptions = [
-    { value: "monospace", label: 'System' },
-    { value: "iosevka-comfy", label: 'Iosevka Comfy' },
-    { value: "lotion", label: 'Lotion' },
-  ]
-
   return (
     <AccordionItem value="appearance">
       <AccordionTrigger >
         <div className="flex"><FaPaintBrush className="icon-sm mr-4" /> <Text variant="header">Appearance</Text></div>
       </AccordionTrigger>
       <AccordionContent className="pt-8">
-        <div className="space-y-10 max-w-lg">
+        <div className="space-y-10">
           <div className="grid grid-cols-1 gap-4">
             <div className="flex items-center">
               <FaImage size={16} className="mr-4" />  <Text variant="header">Background:</Text>
@@ -77,6 +66,7 @@ const Appearance = () => {
                 {!pendingSettings['background-url'] &&
                   <Input
                     type="file"
+                    className="w-full"
                     accept="image/*"
                     onChange={handleImageChange}
                   />
@@ -84,41 +74,23 @@ const Appearance = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex items-center">
-              <FaFont size={16} className="mr-4" />
-              <Text variant="header">Font Family:</Text>
-            </div>
-            <div className="flex flex-col flex-wrap gap-2">
-              <Text variant="subtitle" size="sm">Serif</Text>
-              <div className="flex space-x-2">
-                {serifFontOptions.map(font => (
-                  <Button
-                    key={font.value}
-                    aria-label={font.label}
-                    className={`font-${font.value}`}
-                    variant={pendingSettings['font-name'] === font.value ? 'primary' : 'outline'}
-                    onClick={() => handleFontChange(font.value)}
-                  >
-                    {font.label}
-                  </Button>
-                ))}
-              </div>
-              <Text variant="subtitle" className="mt-4" size="sm">Monospace</Text>
-              <div className="flex space-x-2">
-                {monospaceFontOptions.map(font => (
-                  <Button
-                    key={font.value}
-                    aria-label={font.label}
-                    className={`font-${font.value} tracking-tight`}
-                    variant={pendingSettings['font-name'] === font.value ? 'primary' : 'outline'}
-                    onClick={() => handleFontChange(font.value)}
-                  >
-                    {font.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
+          <div className="flex items-center">
+            <FaFont size={16} className="mr-4" />
+            <Text variant="header">Font Family:</Text>
+          </div>
+          <div className='grid grid-cols-[1fr,1fr,1fr] md:grid-cols-[1fr,1fr] gap-4 my-6 mb-8'>
+            {fontOptions.map(font => (
+              <Button
+                key={font.value}
+                aria-label={font.name}
+                style={{ fontFamily: font.fontFamily }}
+                className={`truncate ${pendingSettings['font-name'] === font.value ? 'bg-theme-accent text-theme-base' : 'text-theme-text'}`}
+                variant="outline"
+                onClick={() => handleFontChange(font.value as FontOptionKey)}
+              >
+                {font.name}
+              </Button>
+            ))}
           </div>
           <div className="grid grid-cols-1 gap-4">
             <div className="flex items-center">

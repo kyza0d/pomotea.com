@@ -28,17 +28,19 @@ interface Settings {
   'background-blur': number;
   'notify-breaks': boolean;
   'notify-focus': boolean;
+  'font': string
   sessions: Session[];
   colors: Colors;
 }
 
 const defaultSettings: Settings = {
-  'font-name': 'sans-serif',
+  'font-name': 'Inter',
   'font-size': 16,
+  'font': "Inter",
   'theme': 'system',
   'background-url': "",
   'background-opacity': 0.25,
-  'background-blur': 1,
+  'background-blur': 0,
   'notify-breaks': true,
   'notify-focus': false,
   sessions: [
@@ -60,7 +62,8 @@ const defaultSettings: Settings = {
 type SettingsAction =
   | { type: 'SET_PENDING_SETTING'; name: keyof Settings | `colors.${keyof Colors}`; value: any }
   | { type: 'SAVE_SETTINGS'; settings: Settings }
-  | { type: 'LOAD_SETTINGS'; settings: Settings };
+  | { type: 'LOAD_SETTINGS'; settings: Settings }
+  | { type: 'RESET_SETTINGS' };
 
 interface SettingsContextValue {
   settings: Settings;
@@ -69,6 +72,7 @@ interface SettingsContextValue {
   saveSettings: () => void;
   updateSetting: (name: keyof Settings | `colors.${keyof Colors}`, value: any) => void;
   updateThemeSetting: (theme: string, themeSettings: Colors) => void;
+  resetSettings: () => void;
 }
 
 const SettingsContext = createContext<SettingsContextValue | undefined>(undefined);
@@ -104,6 +108,11 @@ const settingsReducer = (state: { settings: Settings; pendingSettings: Settings 
         ...state,
         settings: action.settings,
         pendingSettings: action.settings,
+      };
+    case 'RESET_SETTINGS':
+      return {
+        settings: defaultSettings,
+        pendingSettings: defaultSettings,
       };
     default:
       return state;
@@ -200,14 +209,20 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     setItem('settings', newSettings);
   }, [state.pendingSettings]);
 
-  const value = useMemo(() => ({
+  const resetSettings = useCallback(async () => {
+    dispatch({ type: 'RESET_SETTINGS' });
+    await setItem('settings', defaultSettings);
+  }, []);
+
+  const value = {
     settings: state.settings,
     pendingSettings: state.pendingSettings,
     setPendingSetting,
     saveSettings,
     updateSetting,
     updateThemeSetting,
-  }), [state, setPendingSetting, saveSettings, updateSetting, updateThemeSetting]);
+    resetSettings,
+  };
 
   return (
     <SettingsContext.Provider value={value}>
