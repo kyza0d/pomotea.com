@@ -63,6 +63,54 @@
   transform: translateY(-20px);
 }
 
+
+
+.font-iosevka,
+.font-iosevka-curly-slab {
+  h1 {
+    @apply tracking-[0.018em]
+  }
+
+  h2 {
+    @apply tracking-[0.012em]
+  }
+
+  button {
+    @apply tracking-[0.01em]
+  }
+}
+
+.font-sono {
+  h1 {
+    @apply tracking-[-0.02em]
+  }
+
+  h2 {
+    @apply tracking-[-0.01em]
+  }
+}
+
+.font-poppins {
+  h1 {
+    @apply tracking-[0.017em]
+  }
+
+  h2 {
+    @apply tracking-[0.015em]
+  }
+}
+
+.font-sora {
+  h1 {
+    @apply tracking-[0.01em]
+  }
+
+  h2 {
+    @apply tracking-[0.014em]
+  }
+}
+
+
 @layer utilities {
   .backdrop {
     @apply w-fit relative items-center justify-between cursor-pointer hover:before:z-[-1] hover:before:absolute hover:before:h-16 hover:before:w-16 hover:before:bg-theme-border hover:before:opacity-40 hover:before:rounded-full hover:before:left-1/2 hover:before:top-1/2 hover:before:-translate-x-1/2 hover:before:-translate-y-1/2

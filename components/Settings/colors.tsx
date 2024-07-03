@@ -181,7 +181,7 @@ const Colors = () => {
           {
             Object.keys(themes).map(theme => (
               <div className='relative group'>
-                <div className='absolute flex opacity-0 transition-opacity space-x-1 top-1/2 translate-y-[-50%] right-2 group-hover:opacity-100'>
+                <div className='absolute flex opacity-0 transition-opacity space-x-1 top-1/2 translate-y-[-50%] right-2 group-hover:opacity-100 pointer-events-none'>
                   <div className="rounded-md w-2 h-4 group-hover:bg-slate-300" style={{ backgroundColor: themes[theme].accent }} />
                   <div className="rounded-md w-2 h-4 group-hover:bg-slate-300" style={{ backgroundColor: themes[theme].header }} />
                   <div className="rounded-md w-2 h-4 group-hover:bg-slate-300" style={{ backgroundColor: themes[theme].subtitle }} />

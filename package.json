@@ -13,17 +13,25 @@
     "@dnd-kit/modifiers": "^7.0.0",
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "@fontsource-variable/dm-sans": "^5.0.6",
     "@fontsource/archivo": "^5.0.18",
     "@fontsource/dm-mono": "^5.0.20",
+    "@fontsource/dm-sans": "^5.0.21",
     "@fontsource/ibm-plex-mono": "^5.0.13",
     "@fontsource/inter": "^5.0.18",
+    "@fontsource/iosevka": "^5.0.11",
+    "@fontsource/iosevka-curly-slab": "^5.0.11",
     "@fontsource/jetbrains-mono": "^5.0.20",
     "@fontsource/karla": "^5.0.20",
     "@fontsource/lora": "^5.0.17",
     "@fontsource/manrope": "^5.0.20",
     "@fontsource/poppins": "^5.0.14",
+    "@fontsource/pt-mono": "^5.0.13",
     "@fontsource/roboto-mono": "^5.0.18",
+    "@fontsource/rubik": "^5.0.20",
     "@fontsource/sono": "^5.0.20",
+    "@fontsource/sora": "^5.0.18",
+    "@fontsource/space-grotesk": "^5.0.18",
     "@fontsource/space-mono": "^5.0.20",
     "@fontsource/zilla-slab": "^5.0.13",
     "@hookform/resolvers": "^3.3.4",
@@ -71,7 +79,6 @@
     "moment": "^2.29.4",
     "next": "14.2.3",
     "next-themes": "^0.2.1",
-    "postcss": "8.4.23",
     "react": "18.3.1",
     "react-countdown-circle-timer": "^3.0.9",
     "react-day-picker": "^8.10.1",
@@ -89,5 +96,9 @@
     "typescript": "5.0.4",
     "vaul": "^0.9.0",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "postcss": "8.4.23",
+    "postcss-nested": "^6.0.1"
   }
 }

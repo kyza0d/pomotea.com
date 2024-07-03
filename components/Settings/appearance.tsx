@@ -41,6 +41,8 @@ const Appearance = () => {
       </AccordionTrigger>
       <AccordionContent className="pt-8">
         <div className="space-y-10">
+
+          {/* Background Image */}
           <div className="grid grid-cols-1 gap-4">
             <div className="flex items-center">
               <FaImage size={16} className="mr-4" />  <Text variant="header">Background:</Text>
@@ -74,42 +76,8 @@ const Appearance = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center">
-            <FaFont size={16} className="mr-4" />
-            <Text variant="header">Font Family:</Text>
-          </div>
-          <div className='grid grid-cols-[1fr,1fr,1fr] md:grid-cols-[1fr,1fr] gap-4 my-6 mb-8'>
-            {fontOptions.map(font => (
-              <Button
-                key={font.value}
-                aria-label={font.name}
-                style={{ fontFamily: font.fontFamily }}
-                className={`truncate ${pendingSettings['font-name'] === font.value ? 'bg-theme-accent text-theme-base' : 'text-theme-text'}`}
-                variant="outline"
-                onClick={() => handleFontChange(font.value as FontOptionKey)}
-              >
-                {font.name}
-              </Button>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="flex items-center">
-              <FaSearch size={16} className="mr-4" />
-              <Text variant="header">Font Size:</Text>
-            </div>
-            <div className="flex gap-2">
-              <Text variant="subtitle">{pendingSettings['font-size']}px</Text>
-              <Slider
-                className="w-full"
-                value={[pendingSettings['font-size']]}
-                onValueChange={([value]) => handleFontSizeChange(value)}
-                min={14}
-                max={18}
-                step={1}
-              />
-            </div>
-          </div>
 
+          {/* Background Filters */}
           <div className="grid grid-cols-1 gap-4">
             <div className="flex items-center">
               <FaAdjust size={16} className="mr-4" />
@@ -142,6 +110,47 @@ const Appearance = () => {
               />
             </div>
           </div>
+
+          {/* Font Family */}
+          <div>
+            <div className="flex items-center">
+              <FaFont size={16} className="mr-4" />
+              <Text variant="header">Font Family:</Text>
+            </div>
+
+            <div className='grid grid-cols-[1fr,1fr,1fr] md:grid-cols-[1fr,1fr] gap-4 my-6 mb-8'>
+              {fontOptions.map(font => (
+                <Button
+                  key={font.value}
+                  aria-label={font.name}
+                  style={{ fontFamily: font.fontFamily }}
+                  className={`truncate ${pendingSettings['font-name'] === font.value ? 'bg-theme-accent text-theme-base' : 'text-theme-text'}`}
+                  variant="outline"
+                  onClick={() => handleFontChange(font.value as FontOptionKey)}
+                >
+                  {font.name}
+                </Button>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="flex items-center">
+                <FaSearch size={16} className="mr-4" />
+                <Text variant="header">Font Size:</Text>
+              </div>
+              <div className="flex gap-2">
+                <Text variant="subtitle">{pendingSettings['font-size']}px</Text>
+                <Slider
+                  className="w-full"
+                  value={[pendingSettings['font-size']]}
+                  onValueChange={([value]) => handleFontSizeChange(value)}
+                  min={14}
+                  max={18}
+                  step={1}
+                />
+              </div>
+            </div>
+          </div>
+
         </div>
       </AccordionContent>
     </AccordionItem >
