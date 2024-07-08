@@ -10,6 +10,7 @@ import { Text } from "../ui/text";
 import { FiRotateCw, FiSettings, FiClock, FiCoffee } from "react-icons/fi";
 import { useToast } from '@/components/ui/use-toast';
 import { Settings } from "@/components/Settings";
+import useKeepAwake from "@/hooks/useKeepAwake"; // Import the new hook
 
 interface Session {
   type: any;
@@ -163,6 +164,8 @@ const Timer: React.FC = () => {
   useEffect(() => {
     updateSessions(settings.sessions);
   }, [settings.sessions, updateSessions]);
+
+  useKeepAwake(isPlaying);
 
   useEffect(() => {
     let totalHeight = 0;

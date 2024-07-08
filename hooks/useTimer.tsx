@@ -43,7 +43,6 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
     const session = sessions[currentSessionIndex];
     document.title = `${session.type} - ${formatTime(elapsed)} / ${formatTime(session.duration * 60)}`;
   };
-
   // Function to reset the timer state
   const resetTimer = useCallback(() => {
     setElapsedTimes(Array(sessions.length).fill(0));
@@ -105,7 +104,6 @@ const useTimer = (initialSessions: Session[], showToast: (options: { title: stri
         description: '',
         icon: renderIcon(FiBell)
       });
-      playSound();
       playSound();
     }
 
